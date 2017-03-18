@@ -1,4 +1,4 @@
-package br.com.guigasgame.gamemachine;
+package br.com.guigasgame.solitaire.gamemachine;
 
 import java.util.Arrays;
 import java.util.Comparator;

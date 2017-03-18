@@ -1,4 +1,4 @@
-package br.com.guigasgame.gamemachine;
+package br.com.guigasgame.solitaire.gamemachine;
 
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.event.Event;
