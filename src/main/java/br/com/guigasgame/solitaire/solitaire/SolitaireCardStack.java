@@ -33,8 +33,17 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 		{
 			adjustCardPosition(card, cards.size());
 			cards.add(card);
+			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public SolitaireCard removeCardAtTop()
+	{
+		if (cards.isEmpty())
+			return null;
+		return cards.remove(cards.size() - 1);
 	}
 
 	protected void adjustCardPosition(SolitaireCard card, int cardPosition)
@@ -42,8 +51,12 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 		PositionComponent currentPosition = card.getCardSprite().getPosition();
 		currentPosition.move(new PositionComponent(0, yDrawingOffset*cardPosition));
 		card.getCardSprite().setPosition(currentPosition);
-		System.out.println(card.getCardSprite().getPosition().getPosition());
 	}
 
+	@Override
+	public int getSize()
+	{
+		return cards.size();
+	}
 
 }

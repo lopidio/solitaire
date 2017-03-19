@@ -52,11 +52,4 @@ public class SolitaireWorkspaceCardStack extends SolitaireCardStack
 		return false;
 	}
 
-	@Override
-	public SolitaireCard removeCardAtTop()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

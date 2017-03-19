@@ -8,4 +8,5 @@ public interface CardStack
 	boolean canAddNewCard(SolitaireCard card);
 	boolean addCard(SolitaireCard card);
 	SolitaireCard removeCardAtTop();
+	int getSize();
 }
