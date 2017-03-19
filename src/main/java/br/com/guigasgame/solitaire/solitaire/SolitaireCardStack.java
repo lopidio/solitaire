@@ -10,7 +10,7 @@ import br.com.guigasgame.solitaire.stack.CardStack;
 public abstract class SolitaireCardStack implements CardStack, Drawable
 {
 	protected List<SolitaireCard> cards;
-	protected int yDrawingOffset;
+	protected double yDrawingOffset;
 
 	public SolitaireCardStack()
 	{
@@ -49,7 +49,10 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 	protected void adjustCardPosition(SolitaireCard card, int cardPosition)
 	{
 		PositionComponent currentPosition = card.getCardSprite().getPosition();
-		currentPosition.move(new PositionComponent(0, yDrawingOffset*cardPosition));
+//		currentPosition.move(new PositionComponent(0, yDrawingOffset*cardPosition));
+		
+		currentPosition.move(new PositionComponent(0, (int) (yDrawingOffset*card.getCardSprite().getSprite().getLocalBounds().height * cardPosition)));
+		
 		card.getCardSprite().setPosition(currentPosition);
 	}
 
