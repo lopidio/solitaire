@@ -2,10 +2,10 @@ package br.com.guigasgame.solitaire.card;
 
 public enum Suit
 {
-	hearts(SuitColor.red, "♥", 1), 
+	clubs(SuitColor.black, "♣", 4),
 	spades(SuitColor.black, "♠", 2),
-	diamonds(SuitColor.red, "♦", 3),
-	clubs(SuitColor.black, "♣", 4);
+	hearts(SuitColor.red, "♥", 1), 
+	diamonds(SuitColor.red, "♦", 3);
 
 	private SuitColor color;
 	private String text;

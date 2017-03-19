@@ -22,7 +22,7 @@ public class CardSprite implements Drawable
 	{
 		super();
 		
-		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.jpg");
+		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.png");
 		sprite = new Sprite(texture);
 		
 		int width = texture.getSize().x / Rank.values().length;
