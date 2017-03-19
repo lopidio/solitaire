@@ -14,7 +14,7 @@ public class SolitaireWorkspaceCardStack extends SolitaireCardStack
 	public SolitaireWorkspaceCardStack(List<SolitaireCard> cards, PositionComponent positionComponent)
 	{
 		this.cards = cards;
-		this.yDrawingOffset = 40;
+		this.yDrawingOffset = 30;
 		int i = 0;
 		for (SolitaireCard solitaireCard : cards)
 		{

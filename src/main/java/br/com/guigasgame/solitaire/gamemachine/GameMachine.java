@@ -10,6 +10,7 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
+import org.jsfml.window.Window;
 import org.jsfml.window.event.Event;
 
 
@@ -72,9 +73,9 @@ public class GameMachine
 //			System.out.println(videoMode);
 //		}
 		final VideoMode best = modes[modes.length - 1];
-//		final VideoMode worst = modes[4];
+		System.out.println("Best: " + best);
 
-		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
+		renderWindow = new RenderWindow(best, "Solitaire", Window.FULLSCREEN);  //Window.TRANSPARENT
 //		renderWindow = new RenderWindow(worst, "High Order Ninja");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 		renderWindow.setFramerateLimit(FRAME_RATE);
 		renderWindow.setVerticalSyncEnabled(true);

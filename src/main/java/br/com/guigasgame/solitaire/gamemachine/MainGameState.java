@@ -1,9 +1,12 @@
 package br.com.guigasgame.solitaire.gamemachine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.jsfml.graphics.RenderTarget;
+import org.jsfml.system.Vector2i;
 
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.card.Rank;
@@ -15,16 +18,51 @@ import br.com.guigasgame.solitaire.solitaire.SolitaireWorkspaceCardStack;
 public class MainGameState implements GameState
 {
 	
-	SolitaireWorkspaceCardStack workspaceStack;
+	private List<SolitaireCard> fullDeck;
+	private List<SolitaireWorkspaceCardStack> workspaceStacks;
 	
 	public MainGameState()
 	{
-		List<SolitaireCard> cards = new ArrayList<>();
-		cards.add(new SolitaireCard(new Card(Rank.ten, Suit.clubs)));
-		cards.add(new SolitaireCard(new Card(Rank.nine, Suit.diamonds)));
-		cards.add(new SolitaireCard(new Card(Rank.eight, Suit.clubs)));
-		cards.add(new SolitaireCard(new Card(Rank.seven, Suit.diamonds)));
-		workspaceStack = new SolitaireWorkspaceCardStack(cards, new PositionComponent(300, 300));
+		fullDeck = new ArrayList<>();		
+		initalizeDeck();
+		shuffleCards();
+		workspaceStacks = new ArrayList<>();
+	}
+
+	private void initializeWorkspaceStacks(Vector2i windowSize)
+	{
+		for (int i = 0; i < 7; ++i)
+		{
+			List<SolitaireCard> stackCards = new ArrayList<>();
+			for (int j = 0; j < i + 1; ++j)
+				stackCards.add(fullDeck.remove(fullDeck.size() - 1));
+			workspaceStacks.add(new SolitaireWorkspaceCardStack(stackCards, 
+																new PositionComponent((windowSize.x/14) * (2*i + 1), 
+																					  (int) (windowSize.y*0.4))));
+		}
+	}
+	
+	@Override
+	public void enterState(RenderTarget renderTarget)
+	{
+		initializeWorkspaceStacks(renderTarget.getSize());
+	}
+
+	private void shuffleCards()
+	{
+		long seed = System.nanoTime();
+		Collections.shuffle(fullDeck, new Random(seed));		
+	}
+
+	private void initalizeDeck()
+	{
+		for (Suit suit : Suit.values())
+		{
+			for (Rank rank : Rank.values())
+			{
+				fullDeck.add(new SolitaireCard(new Card(rank, suit)));
+			}
+		}
 	}
 
 	@Override
@@ -36,7 +74,10 @@ public class MainGameState implements GameState
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		workspaceStack.draw(renderTarget);
+		for (SolitaireWorkspaceCardStack solitaireWorkspaceCardStack : workspaceStacks)
+		{
+			solitaireWorkspaceCardStack.draw(renderTarget);
+		}
 	}
 
 }
