@@ -10,7 +10,6 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
-import org.jsfml.window.Window;
 import org.jsfml.window.event.Event;
 
 
@@ -75,11 +74,11 @@ public class GameMachine
 		final VideoMode best = modes[modes.length - 1];
 		System.out.println("Best: " + best);
 
-		renderWindow = new RenderWindow(best, "Solitaire", Window.FULLSCREEN);  //Window.TRANSPARENT
+		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 //		renderWindow = new RenderWindow(worst, "High Order Ninja");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 		renderWindow.setFramerateLimit(FRAME_RATE);
 		renderWindow.setVerticalSyncEnabled(true);
-		renderWindow.setMouseCursorVisible(false);
+		renderWindow.setMouseCursorVisible(true);
 
 		isRunning = true;
 		gameStates = new Stack<GameState>();
@@ -108,7 +107,7 @@ public class GameMachine
 			if (iterationTime > 0.25f)
 				iterationTime = 0.25f;
 
-			renderWindow.clear(Color.CYAN);
+			renderWindow.clear(new Color(0, 128, 0));
 			handleEvents();
 
 			remainingAcumulator += iterationTime;

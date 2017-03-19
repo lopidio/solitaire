@@ -14,25 +14,32 @@ import br.com.guigasgame.solitaire.resourcemanager.TextureResourceManager;
 
 public class CardSprite implements Drawable
 {
-	private IntRect frameRect;
+	private IntRect revealedRect;
+	private IntRect coverRect;
 	private Sprite sprite;
 	private Texture texture;
+	private boolean revealed;
 
 	public CardSprite(Card card)
 	{
 		super();
 		
-		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.png");
+		revealed = false;
+		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
 		
 		int width = texture.getSize().x / Rank.values().length;
-		int height = texture.getSize().y / Suit.values().length;
+		int height = texture.getSize().y / (Suit.values().length + 1);
 		int x = width*(card.getRank().getValue() - 1);
 		int y = height*(card.getSuit().getValue() - 1);
 		
-		frameRect = new IntRect(new Vector2i(x, y), new Vector2i(width, height));
-		sprite.setTextureRect(frameRect);
-		sprite.setOrigin(frameRect.width / 2, frameRect.height / 2);
+		int coverX = width*(Rank.six.getValue() - 1);
+		int coverY = height*(Suit.values().length);
+		
+		revealedRect = new IntRect(new Vector2i(x, y), new Vector2i(width, height));
+		coverRect = new IntRect(new Vector2i(coverX, coverY), new Vector2i(width, height));
+		sprite.setTextureRect(coverRect);
+		sprite.setOrigin(revealedRect.width / 2, revealedRect.height / 2);
 	}
 
 	public Sprite getSprite()
@@ -43,7 +50,6 @@ public class CardSprite implements Drawable
 	public void draw(RenderTarget renderTarget)
 	{
 		renderTarget.draw(sprite);
-//		sprite.draw(renderTarget, null);
 	}
 
 	public void setPosition(PositionComponent positionComponent)
@@ -54,6 +60,24 @@ public class CardSprite implements Drawable
 	public PositionComponent getPosition()
 	{
 		return new PositionComponent(sprite.getPosition());
+	}
+
+	public boolean isRevealed()
+	{
+		return revealed;
+	}
+
+	public void flip()
+	{
+		revealed = !revealed;
+		if (isRevealed())
+		{
+			sprite.setTextureRect(revealedRect);
+		}
+		else
+		{
+			sprite.setTextureRect(coverRect);
+		}
 	}
 	
 	

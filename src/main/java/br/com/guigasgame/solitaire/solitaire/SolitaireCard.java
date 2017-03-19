@@ -5,22 +5,18 @@ import org.jsfml.graphics.RenderTarget;
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.drawable.Drawable;
-import br.com.guigasgame.solitaire.position.PositionComponent;
 
 public class SolitaireCard implements Drawable
 {
 	private CardSprite cardSprite;
 	private Card card;
-	private boolean revealed;
 	private boolean selected;
 
 	public SolitaireCard(Card card)
 	{
 		super();
 		this.card = card;
-		this.revealed = false;
 		cardSprite = new CardSprite(card);
-		cardSprite.setPosition(new PositionComponent());
 	}
 	
 	public Card getCard()
@@ -30,12 +26,12 @@ public class SolitaireCard implements Drawable
 
 	public boolean isRevealed()
 	{
-		return revealed;
+		return cardSprite.isRevealed();
 	}
 
 	public void flip()
 	{
-		revealed = !revealed;
+		cardSprite.flip();
 	}
 
 	public boolean isSelected()
