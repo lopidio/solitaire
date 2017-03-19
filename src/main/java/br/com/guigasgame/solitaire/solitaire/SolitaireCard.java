@@ -14,13 +14,13 @@ public class SolitaireCard implements Drawable
 	private boolean revealed;
 	private boolean selected;
 
-	public SolitaireCard(Card card, PositionComponent positionComponent)
+	public SolitaireCard(Card card)
 	{
 		super();
 		this.card = card;
 		this.revealed = false;
 		cardSprite = new CardSprite(card);
-		cardSprite.setPosition(positionComponent);
+		cardSprite.setPosition(new PositionComponent());
 	}
 	
 	public Card getCard()

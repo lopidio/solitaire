@@ -50,6 +50,11 @@ public class CardSprite implements Drawable
 	{
 		sprite.setPosition(positionComponent.getPosition());
 	}
+
+	public PositionComponent getPosition()
+	{
+		return new PositionComponent(sprite.getPosition());
+	}
 	
 	
 }
