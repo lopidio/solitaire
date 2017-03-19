@@ -1,7 +1,6 @@
 package br.com.guigasgame.solitaire.position;
 
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 
 public class PositionComponent
 {
@@ -38,6 +37,12 @@ public class PositionComponent
 	public void setPosition(Vector2f position)
 	{
 		this.position = position;
+	}
+	
+	public void move(PositionComponent positionComponent)
+	{
+		position = new Vector2f(position.x + positionComponent.getPosition().x,
+										 position.y + positionComponent.getPosition().y);
 	}
 
 }
