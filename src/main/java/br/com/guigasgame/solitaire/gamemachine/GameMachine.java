@@ -34,7 +34,7 @@ public class GameMachine
 		GameMachine gameMachine = getInstance();
 
 		gameMachine.popState();
-//		gameMachine.addState(new SplashScreenGameState(2f));
+		gameMachine.addState(new MainGameState());
 		gameMachine.execute();
 	}
 
@@ -74,7 +74,7 @@ public class GameMachine
 		final VideoMode best = modes[modes.length - 1];
 //		final VideoMode worst = modes[4];
 
-		renderWindow = new RenderWindow(best, "High Order Ninja");//, Window.FULLSCREEN);  //Window.TRANSPARENT
+		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 //		renderWindow = new RenderWindow(worst, "High Order Ninja");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 		renderWindow.setFramerateLimit(FRAME_RATE);
 		renderWindow.setVerticalSyncEnabled(true);
@@ -86,10 +86,10 @@ public class GameMachine
 
 	private void execute()
 	{
-//		gameStates.lastElement().load();
+		gameStates.lastElement().load();
 		gameLoop();
-//		gameStates.lastElement().unload();
-//		gameStates.lastElement().exitState();
+		gameStates.lastElement().unload();
+		gameStates.lastElement().exitState();
 		renderWindow.clear();
 	}
 
@@ -113,11 +113,11 @@ public class GameMachine
 			remainingAcumulator += iterationTime;
 			while (remainingAcumulator >= iterationTime)
 			{
-//				gameStates.lastElement().update(updateDelta);
+				gameStates.lastElement().update(updateDelta);
 				remainingAcumulator -= updateDelta;
 			}
 
-//			gameStates.lastElement().draw(renderWindow);
+			gameStates.lastElement().draw(renderWindow);
 			renderWindow.display();
 		}
 	}
@@ -127,7 +127,7 @@ public class GameMachine
 		Iterable<Event> events = renderWindow.pollEvents();
 		for( Event event : events )
 		{
-//			gameStates.lastElement().handleEvent(event, renderWindow);
+			gameStates.lastElement().handleEvent(event, renderWindow);
 			if (event.type == Event.Type.KEY_PRESSED)
 			{
 				if (event.asKeyEvent().key == Keyboard.Key.ESCAPE)

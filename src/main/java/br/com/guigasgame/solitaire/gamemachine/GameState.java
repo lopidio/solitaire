@@ -1,6 +1,6 @@
 package br.com.guigasgame.solitaire.gamemachine;
 
-import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.window.event.Event;
 
 
@@ -9,9 +9,9 @@ public interface GameState
 
 	public void update(float updateDelta);
 
-	public void draw(RenderWindow renderWindow);
+	public void draw(RenderTarget renderTarget);
 
-	public default void enterState(RenderWindow renderWindow)
+	public default void enterState(RenderTarget renderTarget)
 	{
 
 	}
@@ -31,7 +31,7 @@ public interface GameState
 
 	}
 
-	public default void handleEvent(Event event, RenderWindow renderWindow)
+	public default void handleEvent(Event event, RenderTarget renderTarget)
 	{
 
 	}
