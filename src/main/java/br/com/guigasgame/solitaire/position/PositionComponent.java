@@ -39,7 +39,7 @@ public class PositionComponent
 		this.position = position;
 	}
 	
-	public void move(PositionComponent positionComponent)
+	public void add(PositionComponent positionComponent)
 	{
 		position = new Vector2f(position.x + positionComponent.getPosition().x,
 										 position.y + positionComponent.getPosition().y);

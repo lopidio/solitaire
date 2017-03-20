@@ -48,12 +48,9 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 
 	protected void adjustCardPosition(SolitaireCard card, int cardPosition)
 	{
-		PositionComponent currentPosition = card.getCardSprite().getPosition();
-//		currentPosition.move(new PositionComponent(0, yDrawingOffset*cardPosition));
-		
-		currentPosition.move(new PositionComponent(0, (int) (yDrawingOffset*card.getCardSprite().getSprite().getLocalBounds().height * cardPosition)));
-		
-		card.getCardSprite().setPosition(currentPosition);
+		PositionComponent position = card.getCardSprite().getPosition();
+		position.add(new PositionComponent(0, (int) (yDrawingOffset*card.getSize().height * cardPosition)));
+		card.moveTo(position);
 	}
 
 	@Override

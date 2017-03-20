@@ -1,10 +1,12 @@
 package br.com.guigasgame.solitaire.solitaire;
 
+import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RenderTarget;
 
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.drawable.Drawable;
+import br.com.guigasgame.solitaire.position.PositionComponent;
 
 public class SolitaireCard implements Drawable
 {
@@ -48,5 +50,16 @@ public class SolitaireCard implements Drawable
 	public CardSprite getCardSprite()
 	{
 		return cardSprite;
+	}
+
+	public void moveTo(PositionComponent position)
+	{
+		//TODO create interpolator
+		cardSprite.setPosition(position);
+	}
+
+	public FloatRect getSize()
+	{
+		return cardSprite.getSprite().getLocalBounds();
 	}
 }
