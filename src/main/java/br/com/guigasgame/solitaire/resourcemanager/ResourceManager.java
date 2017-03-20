@@ -38,7 +38,6 @@ public abstract class ResourceManager<Key, Resource>
 	protected final void addResource(Key key, Resource resource)
 	{
 		resourcesMap.put(key, resource);
-		System.out.println(resource.toString() + ": " + resourcesMap.size());
 	}
 
 	protected abstract Resource loadResource(Key key) throws IOException;

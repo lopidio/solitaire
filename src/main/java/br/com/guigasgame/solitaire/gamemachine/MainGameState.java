@@ -17,9 +17,10 @@ import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.SolitaireCard;
+import br.com.guigasgame.solitaire.solitaire.SolitaireCardListener;
 import br.com.guigasgame.solitaire.solitaire.SolitaireWorkspaceCardStack;
 
-public class MainGameState implements GameState
+public class MainGameState implements GameState, SolitaireCardListener
 {
 	
 	private List<SolitaireCard> fullDeck;
@@ -76,6 +77,7 @@ public class MainGameState implements GameState
 				fullDeck.add(card);
 				leftButtonHandler.addInputListener(card);
 				rightButtonHandler.addInputListener(card);
+				card.addListener(this);
 			}
 		}
 	}
@@ -97,6 +99,18 @@ public class MainGameState implements GameState
 		{
 			solitaireWorkspaceCardStack.draw(renderTarget);
 		}
+	}
+
+	@Override
+	public void cardSelected(SolitaireCard card)
+	{
+		System.out.println("Selected at " + card.getStack().getClass().getSimpleName() + ", " + card.getCard().getRank() + ", " + card.getCard().getSuit());
+	}
+
+	@Override
+	public void cardUnselected(SolitaireCard card)
+	{
+		System.out.println("Unselected at " + card.getStack().getClass().getSimpleName() + ", " + card.getCard().getRank() + ", " + card.getCard().getSuit());
 	}
 
 }

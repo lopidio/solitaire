@@ -9,7 +9,7 @@ import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.input.InputListener;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 
-public class SolitaireWorkspaceCardStack extends SolitaireCardStack implements InputListener
+public class SolitaireWorkspaceCardStack extends SolitaireCardStack implements InputListener, SolitaireCardListener
 {
 
 	public SolitaireWorkspaceCardStack(List<SolitaireCard> cards, PositionComponent positionComponent)
@@ -19,6 +19,8 @@ public class SolitaireWorkspaceCardStack extends SolitaireCardStack implements I
 		int i = 0;
 		for (SolitaireCard solitaireCard : cards)
 		{
+			solitaireCard.addListener(this);
+			solitaireCard.setStack(this);
 			CardSprite cardSprite = solitaireCard.getCardSprite();
 			cardSprite.setPosition(positionComponent);
 			adjustCardPosition(solitaireCard, ++i);
@@ -60,5 +62,36 @@ public class SolitaireWorkspaceCardStack extends SolitaireCardStack implements I
 		}
 		return false;
 	}
+
+	@Override
+	public void cardSelected(SolitaireCard card)
+	{
+		if (!card.isAtStackTop())
+			cards.get(cards.indexOf(card) + 1).select();
+	}
+
+	@Override
+	public void cardUnselected(SolitaireCard card)
+	{
+		if (!card.isAtStackTop())
+			cards.get(cards.indexOf(card) + 1).unselect();
+	}
+
+	@Override
+	public boolean addCard(SolitaireCard card)
+	{
+		card.addListener(this);
+		return super.addCard(card);
+	}
+
+	@Override
+	public SolitaireCard removeCardAtTop()
+	{
+		if (!cards.isEmpty())
+			getCardGameObjectAtTop().removeListener(this);
+		return super.removeCardAtTop();
+	}
+	
+	
 
 }

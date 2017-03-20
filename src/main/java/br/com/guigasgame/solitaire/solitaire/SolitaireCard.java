@@ -1,5 +1,8 @@
 package br.com.guigasgame.solitaire.solitaire;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.window.Mouse.Button;
@@ -16,11 +19,13 @@ import br.com.guigasgame.solitaire.updatable.TimeUpdatable;
 
 public class SolitaireCard implements Drawable, InputListener, TimeUpdatable
 {
+	private SolitaireCardStack stack; 
 	private CardSprite cardSprite;
 	private Card card;
 	private boolean selected;
 	private boolean atStackTop;
 	private boolean visualizeMode;
+	private List<SolitaireCardListener> listeners;
 
 	public SolitaireCard(Card card)
 	{
@@ -28,6 +33,7 @@ public class SolitaireCard implements Drawable, InputListener, TimeUpdatable
 		this.card = card;
 		cardSprite = new CardSprite(card);
 		atStackTop = false;
+		listeners = new ArrayList<>();
 	}
 	
 	public Card getCard()
@@ -78,30 +84,34 @@ public class SolitaireCard implements Drawable, InputListener, TimeUpdatable
 		if (inputValue.getInputEventType() == InputEventType.mouse)
 		{
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
-			System.out.println(mouseEvent.getMouseButton());
 			if (cardSprite.getSprite().getGlobalBounds().contains(mouseEvent.getPosition().x, mouseEvent.getPosition().y))
 			{
 				if (mouseEvent.getMouseButton() == Button.LEFT)
 				{
-					if (cardSprite.isRevealed())
+//					if (cardSprite.isRevealed())
 					{
 						if (cardSprite.isSelected())
-							cardSprite.unselect();
+						{
+							unselect();
+						}
 						else
-							cardSprite.select();
+						{
+							select();
+						}
 					}
 				}
 				if (mouseEvent.getMouseButton() == Button.RIGHT)
 				{
+					cardSprite.flip();
 					visualizeMode = true;
 				}
 			}
 			else
 			{
-				if (cardSprite.isRevealed())
+//				if (cardSprite.isRevealed())
 				{
 					if (cardSprite.isSelected())
-						cardSprite.unselect();
+						unselect();
 				}				
 			}
 		}
@@ -116,6 +126,8 @@ public class SolitaireCard implements Drawable, InputListener, TimeUpdatable
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
 			if (mouseEvent.getMouseButton() == Button.RIGHT)
 			{
+				if (cardSprite.isRevealed() && !atStackTop)
+					cardSprite.flip();
 				visualizeMode = false;
 			}
 		}	
@@ -140,6 +152,44 @@ public class SolitaireCard implements Drawable, InputListener, TimeUpdatable
 	public boolean isAtStackTop()
 	{
 		return atStackTop;
+	}
+	
+	public void addListener(SolitaireCardListener listener)
+	{
+		listeners.add(listener);
+	}
+
+	public void removeListener(SolitaireCardListener listener)
+	{
+		listeners.remove(listener);
+	}
+
+	public SolitaireCardStack getStack()
+	{
+		return stack;
+	}
+
+	public void setStack(SolitaireCardStack stack)
+	{
+		this.stack = stack;
+	}
+
+	public void select()
+	{
+		for (SolitaireCardListener solitaireCardListener : listeners)
+		{
+			solitaireCardListener.cardSelected(this);
+			cardSprite.select();
+		}
+	}
+
+	public void unselect()
+	{
+		for (SolitaireCardListener solitaireCardListener : listeners)
+		{
+			solitaireCardListener.cardUnselected(this);
+			cardSprite.unselect();
+		}
 	}
 
 }
