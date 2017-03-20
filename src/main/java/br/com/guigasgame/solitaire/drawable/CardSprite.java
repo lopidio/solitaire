@@ -1,5 +1,7 @@
 package br.com.guigasgame.solitaire.drawable;
 
+
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
@@ -19,11 +21,13 @@ public class CardSprite implements Drawable
 	private Sprite sprite;
 	private Texture texture;
 	private boolean revealed;
+	private boolean selected;
 
 	public CardSprite(Card card)
 	{
 		super();
 		
+		selected = false;
 		revealed = false;
 		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
@@ -78,6 +82,23 @@ public class CardSprite implements Drawable
 		{
 			sprite.setTextureRect(coverRect);
 		}
+	}
+
+	public void select()
+	{
+		selected = true;
+		sprite.setColor(new Color(128, 128, 128));
+	}
+	
+	public void unselect()
+	{
+		selected = false;
+		sprite.setColor(Color.WHITE);
+	}
+
+	public boolean isSelected()
+	{
+		return selected;
 	}
 	
 	

@@ -55,15 +55,21 @@ public class SolitaireWorkspaceCardStackTest
 	public void testAddCard()
 	{
 		List<SolitaireCard> cards = new ArrayList<>();
-		cards.add(new SolitaireCard(new Card(Rank.eight, Suit.hearts)));
+		SolitaireCard firstAtTop = new SolitaireCard(new Card(Rank.eight, Suit.hearts));
+		cards.add(firstAtTop);
 		
 		SolitaireWorkspaceCardStack workspaceStack = new SolitaireWorkspaceCardStack(cards, new PositionComponent(300, 300));
+		assertEquals(true, workspaceStack.getCardGameObjectAtTop().isAtStackTop());
 		assertEquals(false, workspaceStack.addCard(new SolitaireCard(new Card(Rank.jack, Suit.diamonds))));
 		assertEquals(false, workspaceStack.addCard(new SolitaireCard(new Card(Rank.nine, Suit.clubs))));
 		assertEquals(false, workspaceStack.addCard(new SolitaireCard(new Card(Rank.seven, Suit.diamonds))));
-		assertEquals(true, workspaceStack.addCard(new SolitaireCard(new Card(Rank.seven, Suit.clubs))));
+		SolitaireCard secondAtTop = new SolitaireCard(new Card(Rank.seven, Suit.clubs));
+		assertEquals(true, workspaceStack.addCard(secondAtTop));
 		assertEquals(Suit.clubs, workspaceStack.getCardGameObjectAtTop().getCard().getSuit());
 		assertEquals(Rank.seven, workspaceStack.getCardGameObjectAtTop().getCard().getRank());
+		assertEquals(true, workspaceStack.getCardGameObjectAtTop().isAtStackTop());
+		assertEquals(false, firstAtTop.isAtStackTop());
+		assertEquals(true, secondAtTop.isAtStackTop());
 		
 		SolitaireWorkspaceCardStack emptyWorkspaceStack = new SolitaireWorkspaceCardStack(new ArrayList<>(), new PositionComponent(300, 300));
 		assertEquals(false, emptyWorkspaceStack.addCard(new SolitaireCard(new Card(Rank.jack, Suit.diamonds))));
@@ -77,14 +83,18 @@ public class SolitaireWorkspaceCardStackTest
 	public void testRemoveCardAtTop()
 	{
 		List<SolitaireCard> cards = new ArrayList<>();
-		cards.add(new SolitaireCard(new Card(Rank.ace, Suit.hearts)));
+		cards.add(new SolitaireCard(new Card(Rank.two, Suit.hearts)));
+		cards.add(new SolitaireCard(new Card(Rank.ace, Suit.spades)));
 		
 		SolitaireWorkspaceCardStack workspaceStack = new SolitaireWorkspaceCardStack(cards, new PositionComponent(300, 300));
+		assertEquals(true, workspaceStack.getCardGameObjectAtTop().isAtStackTop());
 		SolitaireCard removed = workspaceStack.removeCardAtTop();
 		assertNotEquals(Suit.clubs, removed.getCard().getSuit());
-		assertEquals(Suit.hearts, removed.getCard().getSuit());
+		assertEquals(Suit.spades, removed.getCard().getSuit());
 		assertEquals(Rank.ace, removed.getCard().getRank());
 		
+		assertEquals(false, removed.isAtStackTop());
+		assertEquals(false, workspaceStack.removeCardAtTop().isAtStackTop());
 		assertEquals(null, workspaceStack.removeCardAtTop());
 		
 	}

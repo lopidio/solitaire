@@ -32,7 +32,10 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 		if (canAddNewCard(card))
 		{
 			adjustCardPosition(card, cards.size());
+			if (cards.size() > 0)
+				getCardGameObjectAtTop().setIsAtStackTop(false);
 			cards.add(card);
+			card.setIsAtStackTop(true);
 			return true;
 		}
 		return false;
@@ -43,7 +46,11 @@ public abstract class SolitaireCardStack implements CardStack, Drawable
 	{
 		if (cards.isEmpty())
 			return null;
-		return cards.remove(cards.size() - 1);
+		SolitaireCard returnCard = cards.remove(cards.size() - 1);
+		returnCard.setIsAtStackTop(false);
+		if (!cards.isEmpty())		
+			getCardGameObjectAtTop().setIsAtStackTop(true);
+		return returnCard;
 	}
 
 	protected void adjustCardPosition(SolitaireCard card, int cardPosition)

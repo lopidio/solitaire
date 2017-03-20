@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Vector2i;
+import org.jsfml.window.Mouse.Button;
 
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
+import br.com.guigasgame.solitaire.input.InputController;
+import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.SolitaireCard;
 import br.com.guigasgame.solitaire.solitaire.SolitaireWorkspaceCardStack;
@@ -20,15 +24,17 @@ public class MainGameState implements GameState
 	
 	private List<SolitaireCard> fullDeck;
 	private List<SolitaireWorkspaceCardStack> workspaceStacks;
+	private InputController inputController;
+	private MouseInput rightButtonHandler;
+	private MouseInput leftButtonHandler;
 	
 	public MainGameState()
 	{
+		inputController = new InputController();
 		fullDeck = new ArrayList<>();		
-		initalizeDeck();
-		shuffleCards();
 		workspaceStacks = new ArrayList<>();
 	}
-
+	
 	private void initializeWorkspaceStacks(Vector2i windowSize)
 	{
 		for (int i = 0; i < 7; ++i)
@@ -43,9 +49,15 @@ public class MainGameState implements GameState
 	}
 	
 	@Override
-	public void enterState(RenderTarget renderTarget)
+	public void enterState(RenderWindow renderWindow)
 	{
-		initializeWorkspaceStacks(renderTarget.getSize());
+		leftButtonHandler = new MouseInput(Button.LEFT, renderWindow);
+		rightButtonHandler = new MouseInput(Button.RIGHT, renderWindow);
+		inputController.addInputHandler(leftButtonHandler);
+		inputController.addInputHandler(rightButtonHandler);
+		initalizeDeck();
+		shuffleCards();
+		initializeWorkspaceStacks(renderWindow.getSize());
 	}
 
 	private void shuffleCards()
@@ -60,7 +72,10 @@ public class MainGameState implements GameState
 		{
 			for (Rank rank : Rank.values())
 			{
-				fullDeck.add(new SolitaireCard(new Card(rank, suit)));
+				SolitaireCard card = new SolitaireCard(new Card(rank, suit));
+				fullDeck.add(card);
+				leftButtonHandler.addInputListener(card);
+				rightButtonHandler.addInputListener(card);
 			}
 		}
 	}
@@ -68,7 +83,11 @@ public class MainGameState implements GameState
 	@Override
 	public void update(float updateDelta)
 	{
-
+		inputController.handleEvent(updateDelta);
+		for (SolitaireCard solitaireCard : fullDeck)
+		{
+			solitaireCard.update(updateDelta);
+		}
 	}
 
 	@Override
