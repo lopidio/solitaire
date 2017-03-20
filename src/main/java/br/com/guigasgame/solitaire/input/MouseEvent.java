@@ -1,31 +1,26 @@
 package br.com.guigasgame.solitaire.input;
 
 import org.jsfml.system.Vector2i;
+import org.jsfml.window.Mouse.Button;
 
 public class MouseEvent extends InputEvent
 {
 	private Vector2i position;
-	private boolean leftPressed;
-	private boolean rightPressed;
+	private Button mouseButton;
 	
-	public MouseEvent(Vector2i position, boolean leftPressed, boolean rightPressed)
+	public MouseEvent(Vector2i position, Button mouseButton)
 	{
 		super(InputEventType.mouse);
 		this.position = position;
-		this.leftPressed = leftPressed;
-		this.rightPressed = rightPressed;
+		this.mouseButton = mouseButton;
 	}
 	public Vector2i getPosition()
 	{
 		return position;
 	}
-	public boolean isLeftPressed()
+	public Button getMouseButton()
 	{
-		return leftPressed;
-	}
-	public boolean isRightPressed()
-	{
-		return rightPressed;
+		return mouseButton;
 	}
 
 }

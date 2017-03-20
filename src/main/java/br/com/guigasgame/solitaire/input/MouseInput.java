@@ -4,14 +4,13 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.Mouse;
 import org.jsfml.window.Mouse.Button;
 
-public class MouseInput implements InputHandler
+public class MouseInput extends InputHandler
 {
 	private Mouse.Button mouseButton;
 	private RenderWindow renderWindow;
 
 	public MouseInput(Button mouseButton, RenderWindow renderWindow)
 	{
-		super();
 		this.mouseButton = mouseButton;
 		this.renderWindow = renderWindow;
 	}
@@ -27,9 +26,7 @@ public class MouseInput implements InputHandler
 	@Override
 	public MouseEvent getInputEvent()
 	{
-		return new MouseEvent(Mouse.getPosition(renderWindow), 
-				Mouse.isButtonPressed(Button.LEFT),
-				Mouse.isButtonPressed(Button.RIGHT));
+		return new MouseEvent(Mouse.getPosition(renderWindow), mouseButton);
 	}
 
 }
