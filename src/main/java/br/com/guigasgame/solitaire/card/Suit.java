@@ -2,20 +2,18 @@ package br.com.guigasgame.solitaire.card;
 
 public enum Suit
 {
-	hearts(SuitColor.red, "♥", 1), 
-	diamonds(SuitColor.red, "♦", 2),
-	clubs(SuitColor.black, "♣", 3),
-	spades(SuitColor.black, "♠", 4);
+	hearts(SuitColor.red, "♥"), 
+	diamonds(SuitColor.red, "♦"),
+	clubs(SuitColor.black, "♣"),
+	spades(SuitColor.black, "♠");
 
 	private SuitColor color;
 	private String text;
-	private int value;
 	
-	Suit(SuitColor color, String text, int value)
+	Suit(SuitColor color, String text)
 	{
 		this.color = color;
 		this.text = text;
-		this.value = value;
 	}
 
 	public SuitColor getSuitColor()
@@ -30,7 +28,7 @@ public enum Suit
 
 	public int getValue()
 	{
-		return value;
+		return ordinal() + 1;
 	}
 	
 	
