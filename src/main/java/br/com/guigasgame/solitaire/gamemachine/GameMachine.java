@@ -74,7 +74,8 @@ public class GameMachine
 		final VideoMode best = modes[modes.length - 1];
 		System.out.println("Best: " + best);
 
-		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
+//		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
+		renderWindow = new RenderWindow(new VideoMode(800, 600, 32), "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 //		renderWindow = new RenderWindow(worst, "High Order Ninja");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 		renderWindow.setFramerateLimit(FRAME_RATE);
 		renderWindow.setVerticalSyncEnabled(true);
