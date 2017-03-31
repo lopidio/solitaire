@@ -10,7 +10,7 @@ import br.com.guigasgame.solitaire.input.MouseEvent;
 
 public class CardInputHandler implements InputListener
 {
-	CardSolitaire card;
+	private CardSolitaire card;
 	private CardDrawable cardDrawable;
 
 	public CardInputHandler(CardSolitaire card, CardDrawable cardDrawable)

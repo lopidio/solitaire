@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
-import br.com.guigasgame.solitaire.solitaire.SolitaireCardStack;
+import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
 
 public class CardSolitaire extends Card
 {
