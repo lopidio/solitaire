@@ -13,8 +13,10 @@ import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.TextureResourceManager;
+import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.solitaire.card.CardSolitaireListener;
 
-public class CardSprite implements Drawable
+public class CardDrawable implements Drawable, CardSolitaireListener
 {
 	private IntRect revealedRect;
 	private IntRect coverRect;
@@ -23,7 +25,7 @@ public class CardSprite implements Drawable
 	private boolean revealed;
 	private boolean selected;
 
-	public CardSprite(Card card)
+	public CardDrawable(Card card)
 	{
 		super();
 		
@@ -46,11 +48,6 @@ public class CardSprite implements Drawable
 		sprite.setOrigin(revealedRect.width / 2, revealedRect.height / 2);
 	}
 
-	public Sprite getSprite()
-	{
-		return sprite;
-	}
-	
 	public void draw(RenderTarget renderTarget)
 	{
 		renderTarget.draw(sprite);
@@ -58,23 +55,12 @@ public class CardSprite implements Drawable
 
 	public void setPosition(PositionComponent positionComponent)
 	{
-		sprite.setPosition(positionComponent.getPosition());
+		sprite.setPosition(positionComponent.getX(), positionComponent.getY());
 	}
 
-	public PositionComponent getPosition()
+	private void updateTexture()
 	{
-		return new PositionComponent(sprite.getPosition());
-	}
-
-	public boolean isRevealed()
-	{
-		return revealed;
-	}
-
-	public void flip()
-	{
-		revealed = !revealed;
-		if (isRevealed())
+		if (revealed)
 		{
 			sprite.setTextureRect(revealedRect);
 		}
@@ -84,21 +70,31 @@ public class CardSprite implements Drawable
 		}
 	}
 
-	public void select()
+	private void updateColor()
 	{
-		selected = true;
-		sprite.setColor(new Color(128, 128, 128));
-	}
-	
-	public void unselect()
-	{
-		selected = false;
-		sprite.setColor(Color.WHITE);
+		if (selected)
+			sprite.setColor(new Color(128, 128, 128));
+		else
+			sprite.setColor(Color.WHITE);
 	}
 
-	public boolean isSelected()
+	@Override
+	public void selectAction(CardSolitaire card)
 	{
-		return selected;
+		selected = card.isSelected();
+		updateColor();
+	}
+
+	@Override
+	public void revealAction(CardSolitaire card)
+	{
+		revealed = card.isRevealed();
+		updateTexture();
+	}
+
+	public boolean contains(int x, int y)
+	{
+		return sprite.getGlobalBounds().contains(x, y);
 	}
 	
 	
