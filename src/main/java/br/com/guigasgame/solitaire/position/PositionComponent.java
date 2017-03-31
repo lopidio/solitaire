@@ -4,45 +4,60 @@ import org.jsfml.system.Vector2f;
 
 public class PositionComponent
 {
-	private Vector2f position;
+	private float x;
+	private float y;
 	
 	public PositionComponent(Vector2f position)
 	{
 		super();
-		this.position = position;
+		x = position.x;
+		y = position.y;
 	}
 
 	public PositionComponent(int x, int y)
 	{
 		super();
-		this.position = new Vector2f(x, y);
+		this.x = x;
+		this.y = y;
 	}
 
 	public PositionComponent()
 	{
 		super();
-		this.position = new Vector2f(0, 0);
+		x = 0;
+		y = 0;
 	}
 
 	public PositionComponent(float x, float y)
 	{
-		this.position = new Vector2f(x, y);
+		this.x = x;
+		this.y = y;
 	}
 
-	public Vector2f getPosition()
-	{
-		return position;
-	}
-
-	public void setPosition(Vector2f position)
-	{
-		this.position = position;
-	}
-	
 	public void add(PositionComponent positionComponent)
 	{
-		position = new Vector2f(position.x + positionComponent.getPosition().x,
-										 position.y + positionComponent.getPosition().y);
+		x += positionComponent.x;
+		y += positionComponent.y;
 	}
 
+	public float getX()
+	{
+		return x;
+	}
+
+	public void setX(float x)
+	{
+		this.x = x;
+	}
+
+	public float getY()
+	{
+		return y;
+	}
+
+	public void setY(float y)
+	{
+		this.y = y;
+	}
+	
 }
