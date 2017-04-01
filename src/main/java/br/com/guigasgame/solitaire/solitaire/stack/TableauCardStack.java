@@ -3,23 +3,27 @@ package br.com.guigasgame.solitaire.solitaire.stack;
 import java.util.List;
 
 import br.com.guigasgame.solitaire.card.Rank;
+import br.com.guigasgame.solitaire.input.InputEvent;
+import br.com.guigasgame.solitaire.input.InputListener;
+import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 
-public class TableauCardStack extends SolitaireCardStack
+public class TableauCardStack extends SolitaireCardStack implements InputListener
 {
+	protected List<CardManager> cardManagers;
 
-	public TableauCardStack(List<CardSolitaire> cards)
+	public TableauCardStack(List<CardManager> cardManagers)
 	{
 		super(SolitaireCardStackType.tableau);
-		for (CardSolitaire solitaireCard : cards)
+		this.cardManagers = cardManagers;
+		
+		cardManagers.stream().forEach(card ->
 		{
-			addCard(solitaireCard);
-		}
-		CardSolitaire cardAtTop = getSolitaireTop();
-		if (cardAtTop != null)
-		{
-			cardAtTop.reveal();
-		}
+			addCard(card.getCard());
+//			card.revealCard();
+		});
+		
+		cardManagers.get(cardManagers.size() - 1).revealCard();
 	}
 
 	public boolean canAddSolitaireCard(CardSolitaire card)
@@ -35,6 +39,27 @@ public class TableauCardStack extends SolitaireCardStack
 			return card.getSuit().getSuitColor() != cardAtTop.getSuit().getSuitColor();
 		}
 		return false;
+	}
+	
+	public void inputPressed(InputEvent inputValue)
+	{
+		for (int i = cardManagers.size() - 1; i >= 0; --i)
+		{
+			CardManager cardManager = cardManagers.get(i);
+			cardManager.inputPressed(inputValue);
+			if (cardManager.getCard().isSelected())
+				break;
+		}
+	}
+
+	public void inputReleased(InputEvent inputValue)
+	{
+		cardManagers.stream().forEach(cardManager -> cardManager.inputReleased(inputValue));
+	}
+
+	public void isPressing(InputEvent inputValue)
+	{
+
 	}
 
 }

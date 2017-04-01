@@ -50,11 +50,6 @@ public class CardSolitaire extends Card
 		selected = false;
 	}
 	
-	public SolitaireCardStack getStack()
-	{
-		return stack;
-	}
-
 	public void setStack(SolitaireCardStack stack)
 	{
 		this.stack = stack;

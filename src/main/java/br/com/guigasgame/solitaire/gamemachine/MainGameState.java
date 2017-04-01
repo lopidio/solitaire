@@ -13,13 +13,13 @@ import org.jsfml.window.Mouse.Button;
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.drawable.CardDrawable;
-import br.com.guigasgame.solitaire.drawable.CardSpriteDrawable;
+import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
-import br.com.guigasgame.solitaire.solitaire.card.CardEventManager;
+import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 
@@ -47,29 +47,28 @@ public class MainGameState implements GameState
 			for (int j = 0; j < i + 1; ++j)
 				stackCards.add(fullDeck.remove(fullDeck.size() - 1));
 			
-			//TODO separar em outra classe, esse cálculo/inizialização das stacks
-			TableauCardStack tableauCardStack = new TableauCardStack(stackCards);
 			
 			
 			List<CardDrawable> cardDrawables = new ArrayList<>();
-			stackCards.stream().forEach(card -> cardDrawables.add(new CardSpriteDrawable(card)));
+			stackCards.stream().forEach(card -> cardDrawables.add(new CardSprite(card)));
 
+			List<CardManager> cardManagers = new ArrayList<>();
 			for (CardDrawable cardDrawable: cardDrawables)
 			{
-				CardEventManager cardManager = new CardEventManager(cardDrawable.getCard(), cardDrawable);
-				leftButtonHandler.addInputListener(cardManager);
-				rightButtonHandler.addInputListener(cardManager);
-				cardManager.addCardListener(cardDrawable);
+				cardManagers.add(new CardManager(cardDrawable));
 			}
 
+			TableauCardStack tableauCardStack = new TableauCardStack(cardManagers);
 			
-			CascadeCardStack cascadeCardStack = new CascadeCardStack(cardDrawables, 
+			CascadeCardStack cascadeCardStack = new CascadeCardStack(cardManagers, 
 														new PositionComponent(
 																	(windowSize.x/14) * (2*i + 1), 
 																	(int) (windowSize.y*0.4))); 
 			tableauCardStack.addListener(cascadeCardStack);
 
-			cascadeCardStack.adjustCardsPosition();
+			leftButtonHandler.addInputListener(tableauCardStack);
+			rightButtonHandler.addInputListener(tableauCardStack);
+
 			drawables.add(cascadeCardStack);
 		}
 	}

@@ -18,4 +18,8 @@ public interface CardDrawable extends Drawable, CardSolitaireListener
 
 	public CardSolitaire getCard();
 
+	public boolean isPriorityDrawing();
+
+	public void setPriorityDrawing(boolean priorityDrawing);
+
 }

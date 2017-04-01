@@ -16,15 +16,16 @@ import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.TextureResourceManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 
-public class CardSpriteDrawable implements CardDrawable
+public class CardSprite implements CardDrawable
 {
 	private IntRect revealedRect;
 	private IntRect coverRect;
 	private Sprite sprite;
 	private Texture texture;
 	private CardSolitaire card;
+	private boolean priorityDrawing;
 
-	public CardSpriteDrawable(Card card)
+	public CardSprite(Card card)
 	{
 		super();
 		this.card = (CardSolitaire) card;
@@ -109,6 +110,17 @@ public class CardSpriteDrawable implements CardDrawable
 	{
 		return card;
 	}
-	
-	
+
+	@Override
+	public boolean isPriorityDrawing()
+	{
+		return priorityDrawing;
+	}
+
+	@Override
+	public void setPriorityDrawing(boolean priorityDrawing)
+	{
+		this.priorityDrawing = priorityDrawing;
+	}
+
 }

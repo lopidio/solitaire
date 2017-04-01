@@ -11,18 +11,19 @@ import br.com.guigasgame.solitaire.input.InputEventType;
 import br.com.guigasgame.solitaire.input.InputListener;
 import br.com.guigasgame.solitaire.input.MouseEvent;
 
-public class CardEventManager implements InputListener
+public class CardManager implements InputListener
 {
 	private CardSolitaire card;
 	private CardDrawable cardDrawable;
 	private List<CardSolitaireListener> listeners;
 
-	public CardEventManager(CardSolitaire card, CardDrawable cardDrawable)
+	public CardManager(CardDrawable cardDrawable)
 	{
 		super();
-		this.card = card;
+		this.card = cardDrawable.getCard();
 		this.cardDrawable = cardDrawable;
 		listeners = new ArrayList<>();
+		addCardListener(cardDrawable);
 	}
 
 	@Override
@@ -43,13 +44,14 @@ public class CardEventManager implements InputListener
 					else
 					{
 						if (card.isAtStackTop())
-							card.reveal();
+						{
+							revealCard();
+						}
 					}
 				}
-				if (mouseEvent.getMouseButton() == Button.RIGHT)
+				if (mouseEvent.getMouseButton() == Button.RIGHT && card.isRevealed())
 				{
-//					card.flip();
-//					card.setVisualizeMode(false);
+					cardDrawable.setPriorityDrawing(true);
 				}
 			}
 			else
@@ -72,11 +74,7 @@ public class CardEventManager implements InputListener
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
 			if (mouseEvent.getMouseButton() == Button.RIGHT)
 			{
-//				listeners.stream().forEach(listener -> listener.revealAction(card));
-
-//				if (card.isRevealed() && !card.isAtStackTop())
-//					card.revealed();
-//				card.setVisualizeMode(true);
+				cardDrawable.setPriorityDrawing(false);
 			}
 		}	
 	}
@@ -89,6 +87,22 @@ public class CardEventManager implements InputListener
 	public void removeCardListener(CardSolitaireListener listener)
 	{
 		listeners.remove(listener);
+	}
+
+	public CardDrawable getDrawableCard()
+	{
+		return cardDrawable;
+	}
+
+	public CardSolitaire getCard()
+	{
+		return card;
+	}
+
+	public void revealCard()
+	{
+		card.reveal();
+		listeners.stream().forEach(listener -> listener.cardRevealAction(card));
 	}
 
 
