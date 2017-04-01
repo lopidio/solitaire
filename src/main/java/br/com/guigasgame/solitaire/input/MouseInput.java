@@ -26,7 +26,7 @@ public class MouseInput extends InputHandler
 	@Override
 	public MouseEvent getInputEvent()
 	{
-		return new MouseEvent(Mouse.getPosition(renderWindow), mouseButton);
+		return new MouseEvent(renderWindow.mapPixelToCoords(Mouse.getPosition(renderWindow)), mouseButton);
 	}
 
 }
