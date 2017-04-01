@@ -71,8 +71,7 @@ public class GameMachine
 //		{
 //			System.out.println(videoMode);
 //		}
-		final VideoMode best = modes[modes.length - 1];
-		System.out.println("Best: " + best);
+//		final VideoMode best = modes[modes.length - 1];
 
 //		renderWindow = new RenderWindow(best, "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT
 		renderWindow = new RenderWindow(new VideoMode(800, 600, 32), "Solitaire");//, Window.FULLSCREEN);  //Window.TRANSPARENT

@@ -19,7 +19,7 @@ import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
-import br.com.guigasgame.solitaire.solitaire.card.CardInputHandler;
+import br.com.guigasgame.solitaire.solitaire.card.CardEventManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 
@@ -47,25 +47,26 @@ public class MainGameState implements GameState
 			for (int j = 0; j < i + 1; ++j)
 				stackCards.add(fullDeck.remove(fullDeck.size() - 1));
 			
+			//TODO separar em outra classe, esse cálculo/inizialização das stacks
+			TableauCardStack tableauCardStack = new TableauCardStack(stackCards);
+			
+			
 			List<CardDrawable> cardDrawables = new ArrayList<>();
 			stackCards.stream().forEach(card -> cardDrawables.add(new CardSpriteDrawable(card)));
 
 			for (CardDrawable cardDrawable: cardDrawables)
 			{
-				CardInputHandler cardInput = new CardInputHandler(cardDrawable.getCard(), cardDrawable);
-				leftButtonHandler.addInputListener(cardInput);
-				rightButtonHandler.addInputListener(cardInput);
-				
+				CardEventManager cardManager = new CardEventManager(cardDrawable.getCard(), cardDrawable);
+				leftButtonHandler.addInputListener(cardManager);
+				rightButtonHandler.addInputListener(cardManager);
+				cardManager.addCardListener(cardDrawable);
 			}
-			
 
 			
-			//TODO separar em outra classe, esse cálculo/inizialização das stacks
-			TableauCardStack tableauCardStack = new TableauCardStack(stackCards);
 			CascadeCardStack cascadeCardStack = new CascadeCardStack(cardDrawables, 
-																	new PositionComponent(
-																							(windowSize.x/14) * (2*i + 1), 
-																							(int) (windowSize.y*0.4))); 
+														new PositionComponent(
+																	(windowSize.x/14) * (2*i + 1), 
+																	(int) (windowSize.y*0.4))); 
 			tableauCardStack.addListener(cascadeCardStack);
 
 			cascadeCardStack.adjustCardsPosition();

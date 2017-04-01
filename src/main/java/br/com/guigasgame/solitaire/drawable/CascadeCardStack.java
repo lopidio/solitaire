@@ -14,25 +14,20 @@ public class CascadeCardStack extends StackDrawable
 	{
 		super(cardDrawables);
 		this.center = center;
-		this.drawingOffset = new PositionComponent(.05f, .35f);
+		this.drawingOffset = new PositionComponent(.01f, .35f);
 	}
 	
-	public void setDrawingOffset(PositionComponent drawingOffset)
-	{
-		this.drawingOffset = drawingOffset;
-	}
-
 	@Override
 	public void adjustCardsPosition()
 	{
 		int cardIndex = 0;
 
-		PositionComponent position = new PositionComponent(center.getX(), center.getY());
 		for (CardDrawable card: cardDrawables)
 		{
-			position.add(new PositionComponent(drawingOffset.getX() * card.getSize().width * cardIndex, 
-												drawingOffset.getY()*card.getSize().height * cardIndex));
-			card.moveTo(position);
+			PositionComponent initial = new PositionComponent(center.getX(), center.getY());
+			initial.add(new PositionComponent(card.getSize().width * drawingOffset.getX(), 
+											drawingOffset.getY() * card.getSize().height * cardIndex));
+			card.moveTo(initial);
 			++cardIndex;
 		}
 	}

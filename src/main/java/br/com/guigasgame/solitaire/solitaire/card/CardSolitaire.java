@@ -1,8 +1,5 @@
 package br.com.guigasgame.solitaire.solitaire.card;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
@@ -13,13 +10,11 @@ public class CardSolitaire extends Card
 	private SolitaireCardStack stack; 
 	private boolean selected;
 	private boolean revealed;
-	private List<CardSolitaireListener> listeners;
 
 	public CardSolitaire(Rank rank, Suit suit)
 	{
 		super(rank, suit);
 		revealed = false;
-		listeners = new ArrayList<>();
 	}
 
 	public boolean isRevealed()
@@ -30,7 +25,6 @@ public class CardSolitaire extends Card
 	public void reveal()
 	{
 		revealed = true;
-		listeners.stream().forEach(listener -> listener.revealAction(this));
 	}
 
 	public boolean isSelected()
@@ -46,16 +40,16 @@ public class CardSolitaire extends Card
 		return top.getRank() == getRank() && top.getSuit() == getSuit();
 	}
 	
-	public void addListener(CardSolitaireListener listener)
+	public void select()
 	{
-		listeners.add(listener);
+		selected = true;
 	}
 
-	public void removeListener(CardSolitaireListener listener)
+	public void unselect()
 	{
-		listeners.remove(listener);
+		selected = false;
 	}
-
+	
 	public SolitaireCardStack getStack()
 	{
 		return stack;
@@ -66,15 +60,4 @@ public class CardSolitaire extends Card
 		this.stack = stack;
 	}
 
-	public void select()
-	{
-		selected = true;
-		listeners.stream().forEach(listener -> listener.selectAction(this));
-	}
-
-	public void unselect()
-	{
-		selected = false;
-		listeners.stream().forEach(listener -> listener.selectAction(this));
-	}
 }
