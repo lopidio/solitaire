@@ -38,8 +38,7 @@ public class CardManager implements InputListener
 				{
 					if (card.isRevealed())
 					{
-						card.select();
-						listeners.stream().forEach(listener -> listener.cardSelectAction(card));
+						selectCard();
 					}
 					else
 					{
@@ -58,8 +57,7 @@ public class CardManager implements InputListener
 			{
 				if (card.isSelected())
 				{
-					card.unselect();
-					listeners.stream().forEach(listener -> listener.cardSelectAction(card));
+					unselectCard();
 				}
 			}
 		}
@@ -103,6 +101,18 @@ public class CardManager implements InputListener
 	{
 		card.reveal();
 		listeners.stream().forEach(listener -> listener.cardRevealAction(card));
+	}
+
+	public void selectCard()
+	{
+		card.select();
+		listeners.stream().forEach(listener -> listener.cardSelectAction(card));
+	}
+
+	public void unselectCard()
+	{
+		card.unselect();
+		listeners.stream().forEach(listener -> listener.cardSelectAction(card));
 	}
 
 

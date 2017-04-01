@@ -20,7 +20,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		cardManagers.stream().forEach(card ->
 		{
 			addCard(card.getCard());
-//			card.revealCard();
+			card.revealCard();
 		});
 		
 		cardManagers.get(cardManagers.size() - 1).revealCard();
@@ -43,12 +43,20 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	
 	public void inputPressed(InputEvent inputValue)
 	{
+		boolean unselecting = false;
 		for (int i = cardManagers.size() - 1; i >= 0; --i)
 		{
 			CardManager cardManager = cardManagers.get(i);
-			cardManager.inputPressed(inputValue);
+			if (unselecting)
+				cardManager.unselectCard();
+			else
+				cardManager.inputPressed(inputValue);
 			if (cardManager.getCard().isSelected())
-				break;
+			{
+				for (int j = i; j < cardManagers.size(); ++j)
+					cardManagers.get(j).selectCard();
+				unselecting = true;
+			}
 		}
 	}
 

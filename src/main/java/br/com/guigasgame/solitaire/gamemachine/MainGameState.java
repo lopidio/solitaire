@@ -12,7 +12,6 @@ import org.jsfml.window.Mouse.Button;
 
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
-import br.com.guigasgame.solitaire.drawable.CardDrawable;
 import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
@@ -49,14 +48,8 @@ public class MainGameState implements GameState
 			
 			
 			
-			List<CardDrawable> cardDrawables = new ArrayList<>();
-			stackCards.stream().forEach(card -> cardDrawables.add(new CardSprite(card)));
-
 			List<CardManager> cardManagers = new ArrayList<>();
-			for (CardDrawable cardDrawable: cardDrawables)
-			{
-				cardManagers.add(new CardManager(cardDrawable));
-			}
+			stackCards.stream().forEach(card -> cardManagers.add(new CardManager(new CardSprite(card))));
 
 			TableauCardStack tableauCardStack = new TableauCardStack(cardManagers);
 			
