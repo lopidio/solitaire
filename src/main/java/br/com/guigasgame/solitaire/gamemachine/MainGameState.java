@@ -12,7 +12,6 @@ import org.jsfml.window.Mouse.Button;
 
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
-import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.input.InputController;
@@ -21,6 +20,7 @@ import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
+import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
 public class MainGameState implements GameState
 {
@@ -30,12 +30,14 @@ public class MainGameState implements GameState
 	private InputController inputController;
 	private MouseInput rightButtonHandler;
 	private MouseInput leftButtonHandler;
+	private CardTransactionManager transactionManager;
 	
 	public MainGameState()
 	{
 		inputController = new InputController();
 		fullDeck = new ArrayList<>();		
 		drawables = new ArrayList<>();
+		transactionManager = new CardTransactionManager();
 	}
 	
 	private void initializeTableauStacks(Vector2i windowSize)
@@ -46,17 +48,15 @@ public class MainGameState implements GameState
 			for (int j = 0; j < i + 1; ++j)
 				stackCards.add(fullDeck.remove(fullDeck.size() - 1));
 			
-			
-			
 			List<CardManager> cardManagers = new ArrayList<>();
-			stackCards.stream().forEach(card -> cardManagers.add(new CardManager(new CardSprite(card))));
-
+			stackCards.stream().forEach(card -> cardManagers.add(new CardManager(card)));
 			TableauCardStack tableauCardStack = new TableauCardStack(cardManagers);
-			
 			CascadeCardStack cascadeCardStack = new CascadeCardStack(cardManagers, 
 														new PositionComponent(
 																	(windowSize.x/14) * (2*i + 1), 
 																	(int) (windowSize.y*0.4))); 
+			
+			tableauCardStack.setTransactionManager(transactionManager);
 			tableauCardStack.addListener(cascadeCardStack);
 
 			leftButtonHandler.addInputListener(tableauCardStack);

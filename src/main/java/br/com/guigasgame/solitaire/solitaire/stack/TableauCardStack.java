@@ -48,15 +48,35 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		{
 			CardManager cardManager = cardManagers.get(i);
 			if (unselecting)
-				cardManager.unselectCard();
-			else
-				cardManager.inputPressed(inputValue);
-			if (cardManager.getCard().isSelected())
 			{
-				for (int j = i; j < cardManagers.size(); ++j)
-					cardManagers.get(j).selectCard();
-				unselecting = true;
+				cardManager.unselectCard();
+				if (null != transactionManager)
+					transactionManager.removeCardToSelection(cardManagers.get(i));
 			}
+			else
+			{
+				cardManager.inputPressed(inputValue);
+				if (cardManager.getCard().isSelected())
+				{
+					selectFromIndexToTop(i);
+					unselecting = true;
+				}
+				else
+				{
+					if (null != transactionManager)
+						transactionManager.removeCardToSelection(cardManagers.get(i));
+				}
+			}
+		}
+	}
+
+	private void selectFromIndexToTop(int initialIndex)
+	{
+		for (int i = initialIndex; i < cardManagers.size(); ++i)
+		{
+			cardManagers.get(i).selectCard();
+			if (null != transactionManager)
+				transactionManager.addCardToSelection(cardManagers.get(i));
 		}
 	}
 
@@ -69,5 +89,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	{
 
 	}
+
 
 }

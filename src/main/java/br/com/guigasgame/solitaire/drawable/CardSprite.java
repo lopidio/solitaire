@@ -30,7 +30,7 @@ public class CardSprite implements CardDrawable
 		super();
 		this.card = (CardSolitaire) card;
 		
-		texture = TextureResourceManager.getInstance().getResource("asserts/cardsSpriteSet.jpg");
+		texture = TextureResourceManager.getInstance().getResource("assets/cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
 		
 		int width = texture.getSize().x / Rank.values().length;
@@ -78,18 +78,6 @@ public class CardSprite implements CardDrawable
 			sprite.setColor(Color.WHITE);
 	}
 
-	@Override
-	public void cardSelectAction(CardSolitaire card)
-	{
-		updateColor();
-	}
-
-	@Override
-	public void cardRevealAction(CardSolitaire card)
-	{
-		updateTexture();
-	}
-
 	public boolean contains(int x, int y)
 	{
 		return sprite.getGlobalBounds().contains(x, y);
@@ -121,6 +109,24 @@ public class CardSprite implements CardDrawable
 	public void setPriorityDrawing(boolean priorityDrawing)
 	{
 		this.priorityDrawing = priorityDrawing;
+	}
+
+	@Override
+	public void reveal()
+	{
+		updateTexture();
+	}
+
+	@Override
+	public void select()
+	{
+		updateColor();
+	}
+
+	@Override
+	public void unselect()
+	{
+		updateColor();
 	}
 
 }

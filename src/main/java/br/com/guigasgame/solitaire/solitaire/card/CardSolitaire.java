@@ -55,4 +55,10 @@ public class CardSolitaire extends Card
 		this.stack = stack;
 	}
 
+	@Override
+	public boolean equals(Object obj)
+	{
+		return super.equals(obj);
+	}
+
 }

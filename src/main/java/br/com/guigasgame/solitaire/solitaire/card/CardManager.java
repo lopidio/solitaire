@@ -1,11 +1,9 @@
 package br.com.guigasgame.solitaire.solitaire.card;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jsfml.window.Mouse.Button;
 
 import br.com.guigasgame.solitaire.drawable.CardDrawable;
+import br.com.guigasgame.solitaire.drawable.CardSprite;
 import br.com.guigasgame.solitaire.input.InputEvent;
 import br.com.guigasgame.solitaire.input.InputEventType;
 import br.com.guigasgame.solitaire.input.InputListener;
@@ -15,15 +13,12 @@ public class CardManager implements InputListener
 {
 	private CardSolitaire card;
 	private CardDrawable cardDrawable;
-	private List<CardSolitaireListener> listeners;
 
-	public CardManager(CardDrawable cardDrawable)
+	public CardManager(CardSolitaire card)
 	{
 		super();
-		this.card = cardDrawable.getCard();
-		this.cardDrawable = cardDrawable;
-		listeners = new ArrayList<>();
-		addCardListener(cardDrawable);
+		this.card = card;
+		this.cardDrawable = new CardSprite(card);
 	}
 
 	@Override
@@ -77,16 +72,6 @@ public class CardManager implements InputListener
 		}	
 	}
 	
-	public void addCardListener(CardSolitaireListener listener)
-	{
-		listeners.add(listener);
-	}
-
-	public void removeCardListener(CardSolitaireListener listener)
-	{
-		listeners.remove(listener);
-	}
-
 	public CardDrawable getDrawableCard()
 	{
 		return cardDrawable;
@@ -100,20 +85,38 @@ public class CardManager implements InputListener
 	public void revealCard()
 	{
 		card.reveal();
-		listeners.stream().forEach(listener -> listener.cardRevealAction(card));
+		cardDrawable.reveal();
 	}
 
 	public void selectCard()
 	{
 		card.select();
-		listeners.stream().forEach(listener -> listener.cardSelectAction(card));
+		cardDrawable.select();
 	}
 
 	public void unselectCard()
 	{
 		card.unselect();
-		listeners.stream().forEach(listener -> listener.cardSelectAction(card));
+		cardDrawable.unselect();
 	}
-
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
+			return false;
+		}
+		if (!CardManager.class.isAssignableFrom(obj.getClass()))
+		{
+			return false;
+		}
+		final CardManager other = (CardManager) obj;
+		if ((this.card == null) ? (other.card != null) : !this.card.equals(other.card))
+		{
+			return false;
+		}
+		return true;
+	}
 
 }

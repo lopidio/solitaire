@@ -4,9 +4,8 @@ import org.jsfml.graphics.FloatRect;
 
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
-import br.com.guigasgame.solitaire.solitaire.card.CardSolitaireListener;
 
-public interface CardDrawable extends Drawable, CardSolitaireListener
+public interface CardDrawable extends Drawable
 {
 	public void setPosition(PositionComponent positionComponent);
 
@@ -21,5 +20,11 @@ public interface CardDrawable extends Drawable, CardSolitaireListener
 	public boolean isPriorityDrawing();
 
 	public void setPriorityDrawing(boolean priorityDrawing);
+
+	public void reveal();
+
+	public void select();
+
+	public void unselect();
 
 }

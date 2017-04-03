@@ -7,10 +7,12 @@ import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 import br.com.guigasgame.solitaire.stack.CardStack;
 import br.com.guigasgame.solitaire.stack.CardStackListener;
+import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
 public abstract class SolitaireCardStack implements CardStack
 {
 	protected List<CardSolitaire> cards;
+	protected CardTransactionManager transactionManager;
 	private SolitaireCardStackType stackType;
 	private List<CardStackListener> listeners;
 
@@ -90,4 +92,9 @@ public abstract class SolitaireCardStack implements CardStack
 		listeners.remove(cardStackListener);
 	}
 	
+	public void setTransactionManager(CardTransactionManager transactionManager)
+	{
+		this.transactionManager = transactionManager;
+	}
+
 }
