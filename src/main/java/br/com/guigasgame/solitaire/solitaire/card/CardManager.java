@@ -13,6 +13,7 @@ public class CardManager implements InputListener
 {
 	private CardSolitaire card;
 	private CardDrawable cardDrawable;
+	private boolean reactedToInput;
 
 	public CardManager(CardSolitaire card)
 	{
@@ -24,36 +25,48 @@ public class CardManager implements InputListener
 	@Override
 	public void inputPressed(InputEvent inputValue)
 	{
+		//TODO detach from specific inputs 
 		if (inputValue.getInputEventType() == InputEventType.mouse)
 		{
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
 			if (cardDrawable.contains(mouseEvent.getPosition().x, mouseEvent.getPosition().y))
 			{
+				reactedToInput = true;
 				if (mouseEvent.getMouseButton() == Button.LEFT)
-				{
-					if (card.isRevealed())
-					{
-						selectCard();
-					}
-					else
-					{
-						if (card.isAtStackTop())
-						{
-							revealCard();
-						}
-					}
-				}
-				if (mouseEvent.getMouseButton() == Button.RIGHT && card.isRevealed())
-				{
-					cardDrawable.setPriorityDrawing(true);
-				}
+					selectInput();
+				if (mouseEvent.getMouseButton() == Button.RIGHT)
+					makeVisibleInput();
 			}
-			else
+			else if (card.isSelected() && mouseEvent.getMouseButton() == Button.LEFT)
 			{
-				if (card.isSelected())
-				{
-					unselectCard();
-				}
+				reactedToInput = true;
+				unselectCard();
+			}
+		}
+	}
+
+	private void makeVisibleInput()
+	{
+		if (!cardDrawable.isPriorityDrawing())
+		{
+			cardDrawable.setPriorityDrawing(true);
+		}
+	}
+
+	private void selectInput()
+	{
+		if (card.isRevealed())
+		{
+			if (!card.isSelected())
+			{
+				selectCard();
+			}
+		}
+		else if (card.isAtStackTop())
+		{
+			if (!card.isRevealed())
+			{
+				revealCard();
 			}
 		}
 	}
@@ -67,7 +80,10 @@ public class CardManager implements InputListener
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
 			if (mouseEvent.getMouseButton() == Button.RIGHT)
 			{
-				cardDrawable.setPriorityDrawing(false);
+				if (cardDrawable.isPriorityDrawing())
+				{
+					cardDrawable.setPriorityDrawing(false);
+				}
 			}
 		}	
 	}
@@ -100,6 +116,16 @@ public class CardManager implements InputListener
 		cardDrawable.unselect();
 	}
 	
+	public boolean hasReactedToInput()
+	{
+		return reactedToInput;
+	}
+
+	public void clearInputReaction()
+	{
+		reactedToInput = false;;
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -118,5 +144,5 @@ public class CardManager implements InputListener
 		}
 		return true;
 	}
-
+	
 }

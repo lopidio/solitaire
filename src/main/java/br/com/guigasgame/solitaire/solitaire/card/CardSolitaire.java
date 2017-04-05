@@ -61,4 +61,9 @@ public class CardSolitaire extends Card
 		return super.equals(obj);
 	}
 
+	public SolitaireCardStack getStack()
+	{
+		return stack;
+	}
+
 }
