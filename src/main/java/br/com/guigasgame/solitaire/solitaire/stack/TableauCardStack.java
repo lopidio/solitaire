@@ -1,5 +1,6 @@
 package br.com.guigasgame.solitaire.solitaire.stack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.guigasgame.solitaire.card.Rank;
@@ -43,41 +44,46 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	
 	public void inputPressed(InputEvent inputValue)
 	{
+		List<CardManager> cardsToRemove = new ArrayList<>();
 		boolean unselecting = false;
 		for (int i = cardManagers.size() - 1; i >= 0; --i)
 		{
 			CardManager cardManager = cardManagers.get(i);
+			boolean wasSelected = cardManager.getCard().isSelected();
 			if (unselecting)
 			{
+				if (!wasSelected)
+					break;
 				cardManager.unselectCard();
-				if (null != transactionManager)
-					transactionManager.removeCardToSelection(cardManagers.get(i));
+				cardsToRemove.add(cardManager);
 			}
-			else
+			else if (true)
 			{
 				cardManager.inputPressed(inputValue);
-				if (cardManager.getCard().isSelected())
+				if (cardManager.getCard().isSelected() && cardManager.hasReactedToInput())
 				{
 					selectFromIndexToTop(i);
 					unselecting = true;
 				}
-				else
-				{
-					if (null != transactionManager)
-						transactionManager.removeCardToSelection(cardManagers.get(i));
-				}
+				else if (null != transactionManager && cardManager.hasReactedToInput())
+					cardsToRemove.add(cardManager);
 			}
+			cardManager.clearInputReaction();
 		}
+		if (null != transactionManager && !cardsToRemove.isEmpty())
+			transactionManager.removeCardToSelection(cardsToRemove);
 	}
 
 	private void selectFromIndexToTop(int initialIndex)
 	{
+		List<CardManager> cardsToAdd = new ArrayList<>();
 		for (int i = initialIndex; i < cardManagers.size(); ++i)
 		{
 			cardManagers.get(i).selectCard();
-			if (null != transactionManager)
-				transactionManager.addCardToSelection(cardManagers.get(i));
+			cardsToAdd.add(cardManagers.get(i));
 		}
+		if (null != transactionManager)
+			transactionManager.addCardToSelection(cardsToAdd);
 	}
 
 	public void inputReleased(InputEvent inputValue)

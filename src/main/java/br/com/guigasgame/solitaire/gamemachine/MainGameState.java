@@ -101,6 +101,7 @@ public class MainGameState implements GameState
 	public void update(float updateDelta)
 	{
 		inputController.handleEvent(updateDelta);
+		transactionManager.updateTransactions();
 	}
 
 	@Override

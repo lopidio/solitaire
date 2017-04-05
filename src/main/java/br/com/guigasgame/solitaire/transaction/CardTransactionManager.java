@@ -1,39 +1,63 @@
 package br.com.guigasgame.solitaire.transaction;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 
 public class CardTransactionManager
 {
-	private Set<CardManager> cardManagers;
+	private Set<CardManager> selectedCardManagers;
+	private Set<CardManager> cardsToAddToSelection;
+	private Set<CardManager> cardsToRemoveToSelection;
 	public CardTransactionManager()
 	{
-		cardManagers = new LinkedHashSet<CardManager>();
+		selectedCardManagers = new LinkedHashSet<CardManager>();
+		cardsToAddToSelection = new LinkedHashSet<CardManager>();
+		cardsToRemoveToSelection = new LinkedHashSet<CardManager>();
 	}
 
-	public void addCardToSelection(CardManager cardManager)
+	public void addCardToSelection(List<CardManager> cardManager)
 	{
-		cardManagers.add(cardManager);
-		display();
+		cardsToAddToSelection.addAll(cardManager);
+		cardsToRemoveToSelection.removeAll(cardManager);
 	}
 
-	public void removeCardToSelection(CardManager cardManager)
+	public void removeCardToSelection(List<CardManager> cardManager)
 	{
-		cardManagers.remove(cardManager);
-		display();
+		cardsToRemoveToSelection.addAll(cardManager);
+		cardsToAddToSelection.removeAll(cardManager);
 	}
 	
 
 	private void display()
 	{
-		System.out.println("Current list: ");
-		cardManagers.stream().forEach(cardManager ->
+		System.out.println("Selected list: ");
+		cardsToAddToSelection.stream().forEach(cardManager ->
 		{
-			System.out.print(cardManager.getCard().getRank().getValue() + cardManager.getCard().getSuit().getText() + "; ");
+			System.out.print(cardManager.getCard() + "; ");
 		});
 		System.out.println("---");
+		System.out.println("Greatest: " + cardsToRemoveToSelection.stream().skip(cardsToRemoveToSelection.size() - 1).findFirst().get().getCard());
+		System.out.println("Destiny top: " + cardsToAddToSelection.stream().findFirst().get().getCard().getStack().getSolitaireTop());
 
+	}
+
+	public void updateTransactions()
+	{
+		if (cardsToRemoveToSelection.size() > 0)
+		{
+			if (cardsToAddToSelection.size() > 0)
+			{
+				System.out.println("There is a transaction to perform");
+				display();
+				selectedCardManagers.addAll(cardsToAddToSelection);
+				selectedCardManagers.removeAll(cardsToRemoveToSelection);
+				
+				cardsToAddToSelection.clear();
+			}
+			cardsToRemoveToSelection.clear();
+		}
 	}
 }
