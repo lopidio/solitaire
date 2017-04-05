@@ -32,42 +32,17 @@ public class CardTransactionManager
 		cardsToAddToSelection.removeAll(cardManager);
 	}
 	
-
-	private void display()
-	{
-		System.out.println("Selected list: ");
-		cardsToAddToSelection.stream().forEach(cardManager ->
-		{
-			System.out.print(cardManager.getCard() + "; ");
-		});
-
-	}
-
 	public void updateTransactions()
 	{
 		if (cardsToRemoveToSelection.size() > 0)
 		{
 			if (cardsToAddToSelection.size() > 0)
 			{
-				System.out.println("There is a transaction to perform");
-				
-				cardsToAddToSelection.stream().forEach(card -> card.unselectCard());
 				SolitaireCardStack destinyStack = cardsToAddToSelection.stream().findFirst().get().getCard().getStack();
-				SolitaireCardStack sourceStack = cardsToRemoveToSelection.stream().findFirst().get().getCard().getStack();
-				while(cardsToRemoveToSelection.size() > 0)
+				if (destinyStack.canAddCards(cardsToRemoveToSelection))
 				{
-					CardManager greatestOfCardSource = cardsToRemoveToSelection.get(cardsToRemoveToSelection.size() - 1);
-					if (destinyStack.canAddCard(greatestOfCardSource))
-					{
-						greatestOfCardSource.unselectCard();
-						sourceStack.removeCard();
-						destinyStack.addCard(greatestOfCardSource);
-						cardsToRemoveToSelection.remove(greatestOfCardSource);
-					}
-					else
-						break;
+					startTransaction(destinyStack);
 				}
-				
 				
 				selectedCardManagers.addAll(cardsToAddToSelection);
 				selectedCardManagers.removeAll(cardsToRemoveToSelection);
@@ -76,5 +51,18 @@ public class CardTransactionManager
 			}
 			cardsToRemoveToSelection.clear();
 		}
+	}
+
+	private void startTransaction(SolitaireCardStack destinyStack)
+	{
+		SolitaireCardStack sourceStack = cardsToRemoveToSelection.stream().findFirst().get().getCard().getStack();
+		while(cardsToRemoveToSelection.size() > 0)
+		{
+			CardManager highestCard = cardsToRemoveToSelection.get(cardsToRemoveToSelection.size() - 1);
+			sourceStack.removeCard();
+			destinyStack.addCard(highestCard);
+			cardsToRemoveToSelection.remove(highestCard);
+		}
+		destinyStack.unselectAll();
 	}
 }

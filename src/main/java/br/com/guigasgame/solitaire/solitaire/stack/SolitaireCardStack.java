@@ -22,8 +22,6 @@ public abstract class SolitaireCardStack implements CardStack
 		listeners = new ArrayList<>();
 	}
 	
-	protected abstract boolean canAddSolitaireCard(CardManager card);
-	
 	@Override
 	public int getSize()
 	{
@@ -47,12 +45,6 @@ public abstract class SolitaireCardStack implements CardStack
 		return true;
 	}
 	
-	@Override
-	public boolean canAddCard(CardManager card)
-	{
-		return canAddSolitaireCard(card);
-	}
-
 	@Override
 	public CardManager removeCard()
 	{
@@ -93,6 +85,11 @@ public abstract class SolitaireCardStack implements CardStack
 	public void setTransactionManager(CardTransactionManager transactionManager)
 	{
 		this.transactionManager = transactionManager;
+	}
+
+	public void unselectAll()
+	{
+		cards.stream().forEach(card -> card.unselectCard());		
 	}
 
 }

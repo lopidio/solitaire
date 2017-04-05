@@ -24,8 +24,10 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		cards.get(cards.size() - 1).revealCard();
 	}
 
-	public boolean canAddSolitaireCard(CardManager card)
+	@Override
+	public boolean canAddCards(List<CardManager> cards)
 	{
+		CardManager card = cards.get(0);
 		if (cards.isEmpty())
 		{
 			return card.getCard().getRank() == Rank.king;
