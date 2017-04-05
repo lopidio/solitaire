@@ -11,33 +11,30 @@ import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 
 public class TableauCardStack extends SolitaireCardStack implements InputListener
 {
-	protected List<CardManager> cardManagers;
-
-	public TableauCardStack(List<CardManager> cardManagers)
+	public TableauCardStack(List<CardManager> cards)
 	{
 		super(SolitaireCardStackType.tableau);
-		this.cardManagers = cardManagers;
 		
-		cardManagers.stream().forEach(card ->
+		cards.stream().forEach(card ->
 		{
-			addCard(card.getCard());
+			addCard(card);
 			card.revealCard();
 		});
 		
-		cardManagers.get(cardManagers.size() - 1).revealCard();
+		cards.get(cards.size() - 1).revealCard();
 	}
 
-	public boolean canAddSolitaireCard(CardSolitaire card)
+	public boolean canAddSolitaireCard(CardManager card)
 	{
 		if (cards.isEmpty())
 		{
-			return card.getRank() == Rank.king;
+			return card.getCard().getRank() == Rank.king;
 		}
 		
-		CardSolitaire cardAtTop = getSolitaireTop();
-		if (card.getRank().getValue() == cardAtTop.getRank().getValue() - 1)
+		CardSolitaire cardAtTop = getSolitaireTop().getCard();
+		if (card.getCard().getRank().getValue() == cardAtTop.getRank().getValue() - 1)
 		{
-			return card.getSuit().getSuitColor() != cardAtTop.getSuit().getSuitColor();
+			return card.getCard().getSuit().getSuitColor() != cardAtTop.getSuit().getSuitColor();
 		}
 		return false;
 	}
@@ -46,9 +43,9 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	{
 		List<CardManager> cardsToRemove = new ArrayList<>();
 		boolean unselecting = false;
-		for (int i = cardManagers.size() - 1; i >= 0; --i)
+		for (int i = cards.size() - 1; i >= 0; --i)
 		{
-			CardManager cardManager = cardManagers.get(i);
+			CardManager cardManager = cards.get(i);
 			boolean wasSelected = cardManager.getCard().isSelected();
 			if (unselecting)
 			{
@@ -77,10 +74,10 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	private void selectFromIndexToTop(int initialIndex)
 	{
 		List<CardManager> cardsToAdd = new ArrayList<>();
-		for (int i = initialIndex; i < cardManagers.size(); ++i)
+		for (int i = initialIndex; i < cards.size(); ++i)
 		{
-			cardManagers.get(i).selectCard();
-			cardsToAdd.add(cardManagers.get(i));
+			cards.get(i).selectCard();
+			cardsToAdd.add(cards.get(i));
 		}
 		if (null != transactionManager)
 			transactionManager.addCardToSelection(cardsToAdd);
@@ -88,13 +85,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 
 	public void inputReleased(InputEvent inputValue)
 	{
-		cardManagers.stream().forEach(cardManager -> cardManager.inputReleased(inputValue));
+		cards.stream().forEach(cardManager -> cardManager.inputReleased(inputValue));
 	}
-
-	public void isPressing(InputEvent inputValue)
-	{
-
-	}
-
+	
 
 }

@@ -1,10 +1,10 @@
 package br.com.guigasgame.solitaire.stack;
 
-import br.com.guigasgame.solitaire.card.Card;
+import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 
 public interface CardStackListener
 {
-	void cardRemoved(Card card);
-	void cardAdded(Card card);
+	void cardRemoved(CardManager card);
+	void cardAdded(CardManager card);
 
 }

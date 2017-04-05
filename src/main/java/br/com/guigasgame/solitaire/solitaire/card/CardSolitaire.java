@@ -36,7 +36,7 @@ public class CardSolitaire extends Card
 	{
 		if (null == stack)
 			return false;
-		Card top = stack.getTop();
+		Card top = stack.getTop().getCard();
 		return top.getRank() == getRank() && top.getSuit() == getSuit();
 	}
 	

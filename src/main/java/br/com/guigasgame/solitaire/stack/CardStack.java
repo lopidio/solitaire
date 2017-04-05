@@ -1,12 +1,12 @@
 package br.com.guigasgame.solitaire.stack;
 
-import br.com.guigasgame.solitaire.card.Card;
+import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 
 public interface CardStack
 {
-	Card getTop();
-	boolean canAddCard(Card card);
-	boolean addCard(Card card);
-	Card removeCard();
+	CardManager getTop();
+	boolean canAddCard(CardManager card);
+	boolean addCard(CardManager card);
+	CardManager removeCard();
 	int getSize();
 }

@@ -2,7 +2,6 @@ package br.com.guigasgame.solitaire.drawable;
 
 import java.util.List;
 
-import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 
@@ -16,34 +15,32 @@ public class CascadeCardStack extends StackDrawable
 		super(cardEventManagers);
 		this.center = center;
 		this.drawingOffset = new PositionComponent(.01f, .35f);
-		adjustCardsPosition();
+		for (int i = 0; i < cards.size(); ++i)
+			adjustCardPosition(i);
 	}
 	
 	@Override
-	public void adjustCardsPosition()
+	public void adjustCardPosition(int index)
 	{
-		int cardIndex = 0;
-
-		for (CardDrawable card: cards)
-		{
-			PositionComponent initial = new PositionComponent(center.getX(), center.getY());
-			initial.add(new PositionComponent(card.getSize().width * drawingOffset.getX(), 
-											drawingOffset.getY() * card.getSize().height * cardIndex));
-			card.moveTo(initial);
-			++cardIndex;
-		}
+		CardDrawable card = cards.get(index).getDrawableCard();
+		PositionComponent initial = new PositionComponent(center.getX(), center.getY());
+		initial.add(new PositionComponent(
+										drawingOffset.getX() * card.getSize().width, 
+										drawingOffset.getY() * card.getSize().height * index));
+		card.moveTo(initial);
 	}
 
 	@Override
-	public void cardRemoved(Card card)
+	public void cardRemoved(CardManager card)
 	{
-		adjustCardsPosition();
+		cards.remove(card);
 	}
 
 	@Override
-	public void cardAdded(Card card)
+	public void cardAdded(CardManager card)
 	{
-		adjustCardsPosition();
+		cards.add(card);
+		adjustCardPosition(cards.size() - 1);
 	}
 
 }

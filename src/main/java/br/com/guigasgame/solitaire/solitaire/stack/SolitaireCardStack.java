@@ -3,15 +3,14 @@ package br.com.guigasgame.solitaire.solitaire.stack;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.guigasgame.solitaire.card.Card;
-import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.stack.CardStack;
 import br.com.guigasgame.solitaire.stack.CardStackListener;
 import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
 public abstract class SolitaireCardStack implements CardStack
 {
-	protected List<CardSolitaire> cards;
+	protected List<CardManager> cards;
 	protected CardTransactionManager transactionManager;
 	private SolitaireCardStackType stackType;
 	private List<CardStackListener> listeners;
@@ -23,7 +22,7 @@ public abstract class SolitaireCardStack implements CardStack
 		listeners = new ArrayList<>();
 	}
 	
-	protected abstract boolean canAddSolitaireCard(CardSolitaire card);
+	protected abstract boolean canAddSolitaireCard(CardManager card);
 	
 	@Override
 	public int getSize()
@@ -32,7 +31,7 @@ public abstract class SolitaireCardStack implements CardStack
 	}
 
 	@Override
-	public Card getTop()
+	public CardManager getTop()
 	{
 		if (cards.size() > 0)
 			return cards.get(cards.size() - 1);
@@ -40,39 +39,38 @@ public abstract class SolitaireCardStack implements CardStack
 	}
 
 	@Override
-	public boolean addCard(Card card)
+	public boolean addCard(CardManager card)
 	{
-		CardSolitaire solitaireCard = (CardSolitaire) card;
-		cards.add(solitaireCard);
-		solitaireCard.setStack(this);
+		cards.add(card);
+		card.getCard().setStack(this);
 		listeners.stream().forEach(listener -> listener.cardAdded(card));
 		return true;
 	}
 	
 	@Override
-	public boolean canAddCard(Card card)
+	public boolean canAddCard(CardManager card)
 	{
-		return canAddSolitaireCard((CardSolitaire) card);
+		return canAddSolitaireCard(card);
 	}
 
 	@Override
-	public CardSolitaire removeCard()
+	public CardManager removeCard()
 	{
 		if (cards.isEmpty())
 			return null;
-		CardSolitaire returnCard = cards.remove(cards.size() - 1);
-		returnCard.setStack(null);
+		CardManager returnCard = cards.remove(cards.size() - 1);
+		returnCard.getCard().setStack(null);
 		listeners.stream().forEach(listener -> listener.cardRemoved(returnCard));
 		return returnCard;
 	}
 
-	public CardSolitaire getSolitaireTop()
+	public CardManager getSolitaireTop()
 	{
 		if (cards.size() > 0)
 			return cards.get(cards.size() - 1);
 		return null;
 	}
-	public List<CardSolitaire> getCards()
+	public List<CardManager> getCards()
 	{
 		return cards;
 	}

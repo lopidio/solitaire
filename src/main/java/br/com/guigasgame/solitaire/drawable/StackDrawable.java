@@ -11,12 +11,12 @@ import br.com.guigasgame.solitaire.stack.CardStackListener;
 public abstract class StackDrawable implements Drawable, CardStackListener
 {
 	private CardDrawable priority;
-	protected List<CardDrawable> cards;
+	protected List<CardManager> cards;
 	
 	public StackDrawable(List<CardManager> cardManagers)
 	{
 		cards = new ArrayList<>();
-		cardManagers.stream().forEach(card -> cards.add(card.getDrawableCard()));
+		cardManagers.stream().forEach(card -> cards.add(card));
 	}
 
 	@Override
@@ -26,15 +26,15 @@ public abstract class StackDrawable implements Drawable, CardStackListener
 
 		cards.stream().forEach(card -> 
 			{
-				if (card.isPriorityDrawing())
-					priority = card;
-				card.draw(renderTarget);	
+				if (card.getDrawableCard().isPriorityDrawing())
+					priority = card.getDrawableCard();
+				card.getDrawableCard().draw(renderTarget);	
 			});
 		if (null != priority)
 			priority.draw(renderTarget);
 	}
 	
-	abstract protected void adjustCardsPosition();
+	abstract protected void adjustCardPosition(int index);
 	
 	
 }
