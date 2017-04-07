@@ -18,7 +18,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		cards.stream().forEach(card ->
 		{
 			addCard(card);
-			card.revealCard();
+//			card.revealCard();
 		});
 		
 		cards.get(cards.size() - 1).revealCard();
@@ -51,10 +51,10 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			boolean wasSelected = cardManager.getCard().isSelected();
 			if (unselecting)
 			{
-				if (!wasSelected)
+				if (!wasSelected && !cardManager.getCard().isSelected())
 					break;
 				cardManager.unselectCard();
-				cardsToRemove.add(cardManager);
+				cardsToRemove.add(0, cardManager);
 			}
 			else if (true)
 			{
@@ -64,8 +64,10 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 					selectFromIndexToTop(i);
 					unselecting = true;
 				}
+				else if (!wasSelected && !cardManager.getCard().isSelected())
+					continue;
 				else if (null != transactionManager && cardManager.hasReactedToInput())
-					cardsToRemove.add(cardManager);
+					cardsToRemove.add(0, cardManager);
 			}
 			cardManager.clearInputReaction();
 		}
@@ -75,6 +77,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 
 	private void selectFromIndexToTop(int initialIndex)
 	{
+		cards.stream().forEach(card -> System.out.print(card.getCard() + "; "));
+		System.out.println();
 		List<CardManager> cardsToAdd = new ArrayList<>();
 		for (int i = initialIndex; i < cards.size(); ++i)
 		{

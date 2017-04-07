@@ -22,6 +22,7 @@ public class CardTransactionManager
 
 	public void addCardToSelection(List<CardManager> cardManager)
 	{
+		cardsToAddToSelection.clear();
 		cardsToAddToSelection.addAll(cardManager);
 		cardsToRemoveToSelection.removeAll(cardManager);
 	}
@@ -36,6 +37,12 @@ public class CardTransactionManager
 	{
 		if (cardsToRemoveToSelection.size() > 0)
 		{
+			System.out.print("Add: ");
+			cardsToAddToSelection.stream().forEach(card -> System.out.print(card.getCard() + "; "));
+			System.out.println();
+			System.out.print("Rem: ");
+			cardsToRemoveToSelection.stream().forEach(card -> System.out.print(card.getCard() + "; "));
+			System.out.println();
 			if (cardsToAddToSelection.size() > 0)
 			{
 				SolitaireCardStack destinyStack = cardsToAddToSelection.stream().findFirst().get().getCard().getStack();
@@ -58,7 +65,7 @@ public class CardTransactionManager
 		SolitaireCardStack sourceStack = cardsToRemoveToSelection.stream().findFirst().get().getCard().getStack();
 		while(cardsToRemoveToSelection.size() > 0)
 		{
-			CardManager highestCard = cardsToRemoveToSelection.get(cardsToRemoveToSelection.size() - 1);
+			CardManager highestCard = cardsToRemoveToSelection.get(0);
 			sourceStack.removeCard();
 			destinyStack.addCard(highestCard);
 			cardsToRemoveToSelection.remove(highestCard);
