@@ -14,7 +14,7 @@ public class CascadeCardStack extends StackDrawable
 	{
 		super(cardEventManagers);
 		this.center = center;
-		this.drawingOffset = new PositionComponent(.01f, .35f);
+		this.drawingOffset = new PositionComponent(.05f, .35f);
 		for (int i = 0; i < cards.size(); ++i)
 			adjustCardPosition(i);
 	}
@@ -25,7 +25,7 @@ public class CascadeCardStack extends StackDrawable
 		CardDrawable card = cards.get(index).getDrawableCard();
 		PositionComponent initial = new PositionComponent(center.getX(), center.getY());
 		initial.add(new PositionComponent(
-										drawingOffset.getX() * card.getSize().width, 
+										drawingOffset.getX() * card.getSize().width * index, 
 										drawingOffset.getY() * card.getSize().height * index));
 		card.moveTo(initial);
 	}
