@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.guigasgame.solitaire.card.Rank;
+import br.com.guigasgame.solitaire.drawable.CardDrawable;
 import br.com.guigasgame.solitaire.input.InputEvent;
 import br.com.guigasgame.solitaire.input.InputListener;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
@@ -11,6 +12,9 @@ import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 
 public class TableauCardStack extends SolitaireCardStack implements InputListener
 {
+	
+	private CardDrawable stackSize;
+
 	public TableauCardStack(List<CardManager> cards)
 	{
 		super(SolitaireCardStackType.tableau);
@@ -20,6 +24,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			addCard(card);
 //			card.revealCard();
 		});
+		
+		stackSize = cards.get(0).getDrawableCard();
 		
 		cards.get(cards.size() - 1).revealCard();
 	}

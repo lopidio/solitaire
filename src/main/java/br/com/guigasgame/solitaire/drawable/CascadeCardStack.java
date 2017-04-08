@@ -1,18 +1,17 @@
 package br.com.guigasgame.solitaire.drawable;
 
-import java.util.List;
-
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
+import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
 
 public class CascadeCardStack extends StackDrawable
 {
 	private PositionComponent drawingOffset;
 	private PositionComponent center;
 
-	public CascadeCardStack(List<CardManager> cardEventManagers, PositionComponent center)
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center)
 	{
-		super(cardEventManagers);
+		super(cardStack);
 		this.center = center;
 		this.drawingOffset = new PositionComponent(.05f, .35f);
 		for (int i = 0; i < cards.size(); ++i)

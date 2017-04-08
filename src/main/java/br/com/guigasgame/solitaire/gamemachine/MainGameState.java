@@ -51,7 +51,7 @@ public class MainGameState implements GameState
 			List<CardManager> cardManagers = new ArrayList<>();
 			stackCards.stream().forEach(card -> cardManagers.add(new CardManager(card)));
 			TableauCardStack tableauCardStack = new TableauCardStack(cardManagers);
-			CascadeCardStack cascadeCardStack = new CascadeCardStack(cardManagers, 
+			CascadeCardStack cascadeCardStack = new CascadeCardStack(tableauCardStack, 
 														new PositionComponent(
 																	(windowSize.x/14) * (2*i + 1), 
 																	(int) (windowSize.y*0.4))); 
