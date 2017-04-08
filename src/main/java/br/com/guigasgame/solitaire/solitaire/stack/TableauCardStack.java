@@ -3,17 +3,22 @@ package br.com.guigasgame.solitaire.solitaire.stack;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsfml.graphics.FloatRect;
+import org.jsfml.window.Mouse.Button;
+
 import br.com.guigasgame.solitaire.card.Rank;
-import br.com.guigasgame.solitaire.drawable.CardDrawable;
 import br.com.guigasgame.solitaire.input.InputEvent;
+import br.com.guigasgame.solitaire.input.InputEventType;
 import br.com.guigasgame.solitaire.input.InputListener;
+import br.com.guigasgame.solitaire.input.MouseEvent;
+import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 
 public class TableauCardStack extends SolitaireCardStack implements InputListener
 {
 	
-	private CardDrawable stackSize;
+	private FloatRect stackArea;
 
 	public TableauCardStack(List<CardManager> cards)
 	{
@@ -25,7 +30,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 //			card.revealCard();
 		});
 		
-		stackSize = cards.get(0).getDrawableCard();
+		stackArea = cards.get(0).getDrawableCard().getSize();
 		
 		cards.get(cards.size() - 1).revealCard();
 	}
@@ -77,6 +82,19 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			}
 			cardManager.clearInputReaction();
 		}
+		if (inputValue.getInputEventType() == InputEventType.mouse)
+		{
+			MouseEvent mouseEvent = (MouseEvent) inputValue;
+			if (stackArea.contains(mouseEvent.getPosition().x, mouseEvent.getPosition().y))
+			{
+				if (mouseEvent.getMouseButton() == Button.LEFT)
+				{
+					System.out.println("Stack clicked");
+				}
+			}
+		}
+
+			
 		if (null != transactionManager && !cardsToRemove.isEmpty())
 			transactionManager.removeCardToSelection(cardsToRemove);
 	}
@@ -100,5 +118,10 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		cards.stream().forEach(cardManager -> cardManager.inputReleased(inputValue));
 	}
 	
-
+	@Override
+	public void setCenter(PositionComponent center)
+	{
+		super.setCenter(center);
+		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY() - stackArea.height/2, stackArea.width, stackArea.height*4);
+	}
 }

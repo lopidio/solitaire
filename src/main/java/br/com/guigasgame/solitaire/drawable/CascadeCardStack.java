@@ -13,6 +13,7 @@ public class CascadeCardStack extends StackDrawable
 	{
 		super(cardStack);
 		this.center = center;
+		cardStack.setCenter(center);
 		this.drawingOffset = new PositionComponent(.05f, .35f);
 		for (int i = 0; i < cards.size(); ++i)
 			adjustCardPosition(i);

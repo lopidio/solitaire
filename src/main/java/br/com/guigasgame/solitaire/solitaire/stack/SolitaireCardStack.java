@@ -3,6 +3,7 @@ package br.com.guigasgame.solitaire.solitaire.stack;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.stack.CardStack;
 import br.com.guigasgame.solitaire.stack.CardStackListener;
@@ -12,6 +13,7 @@ public abstract class SolitaireCardStack implements CardStack
 {
 	protected List<CardManager> cards;
 	protected CardTransactionManager transactionManager;
+	protected PositionComponent center;
 	private SolitaireCardStackType stackType;
 	private List<CardStackListener> listeners;
 
@@ -90,6 +92,11 @@ public abstract class SolitaireCardStack implements CardStack
 	public void unselectAll()
 	{
 		cards.stream().forEach(card -> card.unselectCard());		
+	}
+
+	public void setCenter(PositionComponent center)
+	{
+		this.center = center;
 	}
 
 }
