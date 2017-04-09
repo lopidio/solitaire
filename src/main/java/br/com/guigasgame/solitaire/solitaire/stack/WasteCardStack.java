@@ -16,9 +16,9 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 	}
 
 	@Override
-	public boolean canAddCards(SolitaireCardStackType sourceStackType, List<CardManager> cards)
+	public boolean canAddCards(List<CardManager> cards)
 	{
-		return sourceStackType == SolitaireCardStackType.stock;
+		return false;
 	}
 	
 	public void inputPressed(InputEvent inputValue)

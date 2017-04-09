@@ -27,12 +27,12 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 			addCard(card);
 		});
 
-		cards.get(cards.size() - 1).revealCard();
+//		cards.get(cards.size() - 1).revealCard();
 		stackArea = cards.get(0).getDrawableCard().getSize();
 	}
 	
 	@Override
-	public boolean canAddCards(SolitaireCardStackType sourceStackType, List<CardManager> cards)
+	public boolean canAddCards(List<CardManager> cards)
 	{
 		return false;
 	}
@@ -60,15 +60,11 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 		{
 			CardManager cardManager = cards.get(cards.size() - 1);
 			cardManager.inputPressed(inputValue);
-			if (cardManager.getCard().isSelected())
+			if (cardManager.getCard().isRevealed())
 			{
 				waste.addCard(cardManager);
 				cardManager.unselectCard();
 				removeCard();
-				if (cards.size() > 0)
-				{
-					cards.get(cards.size() - 1).revealCard();
-				}
 			}
 		}
 	}

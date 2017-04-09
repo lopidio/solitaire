@@ -37,7 +37,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	}
 
 	@Override
-	public boolean canAddCards(SolitaireCardStackType sourceStackType, List<CardManager> cardsToAdd)
+	public boolean canAddCards(List<CardManager> cardsToAdd)
 	{
 		CardManager card = cardsToAdd.get(0);
 		if (cards.isEmpty())

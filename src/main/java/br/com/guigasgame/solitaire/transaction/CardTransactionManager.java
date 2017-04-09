@@ -30,20 +30,22 @@ public class CardTransactionManager
 			{
 				if (b.getUnselectedCards().size() > 0)
 				{
-					if (checkIfTransactionIsPossible(a.getStack(), b.getStack(), b.getUnselectedCards()))
-					{
-						doTransaction(a.getStack(), b.getStack(), b.getUnselectedCards());
-					}
+					tryToMakeTransaction(a, b);
 				}
-				if (a.getUnselectedCards().size() > 0)
+				else if (a.getUnselectedCards().size() > 0)
 				{
-					if (checkIfTransactionIsPossible(b.getStack(), a.getStack(), a.getUnselectedCards()))
-					{
-						doTransaction(b.getStack(), a.getStack(), a.getUnselectedCards());
-					}
+					tryToMakeTransaction(b, a);
 				}
 			}
 			transactions.remove(0);
+		}
+	}
+
+	private void tryToMakeTransaction(CardTransaction from, CardTransaction to)
+	{
+		if (checkIfTransactionIsPossible(from.getStack(), to.getUnselectedCards()))
+		{
+			doTransaction(from.getStack(), to.getStack(), to.getUnselectedCards());
 		}
 	}
 
@@ -59,11 +61,11 @@ public class CardTransactionManager
 		destinyStack.unselectAll();
 	}
 
-	private boolean checkIfTransactionIsPossible(SolitaireCardStack destinyStack, SolitaireCardStack sourceStack, List<CardManager> cardsToMove)
+	private boolean checkIfTransactionIsPossible(SolitaireCardStack destinyStack, List<CardManager> cardsToMove)
 	{
 		CardManager highestCard = cardsToMove.get(0);
 		List<CardManager> list = new ArrayList<>();
 		list.add(highestCard);
-		return (destinyStack.canAddCards(sourceStack.getStackType(), list));
+		return (destinyStack.canAddCards(list));
 	}
 }
