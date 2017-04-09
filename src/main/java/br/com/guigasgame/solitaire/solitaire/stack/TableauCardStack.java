@@ -31,7 +31,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			addCard(card);
 		});
 		
-		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.4), (float) (new EmptyStackCardSprite().getSize().height));
+		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.4),
+				(float) (new EmptyStackCardSprite().getSize().height*5));
 		
 		cards.get(cards.size() - 1).revealCard();
 	}
@@ -138,6 +139,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	public void setCenter(PositionComponent center)
 	{
 		super.setCenter(center);
-		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY(), stackArea.width, stackArea.height*4);
+		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY() - (new EmptyStackCardSprite().getSize().height)/2, stackArea.width, stackArea.height);
 	}
 }

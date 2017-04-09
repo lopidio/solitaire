@@ -25,7 +25,8 @@ public class FoundationCardStack extends SolitaireCardStack implements InputList
 	public FoundationCardStack()
 	{
 		super(SolitaireCardStackType.foundation);
-		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.2), (float) (new EmptyStackCardSprite().getSize().height));
+		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.2),
+				(float) (new EmptyStackCardSprite().getSize().height));
 
 	}
 
