@@ -56,7 +56,8 @@ public class MainGameState implements GameState
 			CascadeCardStack cascadeCardStack = new CascadeCardStack(tableauCardStack, 
 														new PositionComponent(
 																	(windowSize.x/14) * (2*i + 1), 
-																	(int) (windowSize.y*0.4))); 
+																	(int) (windowSize.y*0.4)),
+														new PositionComponent(.03f, .25f)); 
 			
 			tableauCardStack.setTransactionManager(transactionManager);
 			tableauCardStack.addListener(cascadeCardStack);
@@ -66,9 +67,6 @@ public class MainGameState implements GameState
 
 			drawables.add(cascadeCardStack);
 		}
-		WasteCardStack wasteCardStack = initWasteStack(windowSize);
-		
-		initStockCardStack(windowSize, wasteCardStack);
 	}
 
 	private void initStockCardStack(Vector2i windowSize, WasteCardStack wasteCardStack)
@@ -81,7 +79,7 @@ public class MainGameState implements GameState
 		CascadeCardStack cascadeCardStack = new CascadeCardStack(stockCardStack, 
 				new PositionComponent(
 							(windowSize.x/14) * (2*0 + 1), 
-							(int) (windowSize.y*0.1)), new PositionComponent(.01f, .01f)); 
+							(int) (windowSize.y*0.1)), new PositionComponent(.01f, .01f), true); 
 		stockCardStack.setTransactionManager(transactionManager);
 		stockCardStack.addListener(cascadeCardStack);
 
@@ -117,6 +115,8 @@ public class MainGameState implements GameState
 		initalizeDeck();
 		shuffleCards();
 		initializeTableauStacks(renderWindow.getSize());
+		WasteCardStack wasteCardStack = initWasteStack(renderWindow.getSize());
+		initStockCardStack(renderWindow.getSize(), wasteCardStack);
 	}
 
 	private void shuffleCards()

@@ -1,5 +1,7 @@
 package br.com.guigasgame.solitaire.drawable;
 
+import org.jsfml.graphics.RenderTarget;
+
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
@@ -8,20 +10,9 @@ public class CascadeCardStack extends StackDrawable
 {
 	private PositionComponent drawingOffset;
 	private PositionComponent center;
+	private EmptyStackCardSprite emptyStackCardSprite;
 
-	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center)
-	{
-		super(cardStack);
-		this.center = center;
-		cardStack.setCenter(center);
-		this.drawingOffset = new PositionComponent(.05f, .35f);
-		for (int i = 0; i < cards.size(); ++i)
-		{
-			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
-		}
-	}
-
-	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset)
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset, boolean drawEmptyStack)
 	{
 		super(cardStack);
 		this.center = center;
@@ -31,6 +22,16 @@ public class CascadeCardStack extends StackDrawable
 		{
 			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
 		}
+		if (drawEmptyStack)
+		{
+			emptyStackCardSprite = new EmptyStackCardSprite();
+			emptyStackCardSprite.moveTo(center);
+		}
+	}
+
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset)
+	{
+		this(cardStack, center, drawingOffset, false);
 	}
 	
 	@Override
@@ -56,6 +57,14 @@ public class CascadeCardStack extends StackDrawable
 		cards.add(card);
 		int index= cards.size() - 1;
 		cards.get(index).getDrawableCard().moveTo(getCardPosition(index));
+	}
+	
+	@Override
+	public void draw(RenderTarget renderTarget)
+	{
+		super.draw(renderTarget);
+		if (cards.isEmpty() && null != emptyStackCardSprite)
+			emptyStackCardSprite.draw(renderTarget);	
 	}
 
 }
