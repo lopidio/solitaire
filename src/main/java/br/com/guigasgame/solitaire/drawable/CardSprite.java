@@ -26,6 +26,7 @@ public class CardSprite implements CardDrawable
 	private CardSolitaire card;
 	private boolean priorityDrawing;
 	private Vector2f destinyPosition;
+	private float slowFactor;
 
 	public CardSprite(Card card)
 	{
@@ -46,6 +47,7 @@ public class CardSprite implements CardDrawable
 		revealedRect = new IntRect(new Vector2i(revealedX, revealedY), new Vector2i(width, height));
 		coverRect = new IntRect(new Vector2i(coverX, coverY), new Vector2i(width, height));
 		sprite.setOrigin(revealedRect.width / 2, revealedRect.height / 2);
+		slowFactor = 1;
 		updateColor();
 		updateTexture();
 	}
@@ -63,8 +65,8 @@ public class CardSprite implements CardDrawable
 			Vector2f sub = Vector2f.sub(sprite.getPosition(), destinyPosition);
 			if (sub.x*sub.x + sub.y * sub.y >= 1)
 			{
-				Vector2f newPosition = new Vector2f((destinyPosition.x + sprite.getPosition().x*4)/5, 
-													(destinyPosition.y + sprite.getPosition().y*4)/5);
+				Vector2f newPosition = new Vector2f((destinyPosition.x + sprite.getPosition().x*slowFactor)/(1 + slowFactor), 
+													(destinyPosition.y + sprite.getPosition().y*slowFactor)/(1 + slowFactor));
 				sprite.setPosition(newPosition);
 			}
 			else
@@ -109,7 +111,7 @@ public class CardSprite implements CardDrawable
 
 	public void moveTo(PositionComponent position)
 	{
-		this.destinyPosition = new Vector2f(position.getX(), position.getY());
+		moveTo(position, 4);
 	}
 
 	@Override
@@ -152,6 +154,13 @@ public class CardSprite implements CardDrawable
 	public void unreveal()
 	{
 		updateTexture();
+	}
+
+	@Override
+	public void moveTo(PositionComponent newPosition, float slowFactor)
+	{
+		this.slowFactor = slowFactor;
+		this.destinyPosition = new Vector2f(newPosition.getX(), newPosition.getY());
 	}
 
 }

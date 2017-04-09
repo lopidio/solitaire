@@ -29,4 +29,6 @@ public interface CardDrawable extends Drawable
 
 	public void unreveal();
 
+	public void moveTo(PositionComponent newPosition, float slowFactor);
+
 }

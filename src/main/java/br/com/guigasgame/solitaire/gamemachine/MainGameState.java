@@ -180,7 +180,7 @@ public class MainGameState implements GameState
 		inputController.handleEvent(updateDelta);
 		if (transactionManager.updateTransactions())
 			System.out.println("A transaction has happened");
-		if (!wonGame &&checkGameWon())
+		if (!wonGame && checkVictory())
 		{
 			System.out.println("Congratulations!");
 			cascadeStacks.stream().forEach(cascade -> cascade.sendThemAllToRandomPositions());
@@ -188,7 +188,7 @@ public class MainGameState implements GameState
 		}
 	}
 
-	private boolean checkGameWon()
+	private boolean checkVictory()
 	{
 		int cardCount = 0;
 		for (TableauCardStack tableauCardStack : tableaus)

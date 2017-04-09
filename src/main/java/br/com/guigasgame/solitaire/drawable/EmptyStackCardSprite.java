@@ -101,4 +101,10 @@ public class EmptyStackCardSprite implements CardDrawable
 		
 	}
 
+	@Override
+	public void moveTo(PositionComponent newPosition, float slowFactor)
+	{
+		
+	}
+
 }
