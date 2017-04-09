@@ -31,7 +31,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			addCard(card);
 		});
 		
-		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.4),
+		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*2),
 				(float) (new EmptyStackCardSprite().getSize().height*5));
 		
 		cards.get(cards.size() - 1).revealCard();
@@ -105,7 +105,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 				List<CardManager> selected = new ArrayList<>();
 				selected.add(top);
 				transaction.setSelectedCards(selected);
-				transactionManager.addTransactionToFoundations(transaction);
+				transactionManager.addTransactionToFoundationsAttempt(transaction);
 
 			}
 		}

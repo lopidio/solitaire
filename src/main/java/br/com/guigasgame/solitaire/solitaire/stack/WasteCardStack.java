@@ -66,8 +66,7 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 				List<CardManager> selected = new ArrayList<>();
 				selected.add(top);
 				transaction.setSelectedCards(selected);
-				transactionManager.addTransactionToFoundations(transaction);
-
+				transactionManager.addTransactionToFoundationsAttempt(transaction);
 			}
 		}
 	}

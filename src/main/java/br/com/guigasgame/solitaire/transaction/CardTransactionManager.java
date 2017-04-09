@@ -23,8 +23,9 @@ public class CardTransactionManager
 	}
 
 	
-	public void updateTransactions()
+	public boolean updateTransactions()
 	{
+		boolean methodReturn = false;
 		while (transactions.size() > 1)
 		{
 			CardTransaction a = transactions.get(0);
@@ -33,23 +34,26 @@ public class CardTransactionManager
 			{
 				if (b.getUnselectedCards().size() > 0) //from b to a
 				{
-					tryToMakeTransaction(b, a);
+					methodReturn = tryToMakeTransaction(b, a);
 				}
 				else if (a.getUnselectedCards().size() > 0) //from a to b
 				{
-					tryToMakeTransaction(a, b);
+					methodReturn = tryToMakeTransaction(a, b);
 				}
 			}
 			transactions.remove(0);
 		}
+		return methodReturn;
 	}
 
-	private void tryToMakeTransaction(CardTransaction from, CardTransaction to)
+	private boolean tryToMakeTransaction(CardTransaction from, CardTransaction to)
 	{
 		if (checkIfTransactionIsPossible(to.getStack(), from.getUnselectedCards()))
 		{
 			doTransaction(to.getStack(), from.getStack(), from.getUnselectedCards());
+			return true;
 		}
+		return false;
 	}
 
 	private void doTransaction(SolitaireCardStack destinyStack, SolitaireCardStack sourceStack, List<CardManager> cardsToMove)
@@ -71,7 +75,7 @@ public class CardTransactionManager
 		return (destinyStack.canAddCards(list));
 	}
 
-	public void addTransactionToFoundations(CardTransaction transaction)
+	public void addTransactionToFoundationsAttempt(CardTransaction transaction)
 	{
 		transaction.setUnselectedCards(transaction.getSelectedCards());
 		transaction.setSelectedCards(new ArrayList<>());

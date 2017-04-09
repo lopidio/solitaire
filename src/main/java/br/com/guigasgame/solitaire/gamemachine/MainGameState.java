@@ -39,6 +39,8 @@ public class MainGameState implements GameState
 	private MouseInput leftButtonHandler;
 	private CardTransactionManager transactionManager;
 	private List<CascadeCardStack> cascadeStacks;
+	private List<TableauCardStack> tableaus;
+	boolean wonGame;
 	
 	public MainGameState()
 	{
@@ -47,6 +49,7 @@ public class MainGameState implements GameState
 		fullDeck = new ArrayList<>();		
 		drawables = new ArrayList<>();
 		cascadeStacks = new ArrayList<>();
+		tableaus = new ArrayList<>();
 	}
 	
 	private void initTableauStacks(Vector2i windowSize)
@@ -73,6 +76,7 @@ public class MainGameState implements GameState
 
 			drawables.add(cascadeCardStack);
 			cascadeStacks.add(cascadeCardStack);
+			tableaus.add(tableauCardStack);
 		}
 	}
 
@@ -174,7 +178,24 @@ public class MainGameState implements GameState
 	public void update(float updateDelta)
 	{
 		inputController.handleEvent(updateDelta);
-		transactionManager.updateTransactions();
+		if (transactionManager.updateTransactions())
+			System.out.println("A transaction has happened");
+		if (!wonGame &&checkGameWon())
+		{
+			System.out.println("Congratulations!");
+			cascadeStacks.stream().forEach(cascade -> cascade.sendThemAllToRandomPositions());
+			wonGame = true;
+		}
+	}
+
+	private boolean checkGameWon()
+	{
+		int cardCount = 0;
+		for (TableauCardStack tableauCardStack : tableaus)
+		{
+			cardCount += tableauCardStack.getCards().size();
+		}
+		return cardCount == 0;
 	}
 
 	@Override
