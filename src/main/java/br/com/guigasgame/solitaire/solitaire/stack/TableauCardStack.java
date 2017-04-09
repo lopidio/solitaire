@@ -7,6 +7,7 @@ import org.jsfml.graphics.FloatRect;
 import org.jsfml.window.Mouse.Button;
 
 import br.com.guigasgame.solitaire.card.Rank;
+import br.com.guigasgame.solitaire.drawable.EmptyStackCardSprite;
 import br.com.guigasgame.solitaire.input.InputEvent;
 import br.com.guigasgame.solitaire.input.InputEventType;
 import br.com.guigasgame.solitaire.input.InputListener;
@@ -30,7 +31,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			addCard(card);
 		});
 		
-		stackArea = cards.get(0).getDrawableCard().getSize();
+		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.4), (float) (new EmptyStackCardSprite().getSize().height));
 		
 		cards.get(cards.size() - 1).revealCard();
 	}
@@ -137,6 +138,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	public void setCenter(PositionComponent center)
 	{
 		super.setCenter(center);
-		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY() - stackArea.height/2, stackArea.width, stackArea.height*4);
+		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY(), stackArea.width, stackArea.height*4);
 	}
 }

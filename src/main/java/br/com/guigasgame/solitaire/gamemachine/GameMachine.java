@@ -135,6 +135,11 @@ public class GameMachine
 					isRunning = false;
 					break;
 				}
+				else if (event.asKeyEvent().key == Keyboard.Key.F2)
+				{
+					gameMachine.popState();
+					gameMachine.addState(new MainGameState());
+				}
 			}
 			if (event.type == Event.Type.CLOSED)
 			{

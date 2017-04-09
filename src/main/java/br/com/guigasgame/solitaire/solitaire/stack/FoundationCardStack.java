@@ -25,7 +25,7 @@ public class FoundationCardStack extends SolitaireCardStack implements InputList
 	public FoundationCardStack()
 	{
 		super(SolitaireCardStackType.foundation);
-		stackArea = new EmptyStackCardSprite().getSize();
+		stackArea = new FloatRect(0f, 0f, (float) (new EmptyStackCardSprite().getSize().width*1.2), (float) (new EmptyStackCardSprite().getSize().height));
 
 	}
 
@@ -73,7 +73,6 @@ public class FoundationCardStack extends SolitaireCardStack implements InputList
 			{
 				if (mouseEvent.getMouseButton() == Button.LEFT)
 				{
-					cards.stream().forEachOrdered(card -> System.out.println(card.getCard()));
 					return true;
 				}
 			}
@@ -95,7 +94,6 @@ public class FoundationCardStack extends SolitaireCardStack implements InputList
 	@Override
 	public boolean canAddCards(List<CardManager> cardsToAdd)
 	{
-		cards.stream().forEachOrdered(card -> System.out.println(card.getCard()));
 		if (cardsToAdd.size() != 1)
 			return false;
 		CardManager topCardToAdd = cardsToAdd.get(0);
