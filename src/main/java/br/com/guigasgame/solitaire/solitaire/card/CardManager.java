@@ -44,6 +44,19 @@ public class CardManager implements InputListener
 			}
 		}
 	}
+	
+	@Override
+	public void doubleTapInput(InputEvent inputValue)
+	{
+		if (inputValue.getInputEventType() == InputEventType.mouse)
+		{
+			MouseEvent mouseEvent = (MouseEvent) inputValue;
+			if (cardDrawable.contains(mouseEvent.getPosition().x, mouseEvent.getPosition().y))
+			{
+				reactedToInput = true;
+			}
+		}
+	}
 
 	private void makeVisibleInput()
 	{

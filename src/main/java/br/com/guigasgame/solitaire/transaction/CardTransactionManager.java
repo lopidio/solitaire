@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
+import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
 
 public class CardTransactionManager
 {
 	private List<CardTransaction> transactions;
+	private List<FoundationCardStack> foundations;
 	public CardTransactionManager()
 	{
 		transactions = new ArrayList<>();
+		foundations = new ArrayList<>();
 	}
 
 	public void addTransaction(CardTransaction transaction)
@@ -22,7 +25,7 @@ public class CardTransactionManager
 	
 	public void updateTransactions()
 	{
-		if (transactions.size() > 1)
+		while (transactions.size() > 1)
 		{
 			CardTransaction a = transactions.get(0);
 			CardTransaction b = transactions.get(1);
@@ -66,5 +69,24 @@ public class CardTransactionManager
 		List<CardManager> list = new ArrayList<>();
 		list.addAll(cardsToMove);
 		return (destinyStack.canAddCards(list));
+	}
+
+	public void addTransactionToFoundations(CardTransaction transaction)
+	{
+		transaction.setUnselectedCards(transaction.getSelectedCards());
+		transaction.setSelectedCards(new ArrayList<>());
+		for (FoundationCardStack foundationCardStack : foundations)
+		{
+			addTransaction(transaction);
+			CardTransaction destiny = new CardTransaction(foundationCardStack);
+			destiny.setUnselectedCards(new ArrayList<>());
+			destiny.setSelectedCards(new ArrayList<>());
+			addTransaction(destiny);
+		}
+	}
+
+	public void addFoundation(FoundationCardStack foundationCardStack)
+	{
+		foundations.add(foundationCardStack);
 	}
 }

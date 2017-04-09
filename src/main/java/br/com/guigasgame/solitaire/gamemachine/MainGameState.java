@@ -42,14 +42,14 @@ public class MainGameState implements GameState
 	
 	public MainGameState()
 	{
+		transactionManager = new CardTransactionManager();
 		inputController = new InputController();
 		fullDeck = new ArrayList<>();		
 		drawables = new ArrayList<>();
-		transactionManager = new CardTransactionManager();
 		cascadeStacks = new ArrayList<>();
 	}
 	
-	private void init(Vector2i windowSize)
+	private void initTableauStacks(Vector2i windowSize)
 	{
 		for (int i = 0; i < 7; ++i)
 		{
@@ -132,6 +132,7 @@ public class MainGameState implements GameState
 			foundationCardStack.addListener(cascade);
 			drawables.add(cascade);
 			cascadeStacks.add(cascade);
+			transactionManager.addFoundation(foundationCardStack);
 		}
 	}
 	
@@ -144,7 +145,7 @@ public class MainGameState implements GameState
 		inputController.addInputHandler(rightButtonHandler);
 		initalizeDeck();
 		shuffleCards();
-		init(renderWindow.getSize());
+		initTableauStacks(renderWindow.getSize());
 		WasteCardStack wasteCardStack = initWasteStack(renderWindow.getSize());
 		initStockCardStack(renderWindow.getSize(), wasteCardStack);
 		initFoundationStacks(renderWindow.getSize());

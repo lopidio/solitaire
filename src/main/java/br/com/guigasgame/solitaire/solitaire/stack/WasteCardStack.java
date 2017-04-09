@@ -52,6 +52,25 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 			makeTransaction(cardsToUnselect, cardsToSelect);
 		}
 	}
+	@Override
+	public void doubleTapInput(InputEvent inputValue)
+	{
+		CardManager top = getTop();
+		if (null != top)
+		{
+			top.doubleTapInput(inputValue);
+			if (top.hasReactedToInput())
+			{
+				CardTransaction transaction = new CardTransaction(this);
+				transaction.setUnselectedCards(new ArrayList<>());
+				List<CardManager> selected = new ArrayList<>();
+				selected.add(top);
+				transaction.setSelectedCards(selected);
+				transactionManager.addTransactionToFoundations(transaction);
+
+			}
+		}
+	}
 
 	private void makeTransaction(List<CardManager> cardsToUnselect, List<CardManager> cardsToSelect)
 	{

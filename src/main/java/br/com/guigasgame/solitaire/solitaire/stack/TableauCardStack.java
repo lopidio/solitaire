@@ -90,6 +90,26 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 
 		makeTransaction(cardsToUnselect, cardsToSelect, stackClicked);
 	}
+	
+	@Override
+	public void doubleTapInput(InputEvent inputValue)
+	{
+		CardManager top = getTop();
+		if (null != top)
+		{
+			top.doubleTapInput(inputValue);
+			if (top.hasReactedToInput())
+			{
+				CardTransaction transaction = new CardTransaction(this);
+				transaction.setUnselectedCards(new ArrayList<>());
+				List<CardManager> selected = new ArrayList<>();
+				selected.add(top);
+				transaction.setSelectedCards(selected);
+				transactionManager.addTransactionToFoundations(transaction);
+
+			}
+		}
+	}
 
 	private boolean checkClickInStack(InputEvent inputValue)
 	{
