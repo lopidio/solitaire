@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jsfml.graphics.RenderTarget;
 
+import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
 import br.com.guigasgame.solitaire.stack.CardStackListener;
@@ -35,7 +36,7 @@ public abstract class StackDrawable implements Drawable, CardStackListener
 			prioritaireVisibilityCard.draw(renderTarget);
 	}
 	
-	abstract protected void adjustCardPosition(int index);
+	abstract protected PositionComponent getCardPosition(int index);
 	
 	
 }

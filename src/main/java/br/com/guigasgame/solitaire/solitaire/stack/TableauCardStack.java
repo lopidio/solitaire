@@ -37,7 +37,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	}
 
 	@Override
-	public boolean canAddCards(List<CardManager> cardsToAdd)
+	public boolean canAddCards(SolitaireCardStackType sourceStackType, List<CardManager> cardsToAdd)
 	{
 		CardManager card = cardsToAdd.get(0);
 		if (cards.isEmpty())
@@ -69,7 +69,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 				cardManager.unselectCard();
 				cardsToUnselect.add(0, cardManager);
 			}
-			else if (true)
+			else
 			{
 				cardManager.inputPressed(inputValue);
 				if (cardManager.getCard().isSelected() && cardManager.hasReactedToInput())

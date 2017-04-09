@@ -25,7 +25,7 @@ public class CardManager implements InputListener
 	@Override
 	public void inputPressed(InputEvent inputValue)
 	{
-		//TODO detach from specific inputs 
+		//TODO deattach from specific inputs 
 		if (inputValue.getInputEventType() == InputEventType.mouse)
 		{
 			MouseEvent mouseEvent = (MouseEvent) inputValue;

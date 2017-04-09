@@ -16,18 +16,32 @@ public class CascadeCardStack extends StackDrawable
 		cardStack.setCenter(center);
 		this.drawingOffset = new PositionComponent(.05f, .35f);
 		for (int i = 0; i < cards.size(); ++i)
-			adjustCardPosition(i);
+		{
+			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
+		}
+	}
+
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset)
+	{
+		super(cardStack);
+		this.center = center;
+		cardStack.setCenter(center);
+		this.drawingOffset = drawingOffset;
+		for (int i = 0; i < cards.size(); ++i)
+		{
+			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
+		}
 	}
 	
 	@Override
-	public void adjustCardPosition(int index)
+	public PositionComponent getCardPosition(int index)
 	{
 		CardDrawable card = cards.get(index).getDrawableCard();
 		PositionComponent initial = new PositionComponent(center.getX(), center.getY());
 		initial.add(new PositionComponent(
 										drawingOffset.getX() * card.getSize().width * index, 
 										drawingOffset.getY() * card.getSize().height * index));
-		card.moveTo(initial);
+		return initial;
 	}
 
 	@Override
@@ -40,7 +54,8 @@ public class CascadeCardStack extends StackDrawable
 	public void cardAdded(CardManager card)
 	{
 		cards.add(card);
-		adjustCardPosition(cards.size() - 1);
+		int index= cards.size() - 1;
+		cards.get(index).getDrawableCard().moveTo(getCardPosition(index));
 	}
 
 }

@@ -19,7 +19,9 @@ import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.solitaire.stack.StockCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
+import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
 import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
 public class MainGameState implements GameState
@@ -64,6 +66,45 @@ public class MainGameState implements GameState
 
 			drawables.add(cascadeCardStack);
 		}
+		WasteCardStack wasteCardStack = initWasteStack(windowSize);
+		
+		initStockCardStack(windowSize, wasteCardStack);
+	}
+
+	private void initStockCardStack(Vector2i windowSize, WasteCardStack wasteCardStack)
+	{
+		List<CardManager> cardManagers = new ArrayList<>();
+		fullDeck.stream().forEach(card -> cardManagers.add(new CardManager(card)));
+
+		
+		StockCardStack stockCardStack = new StockCardStack(cardManagers, wasteCardStack);
+		CascadeCardStack cascadeCardStack = new CascadeCardStack(stockCardStack, 
+				new PositionComponent(
+							(windowSize.x/14) * (2*0 + 1), 
+							(int) (windowSize.y*0.1)), new PositionComponent(.01f, .01f)); 
+		stockCardStack.setTransactionManager(transactionManager);
+		stockCardStack.addListener(cascadeCardStack);
+
+		leftButtonHandler.addInputListener(stockCardStack);
+		rightButtonHandler.addInputListener(stockCardStack);
+
+		drawables.add(cascadeCardStack);
+	}
+
+	private WasteCardStack initWasteStack(Vector2i windowSize)
+	{
+		WasteCardStack wasteCardStack = new WasteCardStack();
+		CascadeCardStack wasteCascadeCardStack = new CascadeCardStack(wasteCardStack, 
+				new PositionComponent(
+							(windowSize.x/14) * (2*1 + 1), 
+							(int) (windowSize.y*0.1)), new PositionComponent(.01f, .01f)); 
+		wasteCardStack.setTransactionManager(transactionManager);
+		wasteCardStack.addListener(wasteCascadeCardStack);
+		leftButtonHandler.addInputListener(wasteCardStack);
+		rightButtonHandler.addInputListener(wasteCardStack);
+
+		drawables.add(wasteCascadeCardStack);
+		return wasteCardStack;
 	}
 	
 	@Override
