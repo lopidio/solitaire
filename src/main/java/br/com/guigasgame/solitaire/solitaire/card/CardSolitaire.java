@@ -66,4 +66,9 @@ public class CardSolitaire extends Card
 		return stack;
 	}
 
+	public void unreveal()
+	{
+		revealed = false;
+	}
+
 }

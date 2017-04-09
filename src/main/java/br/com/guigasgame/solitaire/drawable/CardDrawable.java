@@ -27,4 +27,6 @@ public interface CardDrawable extends Drawable
 
 	public void unselect();
 
+	public void unreveal();
+
 }

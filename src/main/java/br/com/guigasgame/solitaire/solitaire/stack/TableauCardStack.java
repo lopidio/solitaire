@@ -120,8 +120,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 
 	private List<CardManager> selectFromIndexToTop(int initialIndex)
 	{
-		cards.stream().forEach(card -> System.out.print(card.getCard() + "; "));
-		System.out.println();
 		List<CardManager> cardsToSelect = new ArrayList<>();
 		for (int i = initialIndex; i < cards.size(); ++i)
 		{

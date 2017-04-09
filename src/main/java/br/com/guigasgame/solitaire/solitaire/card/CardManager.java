@@ -144,5 +144,11 @@ public class CardManager implements InputListener
 		}
 		return true;
 	}
+
+	public void unrevealCard()
+	{
+		card.unreveal();
+		cardDrawable.unreveal();
+	}
 	
 }

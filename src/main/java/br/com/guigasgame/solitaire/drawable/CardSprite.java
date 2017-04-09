@@ -129,4 +129,10 @@ public class CardSprite implements CardDrawable
 		updateColor();
 	}
 
+	@Override
+	public void unreveal()
+	{
+		updateTexture();
+	}
+
 }

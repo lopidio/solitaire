@@ -52,7 +52,9 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 			{
 				while (!waste.getCards().isEmpty())
 				{
-					addCard(waste.removeCard());
+					CardManager card = waste.removeCard();
+					card.unrevealCard();
+					addCard(card);
 				}
 			}
 		}

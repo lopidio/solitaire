@@ -1,5 +1,6 @@
 package br.com.guigasgame.solitaire.drawable;
 
+import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.RenderTarget;
 
 import br.com.guigasgame.solitaire.position.PositionComponent;
@@ -11,13 +12,20 @@ public class CascadeCardStack extends StackDrawable
 	private PositionComponent drawingOffset;
 	private PositionComponent center;
 	private EmptyStackCardSprite emptyStackCardSprite;
+	private PositionComponent proportion;
 
-	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset, boolean drawEmptyStack)
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent windowSize, PositionComponent proportion, PositionComponent drawingOffset, boolean drawEmptyStack)
 	{
 		super(cardStack);
-		this.center = center;
+		this.proportion = proportion;
+		this.center = new PositionComponent(windowSize.getX() * proportion.getX(), windowSize.getY()* proportion.getY());
 		cardStack.setCenter(center);
 		this.drawingOffset = drawingOffset;
+		readjustAllCards(drawEmptyStack);
+	}
+
+	private void readjustAllCards(boolean drawEmptyStack)
+	{
 		for (int i = 0; i < cards.size(); ++i)
 		{
 			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
@@ -29,9 +37,9 @@ public class CascadeCardStack extends StackDrawable
 		}
 	}
 
-	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent center, PositionComponent drawingOffset)
+	public CascadeCardStack(SolitaireCardStack cardStack, PositionComponent windowSize, PositionComponent proportion, PositionComponent drawingOffset)
 	{
-		this(cardStack, center, drawingOffset, false);
+		this(cardStack, windowSize, proportion, drawingOffset, false);
 	}
 	
 	@Override
@@ -65,6 +73,12 @@ public class CascadeCardStack extends StackDrawable
 		super.draw(renderTarget);
 		if (cards.isEmpty() && null != emptyStackCardSprite)
 			emptyStackCardSprite.draw(renderTarget);	
+	}
+
+	public void readjustToSize(FloatRect visibleArea)
+	{
+		this.center = new PositionComponent(visibleArea.width * proportion.getX(), visibleArea.height * proportion.getY());
+		readjustAllCards(null != emptyStackCardSprite);
 	}
 
 }

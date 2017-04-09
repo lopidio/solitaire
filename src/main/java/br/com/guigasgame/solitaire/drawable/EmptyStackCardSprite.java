@@ -95,4 +95,10 @@ public class EmptyStackCardSprite implements CardDrawable
 	{
 	}
 
+	@Override
+	public void unreveal()
+	{
+		
+	}
+
 }
