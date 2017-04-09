@@ -63,8 +63,8 @@ public class CardSprite implements CardDrawable
 			Vector2f sub = Vector2f.sub(sprite.getPosition(), destinyPosition);
 			if (sub.x*sub.x + sub.y * sub.y >= 1)
 			{
-				Vector2f newPosition = new Vector2f((destinyPosition.x + sprite.getPosition().x*2)/3, 
-													(destinyPosition.y + sprite.getPosition().y*2)/3);
+				Vector2f newPosition = new Vector2f((destinyPosition.x + sprite.getPosition().x*4)/5, 
+													(destinyPosition.y + sprite.getPosition().y*4)/5);
 				sprite.setPosition(newPosition);
 			}
 			else

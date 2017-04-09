@@ -79,6 +79,7 @@ public class CascadeCardStack extends StackDrawable
 	{
 		this.center = new PositionComponent(visibleArea.width * proportion.getX(), visibleArea.height * proportion.getY());
 		readjustAllCards(null != emptyStackCardSprite);
+		cardStack.setCenter(center);
 	}
 
 }

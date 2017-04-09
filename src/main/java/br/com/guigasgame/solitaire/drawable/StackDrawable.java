@@ -14,9 +14,11 @@ public abstract class StackDrawable implements Drawable, CardStackListener
 {
 	private CardDrawable prioritaireVisibilityCard;
 	protected List<CardManager> cards;
+	protected SolitaireCardStack cardStack;
 	
 	public StackDrawable(SolitaireCardStack cardStack)
 	{
+		this.cardStack = cardStack;
 		cards = new ArrayList<>();
 		cardStack.getCards().stream().forEach(card -> cards.add(card));
 	}
