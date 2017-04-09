@@ -28,13 +28,13 @@ public class CardTransactionManager
 			CardTransaction b = transactions.get(1);
 			if (a.getStack() != b.getStack())
 			{
-				if (b.getUnselectedCards().size() > 0)
-				{
-					tryToMakeTransaction(a, b);
-				}
-				else if (a.getUnselectedCards().size() > 0)
+				if (b.getUnselectedCards().size() > 0) //from b to a
 				{
 					tryToMakeTransaction(b, a);
+				}
+				else if (a.getUnselectedCards().size() > 0) //from a to b
+				{
+					tryToMakeTransaction(a, b);
 				}
 			}
 			transactions.remove(0);
@@ -43,9 +43,9 @@ public class CardTransactionManager
 
 	private void tryToMakeTransaction(CardTransaction from, CardTransaction to)
 	{
-		if (checkIfTransactionIsPossible(from.getStack(), to.getUnselectedCards()))
+		if (checkIfTransactionIsPossible(to.getStack(), from.getUnselectedCards()))
 		{
-			doTransaction(from.getStack(), to.getStack(), to.getUnselectedCards());
+			doTransaction(to.getStack(), from.getStack(), from.getUnselectedCards());
 		}
 	}
 
@@ -63,9 +63,8 @@ public class CardTransactionManager
 
 	private boolean checkIfTransactionIsPossible(SolitaireCardStack destinyStack, List<CardManager> cardsToMove)
 	{
-		CardManager highestCard = cardsToMove.get(0);
 		List<CardManager> list = new ArrayList<>();
-		list.add(highestCard);
+		list.addAll(cardsToMove);
 		return (destinyStack.canAddCards(list));
 	}
 }

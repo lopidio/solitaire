@@ -26,8 +26,6 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 		{
 			addCard(card);
 		});
-
-//		cards.get(cards.size() - 1).revealCard();
 		stackArea = cards.get(0).getDrawableCard().getSize();
 	}
 	
@@ -64,9 +62,9 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 			cardManager.inputPressed(inputValue);
 			if (cardManager.getCard().isRevealed())
 			{
+				removeCard();
 				waste.addCard(cardManager);
 				cardManager.unselectCard();
-				removeCard();
 			}
 		}
 	}

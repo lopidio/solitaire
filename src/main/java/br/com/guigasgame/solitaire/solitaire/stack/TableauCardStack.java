@@ -28,7 +28,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		cards.stream().forEach(card ->
 		{
 			addCard(card);
-//			card.revealCard();
 		});
 		
 		stackArea = cards.get(0).getDrawableCard().getSize();

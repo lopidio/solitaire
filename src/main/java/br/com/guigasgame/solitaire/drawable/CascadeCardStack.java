@@ -70,9 +70,9 @@ public class CascadeCardStack extends StackDrawable
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		super.draw(renderTarget);
-		if (cards.isEmpty() && null != emptyStackCardSprite)
+		if (cards.size() <= 1 && null != emptyStackCardSprite)
 			emptyStackCardSprite.draw(renderTarget);	
+		super.draw(renderTarget);
 	}
 
 	public void readjustToSize(FloatRect visibleArea)

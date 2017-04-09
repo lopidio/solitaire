@@ -23,6 +23,7 @@ import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.StockCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
@@ -48,7 +49,7 @@ public class MainGameState implements GameState
 		cascadeStacks = new ArrayList<>();
 	}
 	
-	private void initializeTableauStacks(Vector2i windowSize)
+	private void init(Vector2i windowSize)
 	{
 		for (int i = 0; i < 7; ++i)
 		{
@@ -113,6 +114,27 @@ public class MainGameState implements GameState
 		return wasteCardStack;
 	}
 	
+	private void initFoundationStacks(Vector2i windowSize)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			FoundationCardStack foundationCardStack = new FoundationCardStack();
+			leftButtonHandler.addInputListener(foundationCardStack);
+			rightButtonHandler.addInputListener(foundationCardStack);
+			
+			CascadeCardStack cascade = new CascadeCardStack(foundationCardStack,
+											new PositionComponent(windowSize.x, windowSize.y),
+											new PositionComponent((float)((2 * i + 7)/14.0), 0.1f),
+											new PositionComponent(.001f, .001f),
+											true); 
+			foundationCardStack.setTransactionManager(transactionManager);
+			
+			foundationCardStack.addListener(cascade);
+			drawables.add(cascade);
+			cascadeStacks.add(cascade);
+		}
+	}
+	
 	@Override
 	public void enterState(RenderWindow renderWindow)
 	{
@@ -122,9 +144,10 @@ public class MainGameState implements GameState
 		inputController.addInputHandler(rightButtonHandler);
 		initalizeDeck();
 		shuffleCards();
-		initializeTableauStacks(renderWindow.getSize());
+		init(renderWindow.getSize());
 		WasteCardStack wasteCardStack = initWasteStack(renderWindow.getSize());
 		initStockCardStack(renderWindow.getSize(), wasteCardStack);
+		initFoundationStacks(renderWindow.getSize());
 	}
 
 	private void shuffleCards()
