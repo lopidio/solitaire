@@ -7,6 +7,7 @@ import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import br.com.guigasgame.solitaire.card.Card;
@@ -24,6 +25,7 @@ public class CardSprite implements CardDrawable
 	private Texture texture;
 	private CardSolitaire card;
 	private boolean priorityDrawing;
+	private Vector2f destinyPosition;
 
 	public CardSprite(Card card)
 	{
@@ -50,7 +52,24 @@ public class CardSprite implements CardDrawable
 
 	public void draw(RenderTarget renderTarget)
 	{
+		checkSmoothRepositioning();
 		renderTarget.draw(sprite);
+	}
+
+	private void checkSmoothRepositioning()
+	{
+		if (null != destinyPosition)
+		{
+			Vector2f sub = Vector2f.sub(sprite.getPosition(), destinyPosition);
+			if (sub.x*sub.x + sub.y * sub.y >= 1)
+			{
+				Vector2f newPosition = new Vector2f((destinyPosition.x + sprite.getPosition().x*2)/3, 
+													(destinyPosition.y + sprite.getPosition().y*2)/3);
+				sprite.setPosition(newPosition);
+			}
+			else
+				destinyPosition = null;
+		}
 	}
 
 	public void setPosition(PositionComponent positionComponent)
@@ -90,7 +109,7 @@ public class CardSprite implements CardDrawable
 
 	public void moveTo(PositionComponent position)
 	{
-		sprite.setPosition(position.getX(), position.getY());
+		this.destinyPosition = new Vector2f(position.getX(), position.getY());
 	}
 
 	@Override
