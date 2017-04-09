@@ -1,75 +1,79 @@
 package br.com.guigasgame.solitaire.transaction;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
 
 public class CardTransactionManager
 {
-	private Set<CardManager> selectedCardManagers;
-	private List<CardManager> cardsToAddToSelection;
-	private List<CardManager> cardsToRemoveToSelection;
+	private List<CardTransaction> transactions;
 	public CardTransactionManager()
 	{
-		selectedCardManagers = new LinkedHashSet<CardManager>();
-		cardsToAddToSelection = new ArrayList<>();
-		cardsToRemoveToSelection = new ArrayList<>();
+		transactions = new ArrayList<>();
 	}
 
-	public void addCardToSelection(List<CardManager> cardManager)
+	public void addTransaction(CardTransaction transaction)
 	{
-		cardsToAddToSelection.clear();
-		cardsToAddToSelection.addAll(cardManager);
-		cardsToRemoveToSelection.removeAll(cardManager);
+		transactions.add(transaction);
+
+		System.out.print("Add: ");
+		transaction.getSelectedCards().stream().
+				forEachOrdered(card -> System.out.print(card.getCard() + "; "));
+		System.out.println();
+		System.out.print("Rem: ");
+		transaction.getUnselectedCards().stream().
+				forEachOrdered(card -> System.out.print(card.getCard() + "; "));
+		System.out.println();
+
 	}
 
-	public void removeCardToSelection(List<CardManager> cardManager)
-	{
-		cardsToRemoveToSelection.addAll(cardManager);
-		cardsToAddToSelection.removeAll(cardManager);
-	}
 	
 	public void updateTransactions()
 	{
-		if (cardsToRemoveToSelection.size() > 0)
+		if (transactions.size() > 1)
 		{
-			System.out.print("Add: ");
-			cardsToAddToSelection.stream().forEach(card -> System.out.print(card.getCard() + "; "));
-			System.out.println();
-			System.out.print("Rem: ");
-			cardsToRemoveToSelection.stream().forEach(card -> System.out.print(card.getCard() + "; "));
-			System.out.println();
-			if (cardsToAddToSelection.size() > 0)
+			CardTransaction a = transactions.get(0);
+			CardTransaction b = transactions.get(1);
+			if (a.getStack() != b.getStack())
 			{
-				SolitaireCardStack destinyStack = cardsToAddToSelection.stream().findFirst().get().getCard().getStack();
-				if (destinyStack.canAddCards(cardsToRemoveToSelection))
+				if (b.getUnselectedCards().size() > 0)
 				{
-					startTransaction(destinyStack);
+					if (checkIfTransactionIsPossible(a.getStack(), b.getUnselectedCards()))
+					{
+						doTransaction(a.getStack(), b.getStack(), b.getUnselectedCards());
+					}
 				}
-				
-				selectedCardManagers.addAll(cardsToAddToSelection);
-				selectedCardManagers.removeAll(cardsToRemoveToSelection);
-				
-				cardsToAddToSelection.clear();
+				if (a.getUnselectedCards().size() > 0)
+				{
+					if (checkIfTransactionIsPossible(b.getStack(), a.getUnselectedCards()))
+					{
+						doTransaction(b.getStack(), a.getStack(), a.getUnselectedCards());
+					}
+				}
 			}
-			cardsToRemoveToSelection.clear();
+			transactions.remove(0);
 		}
 	}
 
-	private void startTransaction(SolitaireCardStack destinyStack)
+	private void doTransaction(SolitaireCardStack destinyStack, SolitaireCardStack sourceStack, List<CardManager> cardsToMove)
 	{
-		SolitaireCardStack sourceStack = cardsToRemoveToSelection.stream().findFirst().get().getCard().getStack();
-		while(cardsToRemoveToSelection.size() > 0)
+		while(cardsToMove.size() > 0)
 		{
-			CardManager highestCard = cardsToRemoveToSelection.get(0);
+			CardManager card = cardsToMove.get(0);
 			sourceStack.removeCard();
-			destinyStack.addCard(highestCard);
-			cardsToRemoveToSelection.remove(highestCard);
+			destinyStack.addCard(card);
+			cardsToMove.remove(card);
 		}
 		destinyStack.unselectAll();
+	}
+
+	private boolean checkIfTransactionIsPossible(SolitaireCardStack destinyStack, List<CardManager> cardsToMove)
+	{
+		CardManager highestCard = cardsToMove.get(0);
+		List<CardManager> list = new ArrayList<>();
+		list.add(highestCard);
+		return (destinyStack.canAddCards(list));
 	}
 }

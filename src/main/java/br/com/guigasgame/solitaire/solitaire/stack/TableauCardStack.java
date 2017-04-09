@@ -14,6 +14,7 @@ import br.com.guigasgame.solitaire.input.MouseEvent;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.transaction.CardTransaction;
 
 public class TableauCardStack extends SolitaireCardStack implements InputListener
 {
@@ -36,9 +37,9 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	}
 
 	@Override
-	public boolean canAddCards(List<CardManager> cards)
+	public boolean canAddCards(List<CardManager> cardsToAdd)
 	{
-		CardManager card = cards.get(0);
+		CardManager card = cardsToAdd.get(0);
 		if (cards.isEmpty())
 		{
 			return card.getCard().getRank() == Rank.king;
@@ -54,7 +55,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 	
 	public void inputPressed(InputEvent inputValue)
 	{
-		List<CardManager> cardsToRemove = new ArrayList<>();
+		List<CardManager> cardsToUnselect = new ArrayList<>();
+		List<CardManager> cardsToSelect = new ArrayList<>();
 		boolean unselecting = false;
 		for (int i = cards.size() - 1; i >= 0; --i)
 		{
@@ -65,23 +67,31 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 				if (!wasSelected && !cardManager.getCard().isSelected())
 					break;
 				cardManager.unselectCard();
-				cardsToRemove.add(0, cardManager);
+				cardsToUnselect.add(0, cardManager);
 			}
 			else if (true)
 			{
 				cardManager.inputPressed(inputValue);
 				if (cardManager.getCard().isSelected() && cardManager.hasReactedToInput())
 				{
-					selectFromIndexToTop(i);
+					cardsToSelect = selectFromIndexToTop(i);
 					unselecting = true;
 				}
 				else if (!wasSelected && !cardManager.getCard().isSelected())
 					continue;
 				else if (null != transactionManager && cardManager.hasReactedToInput())
-					cardsToRemove.add(0, cardManager);
+					cardsToUnselect.add(0, cardManager);
 			}
 			cardManager.clearInputReaction();
 		}
+		
+		boolean stackClicked = checkClickInStack(inputValue);
+
+		makeTransaction(cardsToUnselect, cardsToSelect, stackClicked);
+	}
+
+	private boolean checkClickInStack(InputEvent inputValue)
+	{
 		if (inputValue.getInputEventType() == InputEventType.mouse)
 		{
 			MouseEvent mouseEvent = (MouseEvent) inputValue;
@@ -89,28 +99,36 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			{
 				if (mouseEvent.getMouseButton() == Button.LEFT)
 				{
-					System.out.println("Stack clicked");
+					return true;
 				}
 			}
 		}
-
-			
-		if (null != transactionManager && !cardsToRemove.isEmpty())
-			transactionManager.removeCardToSelection(cardsToRemove);
+		return false;
 	}
 
-	private void selectFromIndexToTop(int initialIndex)
+	private void makeTransaction(List<CardManager> cardsToUnselect, List<CardManager> cardsToSelect, boolean stackClicked)
+	{
+		if (null != transactionManager)
+			if (stackClicked || cardsToSelect.size() > 0 || cardsToUnselect.size() > 0)
+			{
+				CardTransaction transaction = new CardTransaction(this);
+				transaction.setUnselectedCards(cardsToUnselect);
+				transaction.setSelectedCards(cardsToSelect);
+				transactionManager.addTransaction(transaction);
+			}
+	}
+
+	private List<CardManager> selectFromIndexToTop(int initialIndex)
 	{
 		cards.stream().forEach(card -> System.out.print(card.getCard() + "; "));
 		System.out.println();
-		List<CardManager> cardsToAdd = new ArrayList<>();
+		List<CardManager> cardsToSelect = new ArrayList<>();
 		for (int i = initialIndex; i < cards.size(); ++i)
 		{
 			cards.get(i).selectCard();
-			cardsToAdd.add(cards.get(i));
+			cardsToSelect.add(cards.get(i));
 		}
-		if (null != transactionManager)
-			transactionManager.addCardToSelection(cardsToAdd);
+		return cardsToSelect;
 	}
 
 	public void inputReleased(InputEvent inputValue)
