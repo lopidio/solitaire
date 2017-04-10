@@ -20,7 +20,12 @@ import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.ScoreHUD;
+import br.com.guigasgame.solitaire.drawable.TimeCounterHUD;
 import br.com.guigasgame.solitaire.input.InputController;
+import br.com.guigasgame.solitaire.input.InputEvent;
+import br.com.guigasgame.solitaire.input.InputEventType;
+import br.com.guigasgame.solitaire.input.InputListener;
+import br.com.guigasgame.solitaire.input.MouseEvent;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
@@ -32,7 +37,7 @@ import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
 import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
-public class MainGameState implements GameState
+public class MainGameState implements GameState, InputListener
 {
 	
 	private List<CardSolitaire> fullDeck;
@@ -47,11 +52,13 @@ public class MainGameState implements GameState
 	private GameMachine gameMachine;
 	private ScoreCounter scoreCounter;
 	private ScoreHUD scoreHUD;
+	private TimeCounterHUD timeCounterHUD;
 	
-	public MainGameState(GameMachine gameMachine)
+	public MainGameState(GameMachine gameMachine) 
 	{
 		transactionManager = new CardTransactionManager();
 		inputController = new InputController();
+		
 		fullDeck = new ArrayList<>();		
 		drawables = new ArrayList<>();
 		cascadeStacks = new ArrayList<>();
@@ -156,6 +163,8 @@ public class MainGameState implements GameState
 		rightButtonHandler = new MouseInput(Button.RIGHT, renderWindow);
 		inputController.addInputHandler(leftButtonHandler);
 		inputController.addInputHandler(rightButtonHandler);
+		leftButtonHandler.addInputListener(this);
+		inputController.addInputHandler(leftButtonHandler);
 		initalizeDeck();
 		shuffleCards();
 		initTableauStacks(renderWindow.getSize());
@@ -172,7 +181,14 @@ public class MainGameState implements GameState
 				new PositionComponent(windowSize.x, windowSize.y),
 				new PositionComponent((float)((.5)/14.0), 0.90f),
 					scoreCounter);
+		
+		timeCounterHUD = new TimeCounterHUD(
+				new PositionComponent(windowSize.x, windowSize.y),
+				new PositionComponent((float)((12)/14.0), 0.90f));
+
+		drawables.add(timeCounterHUD);
 		drawables.add(scoreHUD);
+		
 	}
 
 	private void shuffleCards()
@@ -207,7 +223,10 @@ public class MainGameState implements GameState
 			gameWon = true;
 		}
 		if (!gameWon)
+		{
+			timeCounterHUD.update(updateDelta);
 			scoreCounter.update(updateDelta);
+		}
 	}
 
 	private boolean checkVictory()
@@ -239,6 +258,7 @@ public class MainGameState implements GameState
 	        renderWindow.setView(new View(visibleArea));
 	        cascadeStacks.stream().forEach(cascade -> cascade.readjustToSize(visibleArea));
 	        scoreHUD.resizeEvent(renderWindow.getSize());
+	        timeCounterHUD.resizeEvent(renderWindow.getSize());
 	    }
 		if (event.type == Event.Type.KEY_PRESSED && event.asKeyEvent().key == Keyboard.Key.F2)
 		{
@@ -246,6 +266,19 @@ public class MainGameState implements GameState
 			gameMachine.addState(new MainGameState(gameMachine));
 		}
 
+	}
+	
+	@Override
+	public void inputPressed(InputEvent inputValue)
+	{
+		if (inputValue.getInputEventType() == InputEventType.mouse)
+		{
+			MouseEvent mouseEvent = (MouseEvent) inputValue;
+			if (mouseEvent.getMouseButton() == Button.LEFT)
+			{
+				timeCounterHUD.startCounting();
+			}
+		}
 	}
 	
 }
