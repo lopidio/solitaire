@@ -1,6 +1,7 @@
 package br.com.guigasgame.solitaire.solitaire.stack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jsfml.graphics.FloatRect;
@@ -66,8 +67,8 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 	private void receiveAllWasteCards()
 	{
 		CardTransaction from = new CardTransaction(waste);
-		
 		List<CardManager> copy = waste.getCards().subList(0, waste.getCards().size());
+		Collections.reverse(copy);
 		from.setUnselectedCards(copy);
 		transactionManager.addTransaction(from);
 		

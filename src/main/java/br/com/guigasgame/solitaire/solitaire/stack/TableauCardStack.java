@@ -161,4 +161,5 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		super.setCenter(center);
 		stackArea = new FloatRect(center.getX() - stackArea.width/2, center.getY() - (new EmptyStackCardSprite().getSize().height)/2, stackArea.width, stackArea.height);
 	}
+	
 }

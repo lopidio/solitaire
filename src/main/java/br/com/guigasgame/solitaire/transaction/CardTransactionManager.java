@@ -65,14 +65,13 @@ public class CardTransactionManager
 		List<CardManager> cardsToMove = new ArrayList<>(cards); //clones
 		while(!cardsToMove.isEmpty())
 		{
-			CardManager card = sourceStack.removeCard();
+			CardManager card = cardsToMove.get(0);
+			sourceStack.removeCard(card);
 			destinyStack.addCard(card);
-			int index = cardsToMove.indexOf(card);
-			if (index == -1)
+			if (!cardsToMove.remove(card))
 			{
-				System.out.println("Error");
+				System.out.println("Error to remove card: " + card.getCard());
 			}
-			cardsToMove.remove(index);
 		}
 		destinyStack.unselectAll();
 	}

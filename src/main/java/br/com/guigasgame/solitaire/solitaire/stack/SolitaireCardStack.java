@@ -48,11 +48,11 @@ public abstract class SolitaireCardStack implements CardStack
 	}
 	
 	@Override
-	public CardManager removeCard()
+	public CardManager removeCard(CardManager card)
 	{
 		if (cards.isEmpty())
 			return null;
-		CardManager card = cards.remove(cards.size() - 1);
+		cards.remove(card);
 		card.getCard().setStack(null);
 		listeners.stream().forEach(listener -> listener.cardRemoved(card));
 		return card;
