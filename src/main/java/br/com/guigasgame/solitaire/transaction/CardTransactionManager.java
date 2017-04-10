@@ -3,6 +3,7 @@ package br.com.guigasgame.solitaire.transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
@@ -11,6 +12,7 @@ public class CardTransactionManager
 {
 	private List<CardTransaction> transactions;
 	private List<FoundationCardStack> foundations;
+	private ScoreCounter scoreCounter;
 	public CardTransactionManager()
 	{
 		transactions = new ArrayList<>();
@@ -55,6 +57,7 @@ public class CardTransactionManager
 		{
 			System.out.println("Transfering " + from.getUnselectedCards().size() + " cards from: " + from.getStack().getStackType() + " to " + to.getStack().getStackType());
 			doTransaction(to.getStack(), from.getStack(), from.getUnselectedCards());
+			scoreCounter.registerTransaction(from.getStack().getStackType(), to.getStack().getStackType());
 			return true;
 		}
 		return false;
@@ -96,5 +99,15 @@ public class CardTransactionManager
 	public void addFoundation(FoundationCardStack foundationCardStack)
 	{
 		foundations.add(foundationCardStack);
+	}
+
+	public void setScoreCounter(ScoreCounter scoreCounter)
+	{
+		this.scoreCounter = scoreCounter;
+	}
+
+	public void registerCardRevelation()
+	{
+		scoreCounter.registerCardRevelation();
 	}
 }

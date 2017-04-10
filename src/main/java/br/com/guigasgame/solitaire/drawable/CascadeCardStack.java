@@ -91,8 +91,8 @@ public class CascadeCardStack extends StackDrawable
 
 	public void sendThemAllToRandomPositions()
 	{
-		float visibleAreaDiagonal = (float) Math.sqrt(visibleArea.width*visibleArea.width + visibleArea.height*visibleArea.height)/8;
-		double angleStep = Math.PI*2/Rank.values().length;
+		float visibleAreaDiagonal = (float) Math.sqrt(visibleArea.width*visibleArea.width + visibleArea.height*visibleArea.height)/6;
+		final double angleStep = Math.PI*2/Rank.values().length;
 		Random r = new Random();
 		this.center = new PositionComponent((visibleArea.width * proportion.getX() - visibleArea.width/4), visibleArea.height/2);
 
@@ -102,7 +102,7 @@ public class CascadeCardStack extends StackDrawable
 			PositionComponent newPosition = new PositionComponent(Vector2f.mul(new Vector2f((float)Math.sin(angle), (float)Math.cos(angle)),
 																visibleAreaDiagonal));
 			newPosition.add(center);
-			cardManager.getDrawableCard().moveTo(newPosition, r.nextInt(20) + 20);
+			cardManager.getDrawableCard().moveTo(newPosition, r.nextInt(100) + 10);
 			angle+= angleStep;
 		}
 	}

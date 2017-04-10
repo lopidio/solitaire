@@ -62,6 +62,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		for (int i = cards.size() - 1; i >= 0; --i)
 		{
 			CardManager cardManager = cards.get(i);
+			boolean wasRevealed = cardManager.getCard().isRevealed();
 			boolean wasSelected = cardManager.getCard().isSelected();
 			if (unselecting)
 			{
@@ -73,6 +74,8 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			else
 			{
 				cardManager.inputPressed(inputValue);
+				if (!wasRevealed && cardManager.getCard().isRevealed()) //card revelation
+					transactionManager.registerCardRevelation();
 				if (cardManager.getCard().isSelected() && cardManager.hasReactedToInput())
 				{
 					cardsToSelect = selectFromIndexToTop(i);

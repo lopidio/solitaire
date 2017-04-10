@@ -22,6 +22,7 @@ import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
+import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
 import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
@@ -43,6 +44,7 @@ public class MainGameState implements GameState
 	private List<TableauCardStack> tableaus;
 	boolean wonGame;
 	private GameMachine gameMachine;
+	private ScoreCounter scoreCounter;
 	
 	public MainGameState(GameMachine gameMachine)
 	{
@@ -53,6 +55,8 @@ public class MainGameState implements GameState
 		cascadeStacks = new ArrayList<>();
 		tableaus = new ArrayList<>();
 		this.gameMachine = gameMachine;
+		scoreCounter = new ScoreCounter();
+		transactionManager.setScoreCounter(scoreCounter);
 	}
 	
 	private void initTableauStacks(Vector2i windowSize)
@@ -180,11 +184,11 @@ public class MainGameState implements GameState
 	@Override
 	public void update(float updateDelta)
 	{
+		scoreCounter.update(updateDelta);
+		
 		inputController.handleEvent(updateDelta);
 		transactionManager.updateTransactions();
 
-//		if (transactionManager.updateTransactions())
-//			System.out.println("A transaction has happened");
 		if (!wonGame && checkVictory())
 		{
 			System.out.println("Congratulations!");
