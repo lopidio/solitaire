@@ -10,6 +10,7 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2i;
+import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.event.Event;
 import org.jsfml.window.event.Event.Type;
@@ -41,8 +42,9 @@ public class MainGameState implements GameState
 	private List<CascadeCardStack> cascadeStacks;
 	private List<TableauCardStack> tableaus;
 	boolean wonGame;
+	private GameMachine gameMachine;
 	
-	public MainGameState()
+	public MainGameState(GameMachine gameMachine)
 	{
 		transactionManager = new CardTransactionManager();
 		inputController = new InputController();
@@ -50,6 +52,7 @@ public class MainGameState implements GameState
 		drawables = new ArrayList<>();
 		cascadeStacks = new ArrayList<>();
 		tableaus = new ArrayList<>();
+		this.gameMachine = gameMachine;
 	}
 	
 	private void initTableauStacks(Vector2i windowSize)
@@ -178,8 +181,10 @@ public class MainGameState implements GameState
 	public void update(float updateDelta)
 	{
 		inputController.handleEvent(updateDelta);
-		if (transactionManager.updateTransactions())
-			System.out.println("A transaction has happened");
+		transactionManager.updateTransactions();
+
+//		if (transactionManager.updateTransactions())
+//			System.out.println("A transaction has happened");
 		if (!wonGame && checkVictory())
 		{
 			System.out.println("Congratulations!");
@@ -217,6 +222,12 @@ public class MainGameState implements GameState
 	        renderWindow.setView(new View(visibleArea));
 	        cascadeStacks.stream().forEach(cascade -> cascade.readjustToSize(visibleArea));
 	    }
+		if (event.type == Event.Type.KEY_PRESSED && event.asKeyEvent().key == Keyboard.Key.F2)
+		{
+			gameMachine.popState();
+			gameMachine.addState(new MainGameState(gameMachine));
+		}
+
 	}
 	
 }
