@@ -19,6 +19,7 @@ import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
+import br.com.guigasgame.solitaire.drawable.ScoreHUD;
 import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
@@ -42,9 +43,10 @@ public class MainGameState implements GameState
 	private CardTransactionManager transactionManager;
 	private List<CascadeCardStack> cascadeStacks;
 	private List<TableauCardStack> tableaus;
-	boolean wonGame;
+	boolean gameWon;
 	private GameMachine gameMachine;
 	private ScoreCounter scoreCounter;
+	private ScoreHUD scoreHUD;
 	
 	public MainGameState(GameMachine gameMachine)
 	{
@@ -160,6 +162,17 @@ public class MainGameState implements GameState
 		WasteCardStack wasteCardStack = initWasteStack(renderWindow.getSize());
 		initStockCardStack(renderWindow.getSize(), wasteCardStack);
 		initFoundationStacks(renderWindow.getSize());
+		
+		initHUD(renderWindow.getSize());
+	}
+
+	private void initHUD(Vector2i windowSize)
+	{
+		scoreHUD = new ScoreHUD(		
+				new PositionComponent(windowSize.x, windowSize.y),
+				new PositionComponent((float)((.5)/14.0), 0.90f),
+					scoreCounter);
+		drawables.add(scoreHUD);
 	}
 
 	private void shuffleCards()
@@ -176,7 +189,6 @@ public class MainGameState implements GameState
 			{
 				CardSolitaire card = new CardSolitaire(rank, suit);
 				fullDeck.add(card);
-				
 			}
 		}
 	}
@@ -184,17 +196,18 @@ public class MainGameState implements GameState
 	@Override
 	public void update(float updateDelta)
 	{
-		scoreCounter.update(updateDelta);
 		
 		inputController.handleEvent(updateDelta);
 		transactionManager.updateTransactions();
 
-		if (!wonGame && checkVictory())
+		if (!gameWon && checkVictory())
 		{
 			System.out.println("Congratulations!");
 			cascadeStacks.stream().forEach(cascade -> cascade.sendThemAllToRandomPositions());
-			wonGame = true;
+			gameWon = true;
 		}
+		if (!gameWon)
+			scoreCounter.update(updateDelta);
 	}
 
 	private boolean checkVictory()
@@ -225,6 +238,7 @@ public class MainGameState implements GameState
 	        FloatRect visibleArea = new FloatRect(0, 0, event.asSizeEvent().size.x, event.asSizeEvent().size.y);
 	        renderWindow.setView(new View(visibleArea));
 	        cascadeStacks.stream().forEach(cascade -> cascade.readjustToSize(visibleArea));
+	        scoreHUD.resizeEvent(renderWindow.getSize());
 	    }
 		if (event.type == Event.Type.KEY_PRESSED && event.asKeyEvent().key == Keyboard.Key.F2)
 		{
