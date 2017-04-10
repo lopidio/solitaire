@@ -15,7 +15,7 @@ public abstract class SolitaireCardStack implements CardStack
 	protected CardTransactionManager transactionManager;
 	protected PositionComponent center;
 	private SolitaireCardStackType stackType;
-	private List<CardStackListener> listeners;
+	protected List<CardStackListener> listeners;
 
 	public SolitaireCardStack(SolitaireCardStackType stackType)
 	{
@@ -52,10 +52,10 @@ public abstract class SolitaireCardStack implements CardStack
 	{
 		if (cards.isEmpty())
 			return null;
-		CardManager returnCard = cards.remove(cards.size() - 1);
-		returnCard.getCard().setStack(null);
-		listeners.stream().forEach(listener -> listener.cardRemoved(returnCard));
-		return returnCard;
+		CardManager card = cards.remove(cards.size() - 1);
+		card.getCard().setStack(null);
+		listeners.stream().forEach(listener -> listener.cardRemoved(card));
+		return card;
 	}
 
 	public CardManager getSolitaireTop()

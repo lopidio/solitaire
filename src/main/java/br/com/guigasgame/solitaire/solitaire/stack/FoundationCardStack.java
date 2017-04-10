@@ -98,6 +98,8 @@ public class FoundationCardStack extends SolitaireCardStack implements InputList
 		if (cardsToAdd.size() != 1)
 			return false;
 		CardManager topCardToAdd = cardsToAdd.get(0);
+		if (topCardToAdd.getCard().getStack().getStackType() == SolitaireCardStackType.stock)
+			return false;
 		if (cards.isEmpty())
 			return topCardToAdd.getCard().getRank() == Rank.ace && topCardToAdd.getCard().getStack().getStackType() != SolitaireCardStackType.foundation;
 	

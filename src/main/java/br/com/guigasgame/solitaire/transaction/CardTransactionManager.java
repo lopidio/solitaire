@@ -43,6 +43,9 @@ public class CardTransactionManager
 			}
 			transactions.remove(0);
 		}
+		if (!transactions.isEmpty())
+			if (transactions.get(0).getSelectedCards().isEmpty())
+				transactions.clear();
 		return methodReturn;
 	}
 
@@ -50,20 +53,26 @@ public class CardTransactionManager
 	{
 		if (checkIfTransactionIsPossible(to.getStack(), from.getUnselectedCards()))
 		{
+			System.out.println("Transfering " + from.getUnselectedCards().size() + " cards from: " + from.getStack().getStackType() + " to " + to.getStack().getStackType());
 			doTransaction(to.getStack(), from.getStack(), from.getUnselectedCards());
 			return true;
 		}
 		return false;
 	}
 
-	private void doTransaction(SolitaireCardStack destinyStack, SolitaireCardStack sourceStack, List<CardManager> cardsToMove)
+	private void doTransaction(SolitaireCardStack destinyStack, SolitaireCardStack sourceStack, List<CardManager> cards)
 	{
-		while(cardsToMove.size() > 0)
+		List<CardManager> cardsToMove = new ArrayList<>(cards); //clones
+		while(!cardsToMove.isEmpty())
 		{
-			CardManager card = cardsToMove.get(0);
-			sourceStack.removeCard();
+			CardManager card = sourceStack.removeCard();
 			destinyStack.addCard(card);
-			cardsToMove.remove(card);
+			int index = cardsToMove.indexOf(card);
+			if (index == -1)
+			{
+				System.out.println("Error");
+			}
+			cardsToMove.remove(index);
 		}
 		destinyStack.unselectAll();
 	}

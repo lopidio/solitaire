@@ -1,5 +1,6 @@
 package br.com.guigasgame.solitaire.transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
@@ -15,6 +16,8 @@ public class CardTransaction
 	{
 		super();
 		this.stack = stack;
+		selectedCards = new ArrayList<>();
+		unselectedCards = new ArrayList<>();
 	}
 	
 	public List<CardManager> getSelectedCards()

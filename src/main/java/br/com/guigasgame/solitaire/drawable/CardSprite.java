@@ -101,7 +101,7 @@ public class CardSprite implements CardDrawable
 
 	public boolean contains(int x, int y)
 	{
-		return sprite.getGlobalBounds().contains(x, y);
+		return null == destinyPosition && sprite.getGlobalBounds().contains(x, y);
 	}
 
 	public FloatRect getSize()

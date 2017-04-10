@@ -18,6 +18,10 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 	@Override
 	public boolean canAddCards(List<CardManager> cards)
 	{
+		if (cards.size() == 1)
+		{
+			return cards.get(0).getCard().getStack().getStackType() == SolitaireCardStackType.stock;
+		}
 		return false;
 	}
 	
@@ -81,6 +85,5 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 			transactionManager.addTransaction(transaction);
 		}
 	}
-	
 
 }
