@@ -101,7 +101,6 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 			if (top.hasReactedToInput())
 			{
 				CardTransaction transaction = new CardTransaction(this);
-				transaction.setUnselectedCards(new ArrayList<>());
 				List<CardManager> selected = new ArrayList<>();
 				selected.add(top);
 				transaction.setSelectedCards(selected);

@@ -86,14 +86,10 @@ public class CardTransactionManager
 	public void addTransactionToFoundationsAttempt(CardTransaction transaction)
 	{
 		transaction.setUnselectedCards(transaction.getSelectedCards());
-		transaction.setSelectedCards(new ArrayList<>());
 		for (FoundationCardStack foundationCardStack : foundations)
 		{
 			addTransaction(transaction);
-			CardTransaction destiny = new CardTransaction(foundationCardStack);
-			destiny.setUnselectedCards(new ArrayList<>());
-			destiny.setSelectedCards(new ArrayList<>());
-			addTransaction(destiny);
+			addTransaction(new CardTransaction(foundationCardStack));
 		}
 	}
 

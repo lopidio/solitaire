@@ -78,7 +78,6 @@ public class StockCardStack extends SolitaireCardStack implements InputListener
 	private void sendCardToWasteStack(InputEvent inputValue)
 	{
 		CardManager cardManager = cards.get(cards.size() - 1);
-		System.out.println("Stock top card: " + cardManager.getCard());
 		cardManager.inputPressed(inputValue);
 		if (cardManager.getCard().isRevealed())
 		{
