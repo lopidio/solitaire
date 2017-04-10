@@ -63,7 +63,7 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 		if (null != top)
 		{
 			top.doubleTapInput(inputValue);
-			if (top.hasReactedToInput())
+			if (top.hasReactedToInput() && top.getCard().isSelected())
 			{
 				CardTransaction transaction = new CardTransaction(this);
 				transaction.setUnselectedCards(new ArrayList<>());

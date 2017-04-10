@@ -98,7 +98,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 		if (null != top)
 		{
 			top.doubleTapInput(inputValue);
-			if (top.hasReactedToInput())
+			if (top.hasReactedToInput() && top.getCard().isSelected())
 			{
 				CardTransaction transaction = new CardTransaction(this);
 				List<CardManager> selected = new ArrayList<>();
