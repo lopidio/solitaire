@@ -56,6 +56,7 @@ public class WasteCardStack extends SolitaireCardStack implements InputListener
 			makeTransaction(cardsToUnselect, cardsToSelect);
 		}
 	}
+	
 	@Override
 	public void doubleTapInput(InputEvent inputValue)
 	{

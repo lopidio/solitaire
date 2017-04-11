@@ -93,7 +93,7 @@ public class TableauCardStack extends SolitaireCardStack implements InputListene
 
 		makeTransaction(cardsToUnselect, cardsToSelect, stackClicked);
 	}
-	
+
 	@Override
 	public void doubleTapInput(InputEvent inputValue)
 	{

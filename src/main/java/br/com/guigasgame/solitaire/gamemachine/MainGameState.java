@@ -89,6 +89,7 @@ public class MainGameState implements GameState, InputListener
 
 			leftButtonHandler.addInputListener(tableauCardStack);
 			rightButtonHandler.addInputListener(tableauCardStack);
+			transactionManager.addTableauStack(tableauCardStack);
 
 			drawables.add(cascadeCardStack);
 			cascadeStacks.add(cascadeCardStack);
@@ -129,6 +130,7 @@ public class MainGameState implements GameState, InputListener
 		leftButtonHandler.addInputListener(wasteCardStack);
 		rightButtonHandler.addInputListener(wasteCardStack);
 
+		transactionManager.setWasteStack(wasteCardStack);
 		drawables.add(wasteCascadeCardStack);
 		cascadeStacks.add(wasteCascadeCardStack);
 		return wasteCardStack;
@@ -163,7 +165,9 @@ public class MainGameState implements GameState, InputListener
 		rightButtonHandler = new MouseInput(Button.RIGHT, renderWindow);
 		inputController.addInputHandler(leftButtonHandler);
 		inputController.addInputHandler(rightButtonHandler);
+		
 		leftButtonHandler.addInputListener(this);
+		rightButtonHandler.addInputListener(transactionManager);
 		inputController.addInputHandler(leftButtonHandler);
 		initalizeDeck();
 		shuffleCards();

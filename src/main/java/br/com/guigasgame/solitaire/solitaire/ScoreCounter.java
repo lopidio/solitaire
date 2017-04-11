@@ -8,6 +8,7 @@ public class ScoreCounter implements TimeUpdatable
 	int score;
 	private float totalTime;
 	private int prevScore;
+	private int transactionCounter;
 	
 
 	public ScoreCounter()
@@ -33,6 +34,7 @@ public class ScoreCounter implements TimeUpdatable
  */
 	public void registerTransaction(SolitaireCardStackType from, SolitaireCardStackType to)
 	{
+		++transactionCounter;
 		if (to == SolitaireCardStackType.foundation)
 			score += 10;
 		else if (from == SolitaireCardStackType.waste && to == SolitaireCardStackType.tableau)
@@ -66,5 +68,16 @@ public class ScoreCounter implements TimeUpdatable
 			System.out.println("Current score: " + score);
 		prevScore = score;
 	}
+
+	public float getTotalTime()
+	{
+		return totalTime;
+	}
+
+	public int getTransactionCounter()
+	{
+		return transactionCounter;
+	}
+	
 
 }

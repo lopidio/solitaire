@@ -3,20 +3,32 @@ package br.com.guigasgame.solitaire.transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsfml.window.Mouse.Button;
+
+import br.com.guigasgame.solitaire.input.InputEvent;
+import br.com.guigasgame.solitaire.input.InputEventType;
+import br.com.guigasgame.solitaire.input.InputListener;
+import br.com.guigasgame.solitaire.input.MouseEvent;
 import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
+import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
+import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
 
-public class CardTransactionManager
+public class CardTransactionManager implements InputListener
 {
 	private List<CardTransaction> transactions;
 	private List<FoundationCardStack> foundations;
 	private ScoreCounter scoreCounter;
+	private List<SolitaireCardStack> stacksToSendCardsFromToFoundations;
+	private boolean sendCardsToFoundationWhilePossible;
+	
 	public CardTransactionManager()
 	{
 		transactions = new ArrayList<>();
 		foundations = new ArrayList<>();
+		stacksToSendCardsFromToFoundations = new ArrayList<>();
 	}
 
 	public void addTransaction(CardTransaction transaction)
@@ -27,6 +39,8 @@ public class CardTransactionManager
 	
 	public boolean updateTransactions()
 	{
+		if (sendCardsToFoundationWhilePossible)
+			makeAttemptToSendCardsToFoundationFromAllStacks();
 		boolean methodReturn = false;
 		while (transactions.size() > 1)
 		{
@@ -36,11 +50,11 @@ public class CardTransactionManager
 			{
 				if (b.getUnselectedCards().size() > 0) //from b to a
 				{
-					methodReturn = tryToMakeTransaction(b, a);
+					methodReturn |= tryToMakeTransaction(b, a);
 				}
 				else if (a.getUnselectedCards().size() > 0) //from a to b
 				{
-					methodReturn = tryToMakeTransaction(a, b);
+					methodReturn |= tryToMakeTransaction(a, b);
 				}
 			}
 			transactions.remove(0);
@@ -48,6 +62,8 @@ public class CardTransactionManager
 		if (!transactions.isEmpty())
 			if (transactions.get(0).getSelectedCards().isEmpty())
 				transactions.clear();
+		if (sendCardsToFoundationWhilePossible)
+			sendCardsToFoundationWhilePossible = methodReturn;
 		return methodReturn;
 	}
 
@@ -85,6 +101,24 @@ public class CardTransactionManager
 		list.addAll(cardsToMove);
 		return (destinyStack.canAddCards(list));
 	}
+	
+	private void makeAttemptToSendCardsToFoundationFromAllStacks()
+	{
+		for (SolitaireCardStack solitaireCardStack : stacksToSendCardsFromToFoundations)
+		{
+			CardTransaction transaction = new CardTransaction(solitaireCardStack);
+			transaction.setUnselectedCards(new ArrayList<>());
+			List<CardManager> selected = new ArrayList<>();
+			CardManager top = solitaireCardStack.getTop();
+			if (null != top)
+			{
+				top.revealCard();
+				selected.add(top);
+				transaction.setSelectedCards(selected);
+				addTransactionToFoundationsAttempt(transaction);
+			}
+		}
+	}
 
 	public void addTransactionToFoundationsAttempt(CardTransaction transaction)
 	{
@@ -109,5 +143,29 @@ public class CardTransactionManager
 	public void registerCardRevelation()
 	{
 		scoreCounter.registerCardRevelation();
+	}
+
+	public void setWasteStack(WasteCardStack wasteCardStack)
+	{
+		stacksToSendCardsFromToFoundations.add(wasteCardStack);
+	}
+
+	public void addTableauStack(TableauCardStack tableauCardStack)
+	{
+		stacksToSendCardsFromToFoundations.add(tableauCardStack);
+	}
+	
+	@Override
+	public void inputPressed(InputEvent inputValue)
+	{
+		if (inputValue.getInputEventType() == InputEventType.mouse)
+		{
+			MouseEvent mouseEvent = (MouseEvent) inputValue;
+			if (mouseEvent.getMouseButton() ==  Button.RIGHT)
+			{
+				sendCardsToFoundationWhilePossible = true;
+			}
+				
+		}
 	}
 }
