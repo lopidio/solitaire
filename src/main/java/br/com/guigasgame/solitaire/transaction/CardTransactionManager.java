@@ -112,7 +112,11 @@ public class CardTransactionManager implements InputListener
 			CardManager top = solitaireCardStack.getTop();
 			if (null != top)
 			{
-				top.revealCard();
+				if (!top.isRevealed())
+				{
+					top.revealCard();
+					scoreCounter.registerCardRevelation();
+				}
 				selected.add(top);
 				transaction.setSelectedCards(selected);
 				addTransactionToFoundationsAttempt(transaction);

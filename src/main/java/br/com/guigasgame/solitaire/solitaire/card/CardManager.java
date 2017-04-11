@@ -163,5 +163,10 @@ public class CardManager implements InputListener
 		card.unreveal();
 		cardDrawable.unreveal();
 	}
+
+	public boolean isRevealed()
+	{
+		return card.isRevealed();
+	}
 	
 }

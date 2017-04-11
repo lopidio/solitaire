@@ -22,10 +22,6 @@ import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.ScoreHUD;
 import br.com.guigasgame.solitaire.drawable.TimeCounterHUD;
 import br.com.guigasgame.solitaire.input.InputController;
-import br.com.guigasgame.solitaire.input.InputEvent;
-import br.com.guigasgame.solitaire.input.InputEventType;
-import br.com.guigasgame.solitaire.input.InputListener;
-import br.com.guigasgame.solitaire.input.MouseEvent;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
@@ -37,7 +33,7 @@ import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
 import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
-public class MainGameState implements GameState, InputListener
+public class MainGameState implements GameState
 {
 	
 	private List<CardSolitaire> fullDeck;
@@ -166,7 +162,6 @@ public class MainGameState implements GameState, InputListener
 		inputController.addInputHandler(leftButtonHandler);
 		inputController.addInputHandler(rightButtonHandler);
 		
-		leftButtonHandler.addInputListener(this);
 		rightButtonHandler.addInputListener(transactionManager);
 		inputController.addInputHandler(leftButtonHandler);
 		initalizeDeck();
@@ -218,7 +213,8 @@ public class MainGameState implements GameState, InputListener
 	{
 		
 		inputController.handleEvent(updateDelta);
-		transactionManager.updateTransactions();
+		if (transactionManager.updateTransactions())
+			timeCounterHUD.startCounting();
 
 		if (!gameWon && checkVictory())
 		{
@@ -270,19 +266,6 @@ public class MainGameState implements GameState, InputListener
 			gameMachine.addState(new MainGameState(gameMachine));
 		}
 
-	}
-	
-	@Override
-	public void inputPressed(InputEvent inputValue)
-	{
-		if (inputValue.getInputEventType() == InputEventType.mouse)
-		{
-			MouseEvent mouseEvent = (MouseEvent) inputValue;
-			if (mouseEvent.getMouseButton() == Button.LEFT)
-			{
-				timeCounterHUD.startCounting();
-			}
-		}
 	}
 	
 }
