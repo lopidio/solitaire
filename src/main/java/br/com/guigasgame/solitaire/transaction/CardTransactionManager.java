@@ -13,6 +13,7 @@ import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
 import br.com.guigasgame.solitaire.solitaire.card.CardManager;
 import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStack;
+import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStackType;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
 
@@ -112,7 +113,7 @@ public class CardTransactionManager implements InputListener
 			CardManager top = solitaireCardStack.getTop();
 			if (null != top)
 			{
-				if (!top.isRevealed())
+				if (solitaireCardStack.getStackType() == SolitaireCardStackType.tableau && !top.isRevealed())
 				{
 					top.revealCard();
 					scoreCounter.registerCardRevelation();
