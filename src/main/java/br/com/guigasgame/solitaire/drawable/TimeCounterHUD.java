@@ -33,6 +33,7 @@ public class TimeCounterHUD implements Drawable, TimeUpdatable
 		text.setColor(Color.BLACK);
 		decimalFormat = new DecimalFormat();
 		decimalFormat.setMaximumFractionDigits(1);
+		decimalFormat.setMinimumFractionDigits(1);
 	}
 
 	@Override
