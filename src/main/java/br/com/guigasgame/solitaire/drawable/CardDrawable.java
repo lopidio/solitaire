@@ -31,4 +31,6 @@ public interface CardDrawable extends Drawable
 
 	public void moveTo(PositionComponent newPosition, float slowFactor);
 
+	public boolean isNotMoving();
+
 }

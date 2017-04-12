@@ -60,4 +60,9 @@ public class TimeCounterHUD implements Drawable, TimeUpdatable
 	{
 		counting = true;
 	}
+
+	public float getTime()
+	{
+		return time;
+	}
 }

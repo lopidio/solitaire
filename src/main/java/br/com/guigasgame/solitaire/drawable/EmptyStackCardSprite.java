@@ -107,4 +107,10 @@ public class EmptyStackCardSprite implements CardDrawable
 		
 	}
 
+	@Override
+	public boolean isNotMoving()
+	{
+		return true;
+	}
+
 }

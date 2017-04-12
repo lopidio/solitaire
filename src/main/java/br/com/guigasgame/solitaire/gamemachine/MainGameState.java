@@ -19,6 +19,7 @@ import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
+import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
 import br.com.guigasgame.solitaire.drawable.ScoreHUD;
 import br.com.guigasgame.solitaire.drawable.TimeCounterHUD;
 import br.com.guigasgame.solitaire.input.InputController;
@@ -49,6 +50,7 @@ public class MainGameState implements GameState
 	private ScoreCounter scoreCounter;
 	private ScoreHUD scoreHUD;
 	private TimeCounterHUD timeCounterHUD;
+	private FinishGameAnimation finishGameAnimation;
 	
 	public MainGameState(GameMachine gameMachine) 
 	{
@@ -154,6 +156,8 @@ public class MainGameState implements GameState
 	@Override
 	public void enterState(RenderWindow renderWindow)
 	{
+		finishGameAnimation = new FinishGameAnimation(renderWindow.getSize());
+
 		leftButtonHandler = new MouseInput(Button.LEFT, renderWindow);
 		rightButtonHandler = new MouseInput(Button.RIGHT, renderWindow);
 		inputController.addInputHandler(leftButtonHandler);
@@ -216,14 +220,22 @@ public class MainGameState implements GameState
 		if (!gameWon && checkVictory())
 		{
 			System.out.println("Congratulations!");
-			cascadeStacks.stream().forEach(cascade -> cascade.sendThemAllToRandomPositions());
+			cascadeStacks.stream().forEach(cascade -> 
+			{
+				if (cascade.getCards().size() > 0) 
+					finishGameAnimation.addCascade(cascade.getCards());
+			});
+			drawables.add(finishGameAnimation);
 			gameWon = true;
+			System.out.println("Total time: " + timeCounterHUD.getTime());
 		}
 		if (!gameWon)
 		{
 			timeCounterHUD.update(updateDelta);
 			scoreCounter.update(updateDelta);
 		}
+		if (gameWon && null != finishGameAnimation)
+			finishGameAnimation.update(updateDelta);
 	}
 
 	private boolean checkVictory()
@@ -251,7 +263,8 @@ public class MainGameState implements GameState
 	    if (event.type == Type.RESIZED)
 	    {
 	        // update the view to the new size of the window
-	        FloatRect visibleArea = new FloatRect(0, 0, event.asSizeEvent().size.x, event.asSizeEvent().size.y);
+			finishGameAnimation = new FinishGameAnimation(event.asSizeEvent().size);
+			FloatRect visibleArea = new FloatRect(0, 0, event.asSizeEvent().size.x, event.asSizeEvent().size.y);
 	        renderWindow.setView(new View(visibleArea));
 	        cascadeStacks.stream().forEach(cascade -> cascade.readjustToSize(visibleArea));
 	        scoreHUD.resizeEvent(renderWindow.getSize());
