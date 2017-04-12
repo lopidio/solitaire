@@ -108,7 +108,6 @@ public class MainGameState implements GameState
 		stockCardStack.addListener(cascadeCardStack);
 
 		leftButtonHandler.addInputListener(stockCardStack);
-		rightButtonHandler.addInputListener(stockCardStack);
 
 		drawables.add(cascadeCardStack);
 		cascadeStacks.add(cascadeCardStack);
@@ -124,7 +123,6 @@ public class MainGameState implements GameState
 		wasteCardStack.setTransactionManager(transactionManager);
 		wasteCardStack.addListener(wasteCascadeCardStack);
 		leftButtonHandler.addInputListener(wasteCardStack);
-		rightButtonHandler.addInputListener(wasteCardStack);
 
 		transactionManager.setWasteStack(wasteCardStack);
 		drawables.add(wasteCascadeCardStack);
@@ -138,7 +136,6 @@ public class MainGameState implements GameState
 		{
 			FoundationCardStack foundationCardStack = new FoundationCardStack();
 			leftButtonHandler.addInputListener(foundationCardStack);
-			rightButtonHandler.addInputListener(foundationCardStack);
 			
 			CascadeCardStack cascade = new CascadeCardStack(foundationCardStack,
 											new PositionComponent(windowSize.x, windowSize.y),
