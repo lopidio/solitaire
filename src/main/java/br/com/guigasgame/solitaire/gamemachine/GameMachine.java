@@ -90,7 +90,7 @@ public class GameMachine
 		gameLoop();
 		gameStates.lastElement().unload();
 		gameStates.lastElement().exitState();
-		renderWindow.clear();
+		System.exit(0);					
 	}
 
 	private void gameLoop()

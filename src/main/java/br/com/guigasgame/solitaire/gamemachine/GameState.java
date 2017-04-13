@@ -8,9 +8,15 @@ import org.jsfml.window.event.Event;
 public interface GameState
 {
 
-	public void update(float updateDelta);
+	public default void update(float updateDelta)
+	{
+		
+	}
 
-	public void draw(RenderTarget renderTarget);
+	public default void draw(RenderTarget renderTarget)
+	{
+		
+	}
 
 	public default void enterState(RenderWindow renderWindow)
 	{

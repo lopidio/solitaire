@@ -270,10 +270,19 @@ public class MainGameState implements GameState
 	        scoreHUD.resizeEvent(renderWindow.getSize());
 	        timeCounterHUD.resizeEvent(renderWindow.getSize());
 	    }
-		if (event.type == Event.Type.KEY_PRESSED && event.asKeyEvent().key == Keyboard.Key.F2)
+		if (event.type == Event.Type.KEY_PRESSED)
 		{
-			gameMachine.popState();
-			gameMachine.addState(new MainGameState(gameMachine));
+			if (event.asKeyEvent().key == Keyboard.Key.F2)
+			{
+				gameMachine.switchState(new MainGameState(gameMachine));
+				
+			}
+			else if (event.asKeyEvent().key == Keyboard.Key.RETURN /*|| event.asKeyEvent().key == Keyboard.Key.ESCAPE*/)
+			{
+				
+				PauseState pauseState = new PauseState(gameMachine);
+				gameMachine.addState(pauseState);
+			}
 		}
 
 	}
