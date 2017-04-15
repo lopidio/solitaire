@@ -45,12 +45,11 @@ public class MainGameState implements GameState
 	private List<CascadeCardStack> cascadeStacks;
 	private List<TableauCardStack> tableaus;
 	boolean gameWon;
-	private GameMachine gameMachine;
 	private ScoreCounter scoreCounter;
 	private ScoreHUD scoreHUD;
 	private TimeCounterHUD timeCounterHUD;
 	
-	public MainGameState(GameMachine gameMachine) 
+	public MainGameState() 
 	{
 		transactionManager = new CardTransactionManager();
 		inputController = new InputController();
@@ -59,7 +58,6 @@ public class MainGameState implements GameState
 		drawables = new ArrayList<>();
 		cascadeStacks = new ArrayList<>();
 		tableaus = new ArrayList<>();
-		this.gameMachine = gameMachine;
 		scoreCounter = new ScoreCounter();
 		transactionManager.setScoreCounter(scoreCounter);
 	}
@@ -215,7 +213,7 @@ public class MainGameState implements GameState
 		if (!gameWon && checkVictory())
 		{
 			EndGameState endGameState = new EndGameState(scoreCounter, cascadeStacks);
-			gameMachine.switchState(endGameState);
+			GameMachine.getInstance().switchState(endGameState);
 			gameWon = true;
 		}
 		timeCounterHUD.update(updateDelta);
@@ -257,14 +255,14 @@ public class MainGameState implements GameState
 		{
 			if (event.asKeyEvent().key == Keyboard.Key.F2)
 			{
-				gameMachine.switchState(new MainGameState(gameMachine));
+				GameMachine.getInstance().switchState(new MainGameState());
 				
 			}
 			else if (event.asKeyEvent().key == Keyboard.Key.RETURN /*|| event.asKeyEvent().key == Keyboard.Key.ESCAPE*/)
 			{
 				
-				PauseState pauseState = new PauseState(gameMachine);
-				gameMachine.addState(pauseState);
+				PauseState pauseState = new PauseState();
+				GameMachine.getInstance().addState(pauseState);
 			}
 		}
 

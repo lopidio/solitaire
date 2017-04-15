@@ -34,7 +34,7 @@ public class GameMachine
 		GameMachine gameMachine = getInstance();
 
 		gameMachine.popState();
-		gameMachine.addState(new MainGameState(gameMachine));
+		gameMachine.addState(new MainGameState());
 		gameMachine.execute();
 	}
 

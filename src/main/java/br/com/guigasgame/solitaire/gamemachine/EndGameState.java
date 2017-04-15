@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.window.Keyboard;
+import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
@@ -46,4 +48,18 @@ public class EndGameState implements GameState
 	{
 		finishGameAnimation.update(updateDelta);
 	}
+	
+	@Override
+	public void handleEvent(Event event, RenderWindow renderWindow)
+	{
+		if (event.type == Event.Type.KEY_PRESSED)
+		{
+			if (event.asKeyEvent().key == Keyboard.Key.F2)
+			{
+				GameMachine.getInstance().switchState(new MainGameState());
+			}
+		}
+
+	}
+
 }
