@@ -6,9 +6,10 @@ import br.com.guigasgame.solitaire.updatable.TimeUpdatable;
 public class ScoreCounter implements TimeUpdatable
 {
 	int score;
-	private float totalTime;
+	private float scoreTimeCounter;
 	private int prevScore;
 	private int transactionCounter;
+	private float totalTime;
 	
 
 	public ScoreCounter()
@@ -26,12 +27,12 @@ public class ScoreCounter implements TimeUpdatable
 			Foundation to Tableau	−15
 			Recycle waste when playing by ones	−100 (minimum score is 0)
 	 */
-/*
+	/*
 			Time can also play a factor in Windows Solitaire, if the Timed game option is selected. 
 			For every 10 seconds of play, 2 points are taken away. 
 			Bonus points are calculated with the formula of 700,000 / (seconds to finish) if the game takes more than 30 seconds. 
 			If the game takes less than 30 seconds, no bonus points are awarded.
- */
+	 */
 	public void registerTransaction(SolitaireCardStackType from, SolitaireCardStackType to)
 	{
 		++transactionCounter;
@@ -58,10 +59,11 @@ public class ScoreCounter implements TimeUpdatable
 	@Override
 	public void update(float deltaTime)
 	{
+		scoreTimeCounter += deltaTime;
 		totalTime += deltaTime;
-		if (totalTime >= 10)
+		if (scoreTimeCounter >= 10)
 		{
-			totalTime -= 10;
+			scoreTimeCounter -= 10;
 			score = Math.max(0, score - 2);
 		}
 		if (prevScore != score)

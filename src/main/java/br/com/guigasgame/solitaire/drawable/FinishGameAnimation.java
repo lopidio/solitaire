@@ -25,21 +25,19 @@ public class FinishGameAnimation implements TimeUpdatable, Drawable
 	private Random random;
 	private boolean goingCenter;
 
-	public FinishGameAnimation(Vector2i windowSize)
+	public FinishGameAnimation()
 	{
 		foundationCards = new ArrayList<>();
 		centerCards = new ArrayList<>();
-		visibleAreaDiagonal = (float) Math.sqrt(windowSize.x*windowSize.x + windowSize.y*windowSize.y)/4;
-		center = new PositionComponent(windowSize.x/2, windowSize.y/2);
-		angles = new ArrayList<>();
 		initalizeAngles();
 		random = new Random();
 	}
 
 	private void initalizeAngles()
 	{
+		angles = new ArrayList<>();
 		double angleStep = Math.PI*2/(Rank.values().length*Suit.values().length);
-		for (int i = Rank.values().length*Suit.values().length; i >= 0; --i )
+		for (int i = Rank.values().length*Suit.values().length - 1; i >= 0; --i )
 		{
 			angles.add((float) (i*angleStep));
 		}
@@ -111,11 +109,18 @@ public class FinishGameAnimation implements TimeUpdatable, Drawable
 	public void draw(RenderTarget renderTarget)
 	{
 		foundationCards.stream().forEach(card -> card.getDrawableCard().draw(renderTarget));
+		centerCards.stream().forEach(card -> card.getDrawableCard().draw(renderTarget));
 	}
 
 	public void addCascade(List<CardManager> list)
 	{
 		foundationCards.addAll(list);
+	}
+
+	public void setSize(Vector2i windowSize)
+	{
+		visibleAreaDiagonal = (float) Math.sqrt(windowSize.x*windowSize.x + windowSize.y*windowSize.y)/4;
+		center = new PositionComponent(windowSize.x/2, windowSize.y/2);
 	}
 
 }

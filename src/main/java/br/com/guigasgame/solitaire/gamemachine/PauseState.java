@@ -4,7 +4,7 @@ package br.com.guigasgame.solitaire.gamemachine;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import br.com.guigasgame.solitaire.gui.PauseGui;
+import br.com.guigasgame.solitaire.gui.PauseFrame;
 
 public class PauseState implements GameState, WindowListener 
 {
@@ -14,9 +14,9 @@ public class PauseState implements GameState, WindowListener
 	public PauseState(GameMachine gameMachine)
 	{
 		this.gameMachine = gameMachine;
-		PauseGui pauseGui = new PauseGui();
-		pauseGui.setVisible(true);
-		pauseGui.addWindowListener(this);
+		PauseFrame pauseFrame = new PauseFrame();
+		pauseFrame.setVisible(true);
+		pauseFrame.addWindowListener(this);
 	}
 
 
