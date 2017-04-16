@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<recordRank>
+    <scores>
+        <score>200</score>
+        <transactionCounter>100</transactionCounter>
+        <totalTime>148.6</totalTime>
+    </scores>
+    <scores>
+        <score>300</score>
+        <transactionCounter>150</transactionCounter>
+        <totalTime>148.6</totalTime>
+    </scores>
+    <scores>
+        <score>300</score>
+        <transactionCounter>100</transactionCounter>
+        <totalTime>148.6</totalTime>
+    </scores>
+</recordRank>

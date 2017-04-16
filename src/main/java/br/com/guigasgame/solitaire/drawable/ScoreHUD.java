@@ -7,7 +7,7 @@ import org.jsfml.system.Vector2i;
 
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.FontResourceManager;
-import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
+import br.com.guigasgame.solitaire.solitaire.score.ScoreCounter;
 
 public class ScoreHUD implements Drawable
 {

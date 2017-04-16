@@ -9,7 +9,9 @@ import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
-import br.com.guigasgame.solitaire.solitaire.ScoreCounter;
+import br.com.guigasgame.solitaire.solitaire.score.RecordRank;
+import br.com.guigasgame.solitaire.solitaire.score.Score;
+import br.com.guigasgame.solitaire.solitaire.score.ScoreCounter;
 
 public class EndGameState implements GameState
 {
@@ -32,9 +34,16 @@ public class EndGameState implements GameState
 	{
 		finishGameAnimation.setSize(renderWindow.getSize());
 		System.out.println("Congratulations!");
-		System.out.println("Your time: " + scoreCounter.getTotalTime());
-		System.out.println("Your score: " + scoreCounter.getScore());
-		System.out.println("Your moves: " + scoreCounter.getTransactionCounter());
+		RecordRank recordRank = RecordRank.loadFromFile();
+		if (null == recordRank)
+		{
+			recordRank = new RecordRank();
+		}
+		
+		Score score = new Score(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime());
+		System.out.println(score);
+		recordRank.addScore(score);
+		recordRank.save();
 	}
 	
 	@Override

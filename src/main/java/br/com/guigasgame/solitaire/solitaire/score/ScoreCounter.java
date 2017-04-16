@@ -1,11 +1,11 @@
-package br.com.guigasgame.solitaire.solitaire;
+package br.com.guigasgame.solitaire.solitaire.score;
 
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStackType;
 import br.com.guigasgame.solitaire.updatable.TimeUpdatable;
 
 public class ScoreCounter implements TimeUpdatable
 {
-	int score;
+	private int score;
 	private float scoreTimeCounter;
 	private int prevScore;
 	private int transactionCounter;
