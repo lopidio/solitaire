@@ -34,7 +34,7 @@ public class CardManager implements InputListener
 				reactedToInput = true;
 				if (mouseEvent.getMouseButton() == Button.LEFT)
 					selectInput();
-				if (mouseEvent.getMouseButton() == Button.RIGHT)
+				if (mouseEvent.getMouseButton() == Button.RIGHT && isRevealed())
 					makeVisibleInput();
 			}
 			else if (card.isSelected() && mouseEvent.getMouseButton() == Button.LEFT)
