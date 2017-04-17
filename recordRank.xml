@@ -1,18 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <recordRank>
     <scores>
-        <score>200</score>
-        <transactionCounter>100</transactionCounter>
-        <totalTime>148.6</totalTime>
+        <score>319</score>
+        <transactionCounter>146</transactionCounter>
+        <totalTime>144.17558</totalTime>
+        <date>2017-04-16T21:59:44.407-03:00</date>
     </scores>
     <scores>
-        <score>300</score>
-        <transactionCounter>150</transactionCounter>
-        <totalTime>148.6</totalTime>
+        <score>386</score>
+        <transactionCounter>155</transactionCounter>
+        <totalTime>175.18468</totalTime>
+        <date>2017-04-16T22:14:12.853-03:00</date>
     </scores>
     <scores>
-        <score>300</score>
-        <transactionCounter>100</transactionCounter>
-        <totalTime>148.6</totalTime>
+        <score>413</score>
+        <transactionCounter>156</transactionCounter>
+        <totalTime>167.80315</totalTime>
+        <date>2017-04-16T22:04:14.476-03:00</date>
+    </scores>
+    <scores>
+        <score>421</score>
+        <transactionCounter>144</transactionCounter>
+        <totalTime>124.545456</totalTime>
+        <date>2017-04-16T21:59:44.410-03:00</date>
+    </scores>
+    <scores>
+        <score>439</score>
+        <transactionCounter>129</transactionCounter>
+        <totalTime>131.1121</totalTime>
+        <date>2017-04-16T22:07:03.943-03:00</date>
+    </scores>
+    <scores>
+        <score>442</score>
+        <transactionCounter>133</transactionCounter>
+        <totalTime>142.44267</totalTime>
+        <date>2017-04-16T21:59:44.412-03:00</date>
+    </scores>
+    <scores>
+        <score>460</score>
+        <transactionCounter>123</transactionCounter>
+        <totalTime>103.0742</totalTime>
+        <date>2017-04-16T21:59:44.410-03:00</date>
+    </scores>
+    <scores>
+        <score>488</score>
+        <transactionCounter>133</transactionCounter>
+        <totalTime>111.57602</totalTime>
+        <date>2017-04-16T21:59:44.410-03:00</date>
+    </scores>
+    <scores>
+        <score>547</score>
+        <transactionCounter>136</transactionCounter>
+        <totalTime>120.32789</totalTime>
+        <date>2017-04-16T21:59:44.411-03:00</date>
+    </scores>
+    <scores>
+        <score>549</score>
+        <transactionCounter>116</transactionCounter>
+        <totalTime>84.6536</totalTime>
+        <date>2017-04-16T21:59:44.411-03:00</date>
+    </scores>
+    <scores>
+        <score>557</score>
+        <transactionCounter>116</transactionCounter>
+        <totalTime>90.8716</totalTime>
+        <date>2017-04-16T21:59:44.411-03:00</date>
+    </scores>
+    <scores>
+        <score>593</score>
+        <transactionCounter>125</transactionCounter>
+        <totalTime>110.0757</totalTime>
+        <date>2017-04-16T21:59:44.412-03:00</date>
     </scores>
 </recordRank>

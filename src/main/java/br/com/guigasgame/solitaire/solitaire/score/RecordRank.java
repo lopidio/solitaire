@@ -31,18 +31,33 @@ public class RecordRank
 	
 	public static void main(String[] args)
 	{
-		RecordRank recordRank = RecordRank.loadFromFile();
-		if (null == recordRank)
+		try
 		{
-			recordRank = new RecordRank();
+
+//			Client client = Client.create();
+//			WebResource webResource = client.resource("http://localhost:1880/records");
+//
+//			ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
+//
+//			if (response.getStatus() != 200)
+//			{
+//				throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+//			}
+//
+//			String output = response.getEntity(String.class);
+//
+//			System.out.println("Output from Server .... \n");
+//			System.out.println(output);
+
 		}
-		recordRank.addScore(new Score(200, 100, (float) 148.6));
-		recordRank.addScore(new Score(300, 150, (float) 148.6));
-		recordRank.addScore(new Score(300, 100, (float) 148.6));
-		recordRank.save();
+		catch (Exception e)
+		{
 
+			e.printStackTrace();
+
+		}
 	}
-
+	
 	public void save()
 	{
 		for (Score score : scores)
