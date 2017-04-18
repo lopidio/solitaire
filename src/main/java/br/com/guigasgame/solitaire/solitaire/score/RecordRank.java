@@ -12,6 +12,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
+import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory;
+
 @XmlRootElement
 public class RecordRank
 {
@@ -31,9 +34,14 @@ public class RecordRank
 	
 	public static void main(String[] args)
 	{
-		try
-		{
-
+//		https://aws.amazon.com/eclipse/
+//		https://aws.amazon.com/blogs/developer/invoking-aws-lambda-functions-from-java/
+//		try
+//		{
+//			final RecordRank catService = LambdaInvokerFactory.builder()
+//					 .lambdaClient(AWSLambdaClientBuilder.defaultClient())
+//					 .build(RecordRank.class);
+			
 //			Client client = Client.create();
 //			WebResource webResource = client.resource("http://localhost:1880/records");
 //
@@ -49,13 +57,13 @@ public class RecordRank
 //			System.out.println("Output from Server .... \n");
 //			System.out.println(output);
 
-		}
-		catch (Exception e)
-		{
-
-			e.printStackTrace();
-
-		}
+//		}
+//		catch (Exception e)
+//		{
+//
+//			e.printStackTrace();
+//
+//		}
 	}
 	
 	public void save()

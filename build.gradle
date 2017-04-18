@@ -7,6 +7,9 @@
  * user guide available at https://docs.gradle.org/2.14.1/userguide/tutorial_java_projects.html
  */
 
+
+
+apply plugin: "jp.classmethod.aws.lambda"
 buildscript {
   repositories {
     maven {
@@ -14,9 +17,11 @@ buildscript {
     }
   }
   dependencies {
+    classpath "jp.classmethod.aws:gradle-aws-plugin:0.35"
     classpath "gradle.plugin.com.intershop.gradle.jaxb:jaxb-gradle-plugin:2.0.0"
   }
 }
+
 
 apply plugin: "com.intershop.gradle.jaxb"
 // Apply the java plugin to add support for Java
@@ -24,7 +29,6 @@ apply plugin: 'java'
   compileJava {
   sourceCompatibility = '1.8'
 }
-
 
 // In this section you declare where to find the dependencies of your project
 repositories {
