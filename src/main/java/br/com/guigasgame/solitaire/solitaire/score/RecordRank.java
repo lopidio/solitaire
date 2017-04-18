@@ -68,10 +68,6 @@ public class RecordRank
 	
 	public void save()
 	{
-		for (Score score : scores)
-		{
-			System.out.println(score);
-		}
 		try
 		{
 
@@ -82,8 +78,8 @@ public class RecordRank
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			jaxbMarshaller.marshal(this, file);
-			jaxbMarshaller.marshal(this, System.out);
+//			jaxbMarshaller.marshal(this, file);
+//			jaxbMarshaller.marshal(this, System.out);
 
 		}
 		catch (JAXBException e)
