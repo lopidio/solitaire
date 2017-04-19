@@ -9,14 +9,15 @@ import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
-import br.com.guigasgame.solitaire.solitaire.score.RecordRank;
-import br.com.guigasgame.solitaire.solitaire.score.Score;
+import br.com.guigasgame.solitaire.solitaire.score.ScoreRecorder;
+import br.com.guigasgame.solitaire.solitaire.score.ScoreModel;
 import br.com.guigasgame.solitaire.solitaire.score.ScoreCounter;
 
 public class EndGameState implements GameState
 {
 	private FinishGameAnimation finishGameAnimation;
 	private ScoreCounter scoreCounter;
+	ScoreRecorder recordRank;
 
 	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks)
 	{
@@ -27,6 +28,7 @@ public class EndGameState implements GameState
 				finishGameAnimation.addCascade(cascade.getCards());
 		});
 		this.scoreCounter = scoreCounter;
+		recordRank = new ScoreRecorder();
 	}
 
 	@Override
@@ -34,16 +36,10 @@ public class EndGameState implements GameState
 	{
 		finishGameAnimation.setSize(renderWindow.getSize());
 		System.out.println("Congratulations!");
-		RecordRank recordRank = RecordRank.loadFromFile();
-		if (null == recordRank)
-		{
-			recordRank = new RecordRank();
-		}
-		
-		Score score = new Score(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime());
+		ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
 		System.out.println(score);
-		recordRank.addScore(score);
-		recordRank.save();
+		int position = recordRank.addScore(score);
+		System.out.println("Posição obtida: " + position);
 	}
 	
 	@Override
