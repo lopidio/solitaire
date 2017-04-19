@@ -4,8 +4,23 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="C:/Users/b1104460/Dev/aws-java-sdk-1.11.119/lib/aws-java-sdk-1.11.119.jar"/>
-	<classpathentry kind="lib" path="C:/Users/b1104460/Dev/aws-java-sdk-1.11.119/lib/aws-java-sdk-1.11.119-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/b1104460/Dev/aws-java-sdk-1.11.119/lib/aws-java-sdk-1.11.119-sources.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120-sources.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-logging-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-annotations-2.8.0.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-core-2.8.0.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-databind-2.8.0.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/fluent-hc-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-cache-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-win-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpcore-4.4.6.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpmime-4.5.3.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jna-4.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jna-platform-4.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/joda-time-2.9.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
