@@ -10,7 +10,6 @@ import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import br.com.guigasgame.solitaire.card.Card;
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
 import br.com.guigasgame.solitaire.position.PositionComponent;
@@ -28,10 +27,10 @@ public class CardSprite implements CardDrawable
 	private Vector2f destinyPosition;
 	private float slowFactor;
 
-	public CardSprite(Card card)
+	public CardSprite(CardSolitaire card)
 	{
 		super();
-		this.card = (CardSolitaire) card;
+		this.card = card;
 		
 		texture = TextureResourceManager.getInstance().getResource("assets/cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);

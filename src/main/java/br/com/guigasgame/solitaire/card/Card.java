@@ -38,10 +38,6 @@ public class Card
 		{
 			return false;
 		}
-		if ((this.suit == null) ? (other.suit != null) : !this.suit.equals(other.suit))
-		{
-			return false;
-		}
 		return true;
 	
 	}
