@@ -12,7 +12,7 @@ import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory;
 public class AwsLambdaScoreRepository implements ScoreRepository
 {
 
-	private ScoreAwsLambdaService scoreService;
+	private LambdaScoreService lambdaScoreService;
 	
 	public AwsLambdaScoreRepository()
 	{
@@ -21,21 +21,22 @@ public class AwsLambdaScoreRepository implements ScoreRepository
 		AWSLambda solitaire = AWSLambdaClientBuilder.standard().withRegion(Regions.US_WEST_2)
 				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 				.build();
-		scoreService = LambdaInvokerFactory.builder()
+		lambdaScoreService = LambdaInvokerFactory.builder()
 				 .lambdaClient(solitaire)
-				 .build(ScoreAwsLambdaService.class);
+				 .build(LambdaScoreService.class);
 	}
 	
 	@Override
 	public int addScore(ScoreModel scoreModel)
 	{
-		return scoreService.addScore(scoreModel);
+		String scoreId = lambdaScoreService.addScore(scoreModel);
+		return lambdaScoreService.getPositionOfScore(scoreId);
 	}
 
 	@Override
 	public List<ScoreModel> getTop(int topNumber)
 	{
-		return scoreService.getTop(topNumber);
+		return lambdaScoreService.getTop(topNumber);
 	}
 
 	public static void main(String[] args)
