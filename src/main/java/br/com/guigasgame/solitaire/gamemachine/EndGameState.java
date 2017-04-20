@@ -9,9 +9,9 @@ import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
-import br.com.guigasgame.solitaire.solitaire.score.ScoreRecorder;
-import br.com.guigasgame.solitaire.solitaire.score.ScoreModel;
-import br.com.guigasgame.solitaire.solitaire.score.ScoreCounter;
+import br.com.guigasgame.solitaire.score.ScoreCounter;
+import br.com.guigasgame.solitaire.score.ScoreModel;
+import br.com.guigasgame.solitaire.score.ScoreRecorder;
 
 public class EndGameState implements GameState
 {

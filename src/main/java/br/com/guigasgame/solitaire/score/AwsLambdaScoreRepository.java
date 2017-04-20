@@ -1,4 +1,4 @@
-package br.com.guigasgame.solitaire.solitaire.score;
+package br.com.guigasgame.solitaire.score;
 
 import java.util.List;
 
@@ -8,8 +8,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambda;
 import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
 import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory;
-
-import br.com.guigasgame.solitaire.gamemachine.ScoreAwsLambdaService;
 
 public class AwsLambdaScoreRepository implements ScoreRepository
 {

@@ -1,10 +1,8 @@
-package br.com.guigasgame.solitaire.gamemachine;
+package br.com.guigasgame.solitaire.score;
 
 import java.util.List;
 
 import com.amazonaws.services.lambda.invoke.LambdaFunction;
-
-import br.com.guigasgame.solitaire.solitaire.score.ScoreModel;
 
 public interface ScoreAwsLambdaService
 {

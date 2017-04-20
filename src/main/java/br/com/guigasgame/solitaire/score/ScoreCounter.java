@@ -1,4 +1,4 @@
-package br.com.guigasgame.solitaire.solitaire.score;
+package br.com.guigasgame.solitaire.score;
 
 import br.com.guigasgame.solitaire.solitaire.stack.SolitaireCardStackType;
 import br.com.guigasgame.solitaire.updatable.TimeUpdatable;
