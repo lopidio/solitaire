@@ -2,8 +2,9 @@ package br.com.guigasgame.solitaire.score;
 
 import java.util.List;
 
+import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambda;
 import com.amazonaws.services.lambda.AWSLambdaClientBuilder;
@@ -16,10 +17,12 @@ public class AwsLambdaScoreRepository implements ScoreRepository
 	
 	public AwsLambdaScoreRepository()
 	{
-		BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAJBIK6GMSOL3JIOZA", "MqyhvgKOxY58o5QWU5hhz0xOkYXq/VikQAX4p1Av");
-
+		AWSCredentials credentials = new SystemPropertiesCredentialsProvider().getCredentials();
+		
+		
 		AWSLambda solitaire = AWSLambdaClientBuilder.standard().withRegion(Regions.US_WEST_2)
-				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+//				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+				.withCredentials(new AWSStaticCredentialsProvider(credentials))
 				.build();
 		lambdaScoreService = LambdaInvokerFactory.builder()
 				 .lambdaClient(solitaire)
@@ -27,7 +30,7 @@ public class AwsLambdaScoreRepository implements ScoreRepository
 	}
 	
 	@Override
-	public int addScore(ScoreModel scoreModel)
+	public ScorePositionModel addScore(ScoreModel scoreModel)
 	{
 		String scoreId = lambdaScoreService.addScore(scoreModel);
 		return lambdaScoreService.getPositionOfScore(scoreId);
@@ -43,14 +46,8 @@ public class AwsLambdaScoreRepository implements ScoreRepository
 	{
 		try
 		{
-			
-//			AmazonS3 client = AmazonS3ClientBuilder.standard()//.withRegion(Regions.US_WEST_2)
-//						        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-//						        .build();
-	
-
-			ScoreModel score = new ScoreModel(200, 132, (float) 112.4, "Guilherme Moraes");
-			System.out.println("Position: " + new AwsLambdaScoreRepository().addScore(score));
+			List<ScoreModel> position = new AwsLambdaScoreRepository().getTop(10);
+			position.stream().forEachOrdered(p -> System.out.println(p));
 		}
 		catch (Exception e)
 		{

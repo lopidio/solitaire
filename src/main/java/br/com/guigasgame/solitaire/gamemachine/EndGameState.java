@@ -38,7 +38,7 @@ public class EndGameState implements GameState
 		System.out.println("Congratulations!");
 		ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
 		System.out.println(score);
-		int position = recordRank.addScore(score);
+		int position = recordRank.addScore(score).getPosition();
 		System.out.println("Posição obtida: " + position);
 	}
 	

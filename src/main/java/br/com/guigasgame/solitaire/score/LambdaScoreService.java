@@ -13,5 +13,5 @@ public interface LambdaScoreService
 	String addScore(ScoreModel input);
 
 	@LambdaFunction(functionName = "solitaireGetPositionOfScore")
-	int getPositionOfScore(String scoreId);
+	ScorePositionModel getPositionOfScore(String scoreId);
 }

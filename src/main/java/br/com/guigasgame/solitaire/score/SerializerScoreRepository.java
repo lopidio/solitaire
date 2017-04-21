@@ -43,7 +43,7 @@ public class SerializerScoreRepository implements ScoreRepository
 	}
 
 	@Override
-	public int addScore(ScoreModel scoreModel)
+	public ScorePositionModel addScore(ScoreModel scoreModel)
 	{
 		scores.add(scoreModel);
 		Collections.sort(scores);
@@ -55,13 +55,13 @@ public class SerializerScoreRepository implements ScoreRepository
 			out.close();
 			fileOut.close();
 			System.out.printf("Serialized data is saved in: " + FILE_NAME);
-			return scores.size() - scores.indexOf(scoreModel);
+			return new ScorePositionModel(scores.size() - scores.indexOf(scoreModel), scores.size());
 		}
 		catch (IOException i)
 		{
 			i.printStackTrace();
 		}
-		return -1;
+		return new ScorePositionModel();
 	}
 
 	private boolean loadFile()

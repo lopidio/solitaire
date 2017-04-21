@@ -10,12 +10,13 @@ public class ScoreRecorder implements ScoreRepository
 	public ScoreRecorder()
 	{
 		repositories = new ArrayList<>();
-		repositories.add(new XmlScoreRepository());
 		repositories.add(new SerializerScoreRepository());
+		repositories.add(new XmlScoreRepository());
+		repositories.add(new AwsLambdaScoreRepository());
 	}
 
 	@Override
-	public int addScore(ScoreModel scoreModel)
+	public ScorePositionModel addScore(ScoreModel scoreModel)
 	{
 		for (int i = 1; i < repositories.size(); i++)
 		{
@@ -23,7 +24,7 @@ public class ScoreRecorder implements ScoreRepository
 		}
 		if (repositories.size() > 0)
 			return repositories.get(0).addScore(scoreModel);
-		return -1;
+		return new ScorePositionModel();
 	}
 
 	@Override

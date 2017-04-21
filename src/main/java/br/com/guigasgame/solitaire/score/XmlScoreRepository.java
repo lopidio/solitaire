@@ -27,7 +27,7 @@ public class XmlScoreRepository implements ScoreRepository
 	
 
 	@Override
-	public int addScore(ScoreModel scoreModel)
+	public ScorePositionModel addScore(ScoreModel scoreModel)
 	{
 		loadScores();
 		scores.add(scoreModel);
@@ -40,13 +40,13 @@ public class XmlScoreRepository implements ScoreRepository
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(this, file);
-			return scores.size() - scores.indexOf(scoreModel);
+			return new ScorePositionModel(scores.size() - scores.indexOf(scoreModel), scores.size());
 		}
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
 		}
-		return -1;
+		return new ScorePositionModel();
 	}
 
 
