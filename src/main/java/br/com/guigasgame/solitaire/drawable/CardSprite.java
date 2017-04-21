@@ -12,6 +12,7 @@ import org.jsfml.system.Vector2i;
 
 import br.com.guigasgame.solitaire.card.Rank;
 import br.com.guigasgame.solitaire.card.Suit;
+import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.TextureResourceManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
@@ -40,7 +41,7 @@ public class CardSprite implements CardDrawable
 		int revealedX = width*(card.getRank().getValue() - 1);
 		int revealedY = height*(card.getSuit().getValue() - 1);
 		
-		int coverX = width*(Rank.six.getValue() - 1);
+		int coverX = width*(Rank.four.getValue() - 1 + Integer.parseInt(ConfigFile.getInstance().getValue("cardCover")));
 		int coverY = height*(Suit.values().length);
 		
 		revealedRect = new IntRect(new Vector2i(revealedX, revealedY), new Vector2i(width, height));
