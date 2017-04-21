@@ -10,6 +10,7 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.event.Event;
 
+import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
@@ -48,7 +49,8 @@ public class EndGameState implements GameState
 		Runnable task = () ->
 		{
 			System.out.println("Congratulations!");
-			ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
+			ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), 
+					scoreCounter.getTotalTime(), ConfigFile.getInstance().getValue("playerName"));
 			System.out.println(score);
 			ScorePositionModel position = scoreRecorder.addScoreLocal(score);
 			System.out.println("Posição obtida local: " + (position.getPosition() + 1) + "/" + position.getTotal());
