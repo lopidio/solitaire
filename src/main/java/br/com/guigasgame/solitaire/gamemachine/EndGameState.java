@@ -11,13 +11,14 @@ import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
 import br.com.guigasgame.solitaire.score.ScoreModel;
+import br.com.guigasgame.solitaire.score.ScorePositionModel;
 import br.com.guigasgame.solitaire.score.ScoreRecorder;
 
 public class EndGameState implements GameState
 {
 	private FinishGameAnimation finishGameAnimation;
 	private ScoreCounter scoreCounter;
-	ScoreRecorder recordRank;
+	ScoreRecorder scoreRecorder;
 
 	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks)
 	{
@@ -28,7 +29,7 @@ public class EndGameState implements GameState
 				finishGameAnimation.addCascade(cascade.getCards());
 		});
 		this.scoreCounter = scoreCounter;
-		recordRank = new ScoreRecorder();
+		scoreRecorder = new ScoreRecorder();
 	}
 
 	@Override
@@ -38,8 +39,13 @@ public class EndGameState implements GameState
 		System.out.println("Congratulations!");
 		ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
 		System.out.println(score);
-		int position = recordRank.addScore(score).getPosition();
-		System.out.println("Posição obtida: " + position);
+		ScorePositionModel position = scoreRecorder.addScoreLocal(score);
+		System.out.println("Posição obtida local: " + (position.getPosition() + 1) + "/" + position.getTotal());
+		ScorePositionModel positionOnline = scoreRecorder.addScoreOnline(score);
+		if (null != positionOnline)
+			System.out.println("Posição obtida online: " + (position.getPosition() + 1) + "/" + position.getTotal());
+		else
+			System.out.println("Erro ao registrar posição online");
 	}
 	
 	@Override

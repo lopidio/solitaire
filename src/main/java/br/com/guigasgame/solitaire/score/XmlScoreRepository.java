@@ -24,7 +24,6 @@ public class XmlScoreRepository implements ScoreRepository
 	{
 		scores = new ArrayList<>();
 	}
-	
 
 	@Override
 	public ScorePositionModel addScore(ScoreModel scoreModel)
@@ -46,7 +45,7 @@ public class XmlScoreRepository implements ScoreRepository
 		{
 			e.printStackTrace();
 		}
-		return new ScorePositionModel();
+		return null;
 	}
 
 

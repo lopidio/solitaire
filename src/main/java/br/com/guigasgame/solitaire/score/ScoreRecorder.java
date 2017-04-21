@@ -1,38 +1,36 @@
 package br.com.guigasgame.solitaire.score;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreRecorder implements ScoreRepository
+public class ScoreRecorder
 {
-	List<ScoreRepository> repositories;
+	private ScoreRepository local;
+	private ScoreRepository online;
 
 	public ScoreRecorder()
 	{
-		repositories = new ArrayList<>();
-		repositories.add(new SerializerScoreRepository());
-		repositories.add(new XmlScoreRepository());
-		repositories.add(new AwsLambdaScoreRepository());
+		local = new SerializerScoreRepository();
+		online = new AwsLambdaScoreRepository();
 	}
 
-	@Override
-	public ScorePositionModel addScore(ScoreModel scoreModel)
+	public ScorePositionModel addScoreLocal(ScoreModel scoreModel)
 	{
-		for (int i = 1; i < repositories.size(); i++)
-		{
-			repositories.get(i).addScore(scoreModel);
-		}
-		if (repositories.size() > 0)
-			return repositories.get(0).addScore(scoreModel);
-		return new ScorePositionModel();
+		return local.addScore(scoreModel);
 	}
 
-	@Override
-	public List<ScoreModel> getTop(int topNumber)
+	public List<ScoreModel> getTopLocal(int topNumber)
 	{
-		if (repositories.size() > 0)
-			return repositories.get(0).getTop(topNumber);
-		return null;
+		return local.getTop(topNumber);
+	}
+
+	public ScorePositionModel addScoreOnline(ScoreModel scoreModel)
+	{
+		return online.addScore(scoreModel);
+	}
+
+	public List<ScoreModel> getTopOnline(int topNumber)
+	{
+		return online.getTop(topNumber);
 	}
 	
 }

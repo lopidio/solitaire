@@ -31,7 +31,6 @@ public class SerializerScoreRepository implements ScoreRepository
 			{
 				ScoreModel scoreModel = scores.get(i);
 				System.out.println(scoreModel);
-				
 			}
 		}
 		catch (Exception e)
@@ -54,14 +53,13 @@ public class SerializerScoreRepository implements ScoreRepository
 			out.writeObject(scores);
 			out.close();
 			fileOut.close();
-			System.out.printf("Serialized data is saved in: " + FILE_NAME);
 			return new ScorePositionModel(scores.size() - scores.indexOf(scoreModel), scores.size());
 		}
 		catch (IOException i)
 		{
 			i.printStackTrace();
 		}
-		return new ScorePositionModel();
+		return null;
 	}
 
 	private boolean loadFile()
@@ -75,13 +73,13 @@ public class SerializerScoreRepository implements ScoreRepository
 			this.scores = scores;
 			in.close();
 			fileIn.close();
+			return true;
 		}
 		catch (IOException | ClassNotFoundException exception)
 		{
 			exception.printStackTrace();
-			return false;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
