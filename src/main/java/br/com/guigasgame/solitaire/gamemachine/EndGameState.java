@@ -1,6 +1,9 @@
 package br.com.guigasgame.solitaire.gamemachine;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
@@ -19,6 +22,7 @@ public class EndGameState implements GameState
 	private FinishGameAnimation finishGameAnimation;
 	private ScoreCounter scoreCounter;
 	ScoreRecorder scoreRecorder;
+	private Future<?> futureScoreAdd;
 
 	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks)
 	{
@@ -36,16 +40,27 @@ public class EndGameState implements GameState
 	public void enterState(RenderWindow renderWindow)
 	{
 		finishGameAnimation.setSize(renderWindow.getSize());
-		System.out.println("Congratulations!");
-		ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
-		System.out.println(score);
-		ScorePositionModel position = scoreRecorder.addScoreLocal(score);
-		System.out.println("Posição obtida local: " + (position.getPosition() + 1) + "/" + position.getTotal());
-		ScorePositionModel positionOnline = scoreRecorder.addScoreOnline(score);
-		if (null != positionOnline)
-			System.out.println("Posição obtida online: " + (position.getPosition() + 1) + "/" + position.getTotal());
-		else
-			System.out.println("Erro ao registrar posição online");
+		addScoreInAnotherThread();
+	}
+
+	private void addScoreInAnotherThread()
+	{
+		Runnable task = () ->
+		{
+			System.out.println("Congratulations!");
+			ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), scoreCounter.getTotalTime(), "Guilherme Moraes");
+			System.out.println(score);
+			ScorePositionModel position = scoreRecorder.addScoreLocal(score);
+			System.out.println("Posição obtida local: " + (position.getPosition() + 1) + "/" + position.getTotal());
+			ScorePositionModel positionOnline = scoreRecorder.addScoreOnline(score);
+			if (null != positionOnline)
+				System.out.println("Posição obtida online: " + (position.getPosition() + 1) + "/" + position.getTotal());
+			else
+				System.out.println("Erro ao registrar posição online");
+		};
+		
+		ExecutorService executorScoreAdd = Executors.newFixedThreadPool(1);
+		futureScoreAdd = executorScoreAdd.submit(task);
 	}
 	
 	@Override
@@ -57,6 +72,11 @@ public class EndGameState implements GameState
 	@Override
 	public void update(float updateDelta)
 	{
+		if (null != futureScoreAdd && futureScoreAdd.isDone())
+		{
+			System.out.println("Scores foram registrados");
+			futureScoreAdd = null;
+		}
 		finishGameAnimation.update(updateDelta);
 	}
 	
