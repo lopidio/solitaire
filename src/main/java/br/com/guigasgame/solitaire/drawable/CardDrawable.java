@@ -13,7 +13,7 @@ public interface CardDrawable extends Drawable
 
 	public FloatRect getSize();
 
-	public void moveTo(PositionComponent position);
+	public void slideToPosition(PositionComponent position);
 
 	public CardSolitaire getCard();
 

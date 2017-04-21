@@ -58,7 +58,7 @@ public class EmptyStackCardSprite implements CardDrawable
 		return sprite.getLocalBounds();
 	}
 
-	public void moveTo(PositionComponent position)
+	public void slideToPosition(PositionComponent position)
 	{
 		sprite.setPosition(position.getX(), position.getY());
 	}

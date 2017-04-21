@@ -27,12 +27,13 @@ public class CardSprite implements CardDrawable
 	private boolean priorityDrawing;
 	private Vector2f destinyPosition;
 	private float slowFactor;
+	private boolean animate;
 
 	public CardSprite(CardSolitaire card)
 	{
 		super();
 		this.card = card;
-		
+		animate = Boolean.parseBoolean(ConfigFile.getInstance().getValue("animationEnabled"));
 		texture = TextureResourceManager.getInstance().getResource("assets/cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
 		
@@ -115,11 +116,6 @@ public class CardSprite implements CardDrawable
 		return sprite.getLocalBounds();
 	}
 
-	public void moveTo(PositionComponent position)
-	{
-		moveTo(position, 4);
-	}
-
 	@Override
 	public CardSolitaire getCard()
 	{
@@ -168,5 +164,14 @@ public class CardSprite implements CardDrawable
 		this.slowFactor = slowFactor;
 		this.destinyPosition = new Vector2f(newPosition.getX(), newPosition.getY());
 	}
+	
+	public void slideToPosition(PositionComponent position)
+	{
+		if (animate)
+			moveTo(position, 4);
+		else
+			moveTo(position, 0);
+	}
+
 
 }

@@ -30,12 +30,12 @@ public class CascadeCardStack extends StackDrawable
 	{
 		for (int i = 0; i < cards.size(); ++i)
 		{
-			cards.get(i).getDrawableCard().moveTo(getCardPosition(i));
+			cards.get(i).getDrawableCard().slideToPosition(getCardPosition(i));
 		}
 		if (drawEmptyStack)
 		{
 			emptyStackCardSprite = new EmptyStackCardSprite();
-			emptyStackCardSprite.moveTo(center);
+			emptyStackCardSprite.slideToPosition(center);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class CascadeCardStack extends StackDrawable
 	{
 		cards.add(card);
 		int index= cards.size() - 1;
-		cards.get(index).getDrawableCard().moveTo(getCardPosition(index));
+		cards.get(index).getDrawableCard().slideToPosition(getCardPosition(index));
 	}
 	
 	@Override
