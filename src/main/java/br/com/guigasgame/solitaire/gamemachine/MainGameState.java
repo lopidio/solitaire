@@ -51,6 +51,7 @@ public class MainGameState implements GameState
 	private ScoreHUD scoreHUD;
 	private TimeCounterHUD timeCounterHUD;
 	private TransactionCounterHUD transactionCounterHUD;
+	private List<Drawable> hudList;
 	
 	public MainGameState() 
 	{
@@ -189,9 +190,10 @@ public class MainGameState implements GameState
 				new PositionComponent((float)((.3)/14.0), 0.95f),
 				scoreCounter);
 
-		drawables.add(timeCounterHUD);
-		drawables.add(scoreHUD);
-		drawables.add(transactionCounterHUD);
+		hudList = new ArrayList<>();
+		hudList.add(scoreHUD);
+		hudList.add(transactionCounterHUD);
+		hudList.add(timeCounterHUD);
 	}
 
 	private void shuffleCards()
@@ -224,7 +226,7 @@ public class MainGameState implements GameState
 
 		if (!gameWon && checkVictory())
 		{
-			EndGameState endGameState = new EndGameState(scoreCounter, cascadeStacks);
+			EndGameState endGameState = new EndGameState(scoreCounter, cascadeStacks, hudList);
 			GameMachine.getInstance().switchState(endGameState);
 			gameWon = true;
 		}
@@ -247,10 +249,8 @@ public class MainGameState implements GameState
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		for (Drawable drawable: drawables)
-		{
-			drawable.draw(renderTarget);
-		}
+		drawables.stream().forEach(drawable -> drawable.draw(renderTarget));
+		hudList.stream().forEach(hud -> hud.draw(renderTarget));
 	}
 
 	@Override

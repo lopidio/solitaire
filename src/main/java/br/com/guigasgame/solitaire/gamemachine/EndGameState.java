@@ -12,6 +12,7 @@ import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
+import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
 import br.com.guigasgame.solitaire.score.ScoreModel;
@@ -24,8 +25,9 @@ public class EndGameState implements GameState
 	private ScoreCounter scoreCounter;
 	ScoreRecorder scoreRecorder;
 	private Future<?> futureScoreAdd;
+	private List<Drawable> hudList;
 
-	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks)
+	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks, List<Drawable> hudList)
 	{
 		finishGameAnimation = new FinishGameAnimation();
 		cascadeStacks.stream().forEach(cascade -> 
@@ -35,6 +37,7 @@ public class EndGameState implements GameState
 		});
 		this.scoreCounter = scoreCounter;
 		scoreRecorder = new ScoreRecorder();
+		this.hudList = hudList;
 	}
 
 	@Override
@@ -68,6 +71,7 @@ public class EndGameState implements GameState
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
+		hudList.stream().forEach(hud -> hud.draw(renderTarget));
 		finishGameAnimation.draw(renderTarget);
 	}
 	
