@@ -15,6 +15,7 @@ public class ScoreHUD implements Drawable
 	private Text text;
 	private Font font;
 	private PositionComponent proportion;
+	private float currentShownScore;
 
 	public ScoreHUD(PositionComponent windowSize, PositionComponent proportion, ScoreCounter scoreCounter)
 	{
@@ -25,13 +26,15 @@ public class ScoreHUD implements Drawable
 		this.proportion = proportion;
 		text = new Text();
 		text.setFont(font);
+		text.setCharacterSize(20);
 		text.setPosition(center.getX(), center.getY());
 	}
 
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		text.setString(String.valueOf(scoreCounter.getScore()));
+		currentShownScore += (scoreCounter.getScore() - currentShownScore)*0.05;
+		text.setString(String.valueOf(Math.round(currentShownScore)));
 		renderTarget.draw(text);
 	}
 
