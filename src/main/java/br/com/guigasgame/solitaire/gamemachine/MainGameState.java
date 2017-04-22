@@ -21,6 +21,7 @@ import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.ScoreHUD;
 import br.com.guigasgame.solitaire.drawable.TimeCounterHUD;
+import br.com.guigasgame.solitaire.drawable.TransactionCounterHUD;
 import br.com.guigasgame.solitaire.input.InputController;
 import br.com.guigasgame.solitaire.input.MouseInput;
 import br.com.guigasgame.solitaire.position.PositionComponent;
@@ -49,6 +50,7 @@ public class MainGameState implements GameState
 	private ScoreCounter scoreCounter;
 	private ScoreHUD scoreHUD;
 	private TimeCounterHUD timeCounterHUD;
+	private TransactionCounterHUD transactionCounterHUD;
 	
 	public MainGameState() 
 	{
@@ -174,16 +176,22 @@ public class MainGameState implements GameState
 	{
 		scoreHUD = new ScoreHUD(		
 				new PositionComponent(windowSize.x, windowSize.y),
-				new PositionComponent((float)((.5)/14.0), 0.90f),
+				new PositionComponent((float)((.3)/14.0), 0.85f),
+					scoreCounter);
+
+		transactionCounterHUD = new TransactionCounterHUD(		
+				new PositionComponent(windowSize.x, windowSize.y),
+				new PositionComponent((float)((.3)/14.0), 0.90f),
 					scoreCounter);
 		
 		timeCounterHUD = new TimeCounterHUD(
 				new PositionComponent(windowSize.x, windowSize.y),
-				new PositionComponent((float)((12)/14.0), 0.90f));
+				new PositionComponent((float)((.3)/14.0), 0.95f),
+				scoreCounter);
 
 		drawables.add(timeCounterHUD);
 		drawables.add(scoreHUD);
-		
+		drawables.add(transactionCounterHUD);
 	}
 
 	private void shuffleCards()
@@ -222,7 +230,6 @@ public class MainGameState implements GameState
 		}
 		if (scoreCounter.isCounting())
 		{
-			timeCounterHUD.update(updateDelta);
 			scoreCounter.update(updateDelta);
 		}
 	}
@@ -257,6 +264,7 @@ public class MainGameState implements GameState
 	        cascadeStacks.stream().forEach(cascade -> cascade.readjustToSize(visibleArea));
 	        scoreHUD.resizeEvent(renderWindow.getSize());
 	        timeCounterHUD.resizeEvent(renderWindow.getSize());
+	        transactionCounterHUD.resizeEvent(renderWindow.getSize());
 	    }
 		if (event.type == Event.Type.KEY_PRESSED)
 		{

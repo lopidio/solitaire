@@ -1,7 +1,5 @@
 package br.com.guigasgame.solitaire.drawable;
 
-import java.text.DecimalFormat;
-
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.Font;
 import org.jsfml.graphics.RenderTarget;
@@ -12,35 +10,32 @@ import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.FontResourceManager;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
 
-public class TimeCounterHUD implements Drawable
+public class TransactionCounterHUD implements Drawable
 {
+	
+	private ScoreCounter scoreCounter;
 	private Text text;
 	private Font font;
 	private PositionComponent proportion;
-	private DecimalFormat decimalFormat;
-	private ScoreCounter scoreCounter;
 
-	public TimeCounterHUD(PositionComponent windowSize, PositionComponent proportion, ScoreCounter scoreCounter)
+	public TransactionCounterHUD(PositionComponent windowSize, PositionComponent proportion, ScoreCounter scoreCounter)
 	{
 		super();
+		this.scoreCounter = scoreCounter;
 		font = FontResourceManager.getInstance().getResource("assets/GOUDYSTO.TTF");
 		PositionComponent center = new PositionComponent(windowSize.getX() * proportion.getX(), windowSize.getY()* proportion.getY());
 		this.proportion = proportion;
 		text = new Text();
+		text.setColor(new Color(128,  128, 128));
 		text.setFont(font);
-		text.setPosition(center.getX(), center.getY());
-		text.setColor(Color.BLACK);
 		text.setCharacterSize(20);
-		decimalFormat = new DecimalFormat();
-		decimalFormat.setMaximumFractionDigits(1);
-		decimalFormat.setMinimumFractionDigits(1);
-		this.scoreCounter = scoreCounter;
+		text.setPosition(center.getX(), center.getY());
 	}
 
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		text.setString(decimalFormat.format(scoreCounter.getTotalTime()));
+		text.setString(String.valueOf(scoreCounter.getTransactionCounter()));
 		renderTarget.draw(text);
 	}
 
