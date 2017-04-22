@@ -16,6 +16,7 @@ import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.resourcemanager.TextureResourceManager;
 import br.com.guigasgame.solitaire.solitaire.card.CardSolitaire;
+import br.com.guigasgame.solitaire.sound.SoundManager;
 
 public class CardSprite implements CardDrawable
 {
@@ -137,12 +138,14 @@ public class CardSprite implements CardDrawable
 	@Override
 	public void reveal()
 	{
+		SoundManager.getInstance().playCardFlip();
 		updateTexture();
 	}
 
 	@Override
 	public void select()
 	{
+		
 		updateColor();
 	}
 
@@ -155,6 +158,7 @@ public class CardSprite implements CardDrawable
 	@Override
 	public void unreveal()
 	{
+		SoundManager.getInstance().playCardFlip();
 		updateTexture();
 	}
 
@@ -167,6 +171,7 @@ public class CardSprite implements CardDrawable
 	
 	public void slideToPosition(PositionComponent position)
 	{
+		SoundManager.getInstance().playCardMove();
 		if (animate)
 			moveTo(position, 4);
 		else

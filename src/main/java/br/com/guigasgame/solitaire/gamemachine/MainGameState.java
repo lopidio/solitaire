@@ -31,6 +31,7 @@ import br.com.guigasgame.solitaire.solitaire.stack.FoundationCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.StockCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.TableauCardStack;
 import br.com.guigasgame.solitaire.solitaire.stack.WasteCardStack;
+import br.com.guigasgame.solitaire.sound.SoundManager;
 import br.com.guigasgame.solitaire.transaction.CardTransactionManager;
 
 public class MainGameState implements GameState
@@ -188,7 +189,8 @@ public class MainGameState implements GameState
 	private void shuffleCards()
 	{
 		long seed = System.nanoTime();
-		Collections.shuffle(fullDeck, new Random(seed));		
+		Collections.shuffle(fullDeck, new Random(seed));
+		SoundManager.getInstance().playCardsShuffle();
 	}
 
 	private void initalizeDeck()
