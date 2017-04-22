@@ -19,7 +19,6 @@ public class TimeCounterHUD implements Drawable, TimeUpdatable
 	private Font font;
 	private PositionComponent proportion;
 	private DecimalFormat decimalFormat;
-	boolean counting;
 
 	public TimeCounterHUD(PositionComponent windowSize, PositionComponent proportion)
 	{
@@ -52,15 +51,9 @@ public class TimeCounterHUD implements Drawable, TimeUpdatable
 	@Override
 	public void update(float deltaTime)
 	{
-		if (counting)
-			time += deltaTime;
+		time += deltaTime;
 	}
 	
-	public void startCounting()
-	{
-		counting = true;
-	}
-
 	public float getTime()
 	{
 		return time;

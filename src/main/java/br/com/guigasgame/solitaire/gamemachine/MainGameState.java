@@ -210,7 +210,9 @@ public class MainGameState implements GameState
 	{
 		inputController.handleEvent(updateDelta);
 		if (transactionManager.updateTransactions())
-			timeCounterHUD.startCounting();
+		{
+			scoreCounter.startCounting();
+		}
 
 		if (!gameWon && checkVictory())
 		{
@@ -218,8 +220,11 @@ public class MainGameState implements GameState
 			GameMachine.getInstance().switchState(endGameState);
 			gameWon = true;
 		}
-		timeCounterHUD.update(updateDelta);
-		scoreCounter.update(updateDelta);
+		if (scoreCounter.isCounting())
+		{
+			timeCounterHUD.update(updateDelta);
+			scoreCounter.update(updateDelta);
+		}
 	}
 
 	private boolean checkVictory()

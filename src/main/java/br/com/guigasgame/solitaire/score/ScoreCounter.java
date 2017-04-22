@@ -10,6 +10,7 @@ public class ScoreCounter implements TimeUpdatable
 	private int prevScore;
 	private int transactionCounter;
 	private float totalTime;
+	private boolean counting;
 	
 
 	public ScoreCounter()
@@ -59,6 +60,8 @@ public class ScoreCounter implements TimeUpdatable
 	@Override
 	public void update(float deltaTime)
 	{
+		if (!counting)
+			return;
 		scoreTimeCounter += deltaTime;
 		totalTime += deltaTime;
 		if (scoreTimeCounter >= 10)
@@ -79,6 +82,16 @@ public class ScoreCounter implements TimeUpdatable
 	public int getTransactionCounter()
 	{
 		return transactionCounter;
+	}
+
+	public boolean isCounting()
+	{
+		return counting;
+	}
+
+	public void startCounting()
+	{
+		counting = true;
 	}
 	
 
