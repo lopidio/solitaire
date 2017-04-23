@@ -25,7 +25,10 @@ public class TextureResourceManager extends ResourceManager<String, Texture>
 	protected Texture loadResource(String key) throws IOException
 	{
 		Texture texture = new Texture();
-		texture.loadFromFile(new File(key).toPath());
+		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(key).getFile());
+		texture.loadFromFile(file.toPath());
 		return texture;
 	}
 

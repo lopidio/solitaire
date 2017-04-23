@@ -22,7 +22,7 @@ public class TransactionCounterHUD implements Drawable
 	{
 		super();
 		this.scoreCounter = scoreCounter;
-		font = FontResourceManager.getInstance().getResource("assets/GOUDYSTO.TTF");
+		font = FontResourceManager.getInstance().getResource("GOUDYSTO.TTF");
 		PositionComponent center = new PositionComponent(windowSize.getX() * proportion.getX(), windowSize.getY()* proportion.getY());
 		this.proportion = proportion;
 		text = new Text();

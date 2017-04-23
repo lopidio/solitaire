@@ -23,7 +23,7 @@ public class TimeCounterHUD implements Drawable
 	public TimeCounterHUD(PositionComponent windowSize, PositionComponent proportion, ScoreCounter scoreCounter)
 	{
 		super();
-		font = FontResourceManager.getInstance().getResource("assets/GOUDYSTO.TTF");
+		font = FontResourceManager.getInstance().getResource("GOUDYSTO.TTF");
 		PositionComponent center = new PositionComponent(windowSize.getX() * proportion.getX(), windowSize.getY()* proportion.getY());
 		this.proportion = proportion;
 		text = new Text();

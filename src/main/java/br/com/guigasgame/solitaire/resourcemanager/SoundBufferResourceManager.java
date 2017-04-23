@@ -25,7 +25,9 @@ public class SoundBufferResourceManager extends ResourceManager<String, SoundBuf
 	protected SoundBuffer loadResource(String key) throws IOException
 	{
 		SoundBuffer soundBuffer = new SoundBuffer();
-		soundBuffer.loadFromFile(new File(key).toPath());
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(key).getFile());
+		soundBuffer.loadFromFile(file.toPath());
 		return soundBuffer;
 	}
 

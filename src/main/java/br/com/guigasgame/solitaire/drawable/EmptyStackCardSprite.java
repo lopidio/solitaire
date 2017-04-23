@@ -23,7 +23,7 @@ public class EmptyStackCardSprite implements CardDrawable
 	{
 		super();
 		
-		texture = TextureResourceManager.getInstance().getResource("assets/cardsSpriteSet.jpg");
+		texture = TextureResourceManager.getInstance().getResource("cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
 		
 		int width = texture.getSize().x / Rank.values().length;

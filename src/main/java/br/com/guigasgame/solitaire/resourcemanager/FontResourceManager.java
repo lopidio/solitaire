@@ -25,7 +25,9 @@ public class FontResourceManager extends ResourceManager<String, Font>
 	protected Font loadResource(String key) throws IOException
 	{
 		Font font = new Font();
-		font.loadFromFile(new File(key).toPath());
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(key).getFile());
+		font.loadFromFile(file.toPath());
 		return font;
 	}
 

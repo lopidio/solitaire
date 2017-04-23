@@ -21,7 +21,7 @@ public class SoundManager
 	private SoundManager()
 	{
 		soundEnabled = Boolean.parseBoolean(ConfigFile.getInstance().getValue("soundEnabled"));
-		newGameSound = new Sound(SoundBufferResourceManager.getInstance().getResource("assets/newGame.wav"));
+		newGameSound = new Sound(SoundBufferResourceManager.getInstance().getResource("newGame.wav"));
 		random = new Random();
 
 		initCardFlipSounds();
@@ -31,20 +31,20 @@ public class SoundManager
 	private void initCardMoveSounds()
 	{
 		cardMoveSounds = new ArrayList<>();
-		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardMove1.wav")));
-		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardMove2.wav")));
-		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardMove3.wav")));
-		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardMove4.wav")));
-		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardMove5.wav")));
+		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardMove1.wav")));
+		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardMove2.wav")));
+		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardMove3.wav")));
+		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardMove4.wav")));
+		cardMoveSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardMove5.wav")));
 	}
 
 	private void initCardFlipSounds()
 	{
 		cardFlipSounds = new ArrayList<>();
-		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardFlip1.wav")));
-		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardFlip2.wav")));
-		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardFlip3.wav")));
-		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("assets/cardFlip4.wav")));
+		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardFlip1.wav")));
+		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardFlip2.wav")));
+		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardFlip3.wav")));
+		cardFlipSounds.add(new Sound(SoundBufferResourceManager.getInstance().getResource("cardFlip4.wav")));
 	}
 
 	public static SoundManager getInstance()

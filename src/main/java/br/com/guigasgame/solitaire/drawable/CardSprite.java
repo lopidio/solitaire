@@ -35,7 +35,7 @@ public class CardSprite implements CardDrawable
 		super();
 		this.card = card;
 		animate = Boolean.parseBoolean(ConfigFile.getInstance().getValue("animationEnabled"));
-		texture = TextureResourceManager.getInstance().getResource("assets/cardsSpriteSet.jpg");
+		texture = TextureResourceManager.getInstance().getResource("cardsSpriteSet.jpg");
 		sprite = new Sprite(texture);
 		
 		int width = texture.getSize().x / Rank.values().length;
