@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SerializerScoreRepository implements ScoreRepository
 {
-	private final String FILE_NAME = "records";
+	private final String FILE_NAME = "aux/records";
 
 	private List<ScoreModel> scores;
 

@@ -1,5 +1,6 @@
 package br.com.guigasgame.solitaire.config;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,7 +10,7 @@ import java.util.Properties;
 
 public class ConfigFile
 {
-	private static final String FILE_NAME = "config.properties";
+	private static final String FILE_NAME = "aux/config.properties";
 
 	private Properties properties;
 
@@ -17,6 +18,7 @@ public class ConfigFile
 	
 	private ConfigFile()
 	{
+		createFolder();
 		properties = new Properties();
 		loadFile();
 	}
@@ -70,6 +72,32 @@ public class ConfigFile
 		}
 	}
 	
+	private void createFolder()
+	{
+		File theDir = new File("aux");
+
+		// if the directory does not exist, create it
+		if (!theDir.exists())
+		{
+			System.out.println("creating directory: " + theDir.getName());
+			boolean result = false;
+
+			try
+			{
+				theDir.mkdir();
+				result = true;
+			}
+			catch (SecurityException se)
+			{
+				// handle it
+			}
+			if (result)
+			{
+				System.out.println("DIR created");
+			}
+		}	
+	}
+
 	public void setValue(String key, String value)
 	{
 		properties.setProperty(key, value);

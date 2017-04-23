@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="recordRank")
 public class XmlScoreRepository implements ScoreRepository
 {
-	private final String FILE_NAME = "recordRank.xml";
+	private final String FILE_NAME = "aux/recordRank.xml";
 	
 	@XmlElement
 	private List<ScoreModel> scores;
