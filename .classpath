@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120-javadoc.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/aws-java-sdk-1.11.120-sources.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-logging-1.1.2.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-annotations-2.8.0.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-core-2.8.0.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jackson-databind-2.8.0.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-codec-1.9.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/fluent-hc-4.5.3.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-4.5.3.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-cache-4.5.3.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpclient-win-4.5.3.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpcore-4.4.6.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/httpmime-4.5.3.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jna-4.1.0.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/jna-platform-4.1.0.jar"/>
-	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaire/libs/joda-time-2.9.9.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/lopidio/Dev/projects/solitaireMvn/jsfml/jsfml.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
