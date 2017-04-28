@@ -10,7 +10,7 @@ public class ScoreRecorder
 	public ScoreRecorder()
 	{
 		local = new SerializerScoreRepository();
-		online = new AwsLambdaScoreRepository();
+		online = new AwsApiGatewayScoreRepository();
 	}
 
 	public ScorePositionModel addScoreLocal(ScoreModel scoreModel)

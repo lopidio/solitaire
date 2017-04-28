@@ -62,6 +62,11 @@ public class ScoreModel implements Comparable<ScoreModel>, Serializable
 	{
 		return date;
 	}
+	
+	public String getName()
+	{
+		return name;
+	}
 
 	@Override
 	public int compareTo(ScoreModel other)
