@@ -17,20 +17,19 @@ public class ScoreModel implements Comparable<ScoreModel>, Serializable
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement
-	final private int score;
+	private int score;
 	@XmlElement
-	final private int transactionCounter;
+	private int transactionCounter;
 	@XmlElement
-	final private float totalTime;
+	private float totalTime;
 	@XmlElement
-	final private Date date;
+	private Date date;
 	@XmlElement
-	final private String name;
+	private String name;
 
 	//Do not use. JaxB purposes
 	public ScoreModel()
 	{
-		this(0, 0, 0, "");
 	}
 
 	public ScoreModel(int score, int transactionCounter, float totalTime, String name)
@@ -41,6 +40,16 @@ public class ScoreModel implements Comparable<ScoreModel>, Serializable
 		this.totalTime = totalTime;
 		this.name = name;
 		date = new Date();
+	}
+	
+	public ScoreModel(int score, int transactionCounter, float totalTime, Date date, String name)
+	{
+		super();
+		this.score = score;
+		this.transactionCounter = transactionCounter;
+		this.totalTime = totalTime;
+		this.date = date;
+		this.name = name;
 	}
 
 	public int getScore()

@@ -1,6 +1,7 @@
 package br.com.guigasgame.solitaire.score;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.amazonaws.SdkClientException;
@@ -76,8 +77,9 @@ public class AwsApiGatewayScoreRepository implements ScoreRepository
 			List<ScoreModel> retorno = new ArrayList<>();
 			for (ScoresItem scoresItem : scores)
 			{
+				long epoch = Long.parseLong(scoresItem.getDate());
 				ScoreModel scoreModel = new ScoreModel(scoresItem.getScore(), scoresItem.getTransactionCounter(),
-						scoresItem.getTotalTime().floatValue(), scoresItem.getPlayerName());
+						scoresItem.getTotalTime().floatValue(), new Date(epoch), scoresItem.getPlayerName());
 				retorno.add(scoreModel);
 			}
 			
@@ -96,7 +98,7 @@ public class AwsApiGatewayScoreRepository implements ScoreRepository
 		try
 		{
 			AwsApiGatewayScoreRepository awsApiGatewayScoreRepository = new AwsApiGatewayScoreRepository();
-			List<ScoreModel> top = awsApiGatewayScoreRepository.getTop(2);
+			List<ScoreModel> top = awsApiGatewayScoreRepository.getTop(10);
 			top.stream().forEach(score -> System.out.println(score.toString()));
 		}
 		catch (Exception e)
