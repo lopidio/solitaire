@@ -45,7 +45,7 @@ public class SerializerScoreRepository implements ScoreRepository
 	public ScorePositionModel addScore(ScoreModel scoreModel)
 	{
 		scores.add(scoreModel);
-		Collections.sort(scores);
+		Collections.sort(scores, Collections.reverseOrder());
 		try
 		{
 			FileOutputStream fileOut = new FileOutputStream(FILE_NAME);
@@ -53,7 +53,7 @@ public class SerializerScoreRepository implements ScoreRepository
 			out.writeObject(scores);
 			out.close();
 			fileOut.close();
-			return new ScorePositionModel(scores.size() - scores.indexOf(scoreModel), scores.size());
+			return new ScorePositionModel(scores.indexOf(scoreModel), scores.size());
 		}
 		catch (IOException i)
 		{
@@ -73,6 +73,7 @@ public class SerializerScoreRepository implements ScoreRepository
 			this.scores = scores;
 			in.close();
 			fileIn.close();
+			Collections.sort(scores, Collections.reverseOrder());
 			return true;
 		}
 		catch (IOException | ClassNotFoundException exception)
