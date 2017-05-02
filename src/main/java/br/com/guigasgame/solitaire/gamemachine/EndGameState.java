@@ -18,12 +18,13 @@ import br.com.guigasgame.solitaire.score.ScoreCounter;
 import br.com.guigasgame.solitaire.score.ScoreModel;
 import br.com.guigasgame.solitaire.score.ScorePositionModel;
 import br.com.guigasgame.solitaire.score.ScoreRecorder;
+import br.com.guigasgame.solitaire.score.ScoreRepository;
 
 public class EndGameState implements GameState
 {
 	private FinishGameAnimation finishGameAnimation;
 	private ScoreCounter scoreCounter;
-	ScoreRecorder scoreRecorder;
+	private ScoreRecorder scoreRecorder;
 	private Future<?> futureScoreAdd;
 	private List<Drawable> hudList;
 
@@ -51,21 +52,32 @@ public class EndGameState implements GameState
 	{
 		Runnable task = () ->
 		{
-			System.out.println("Congratulations!");
+			System.out.println("Parabéns!");
 			ScoreModel score = new ScoreModel(scoreCounter.getScore(), scoreCounter.getTransactionCounter(), 
 					scoreCounter.getTotalTime(), ConfigFile.getInstance().getValue("playerName"));
 			System.out.println(score);
-			ScorePositionModel position = scoreRecorder.addScoreLocal(score);
-			System.out.println("Posição obtida local: " + (position.getPosition() + 1) + "/" + position.getTotal());
-			ScorePositionModel positionOnline = scoreRecorder.addScoreOnline(score);
-			if (null != positionOnline)
-				System.out.println("Posição obtida online: " + (position.getPosition() + 1) + "/" + position.getTotal());
-			else
-				System.out.println("Erro ao registrar posição online");
+			System.out.println("Scores locais:");
+			registerScore(score, scoreRecorder.getLocal());
+			System.out.println("Scores online:");
+			registerScore(score, scoreRecorder.getOnline());
 		};
 		
 		ExecutorService executorScoreAdd = Executors.newFixedThreadPool(1);
 		futureScoreAdd = executorScoreAdd.submit(task);
+	}
+
+	private void registerScore(ScoreModel score, ScoreRepository repository)
+	{
+		ScorePositionModel positionOnline = repository.addScore(score);
+		if (null != positionOnline)
+		{
+			System.out.println("\tPosição: " + (positionOnline.getPosition() + 1) + "/" + positionOnline.getTotal());
+			List<ScoreModel> topOnline = repository.getTop(5);
+			if (null != topOnline)
+				topOnline.stream().forEachOrdered(top -> System.out.println("\t" + top));
+		}
+		else
+			System.out.println("Erro ao registrar score");
 	}
 	
 	@Override

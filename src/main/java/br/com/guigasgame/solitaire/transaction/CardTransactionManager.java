@@ -105,6 +105,8 @@ public class CardTransactionManager implements InputListener
 	
 	private void makeAttemptToSendCardsToFoundationFromAllStacks()
 	{
+		transactions.clear();
+
 		for (SolitaireCardStack solitaireCardStack : stacksToSendCardsFromToFoundations)
 		{
 			CardTransaction transaction = new CardTransaction(solitaireCardStack);
