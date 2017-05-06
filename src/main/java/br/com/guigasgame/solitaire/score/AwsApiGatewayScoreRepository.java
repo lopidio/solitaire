@@ -32,7 +32,7 @@ public class AwsApiGatewayScoreRepository implements ScoreRepository
 		try
 		{
 			br.com.guigasgame.solitaire.score.aws.model.ScoreModel awsScoreModel = new br.com.guigasgame.solitaire.score.aws.model.ScoreModel();
-			awsScoreModel.setDate(Integer.valueOf((int) (scoreModel.getDate().getTime())));
+			awsScoreModel.setDate((int) scoreModel.getDate().getTime());
 			awsScoreModel.setPlayerName(scoreModel.getName());
 			awsScoreModel.setScore(scoreModel.getScore());
 			awsScoreModel.setTotalTime((double) scoreModel.getTotalTime());
@@ -77,7 +77,7 @@ public class AwsApiGatewayScoreRepository implements ScoreRepository
 			List<ScoreModel> retorno = new ArrayList<>();
 			for (ScoresItem scoresItem : scores)
 			{
-				long epoch = Long.parseLong(scoresItem.getDate());
+				long epoch = Long.parseLong(scoresItem.getAwsDate());
 				ScoreModel scoreModel = new ScoreModel(scoresItem.getScore(), scoresItem.getTransactionCounter(),
 						scoresItem.getTotalTime().floatValue(), new Date(epoch), scoresItem.getPlayerName());
 				retorno.add(scoreModel);
