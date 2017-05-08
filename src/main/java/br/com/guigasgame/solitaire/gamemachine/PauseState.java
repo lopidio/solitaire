@@ -8,9 +8,11 @@ import br.com.guigasgame.solitaire.gui.PauseFrame;
 
 public class PauseState implements GameState, WindowListener 
 {
+	private PauseFrame pauseFrame;
+
 	public PauseState()
 	{
-		PauseFrame pauseFrame = new PauseFrame();
+		pauseFrame = new PauseFrame();
 		pauseFrame.setVisible(true);
 		pauseFrame.addWindowListener(this);
 	}
@@ -20,12 +22,22 @@ public class PauseState implements GameState, WindowListener
 	public void windowClosed(WindowEvent e)
 	{
 		GameMachine.getInstance().popState();
+		if (pauseFrame.requiresNewGame())
+		{
+			GameMachine.getInstance().popState();
+			GameMachine.getInstance().addState(new MainGameState());
+		}
 	}
 
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
 		GameMachine.getInstance().popState();
+		if (pauseFrame.requiresNewGame())
+		{
+			GameMachine.getInstance().popState();
+			GameMachine.getInstance().addState(new MainGameState());
+		}
 	}
 
 	@Override

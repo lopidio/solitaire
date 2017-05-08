@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
@@ -44,6 +45,7 @@ public class PauseFrame extends JFrame
 	private JTable localRecordsTable;
 	private JTable onlineRecordsTable;
 	private ConfigFile confFile;
+	private boolean newGameRequired;
 	/**
 	 * Launch the application.
 	 */
@@ -85,8 +87,12 @@ public class PauseFrame extends JFrame
 		confFile = ConfigFile.getInstance();
 		
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
+//		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
+		setUndecorated(true);
+		getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+
 		setBounds(100, 100, 600, 450);
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -193,12 +199,38 @@ public class PauseFrame extends JFrame
 	private void createButtons()
 	{
 		JButton btnResume = new JButton("Resume");
+		btnResume.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+			}
+		});
+
 		panel.add(btnResume);
 		
 		JButton btnQuit = new JButton("Quit");
+		btnQuit.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
 		panel.add(btnQuit);
-
+		
 		JButton btnNewGame = new JButton("New Game");
+		btnNewGame.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				newGameRequired = true;
+				dispose();
+			}
+		});
 		panel.add(btnNewGame);
 	}
 
@@ -211,5 +243,10 @@ public class PauseFrame extends JFrame
 		JTable recordsTable = new JTable(dataRecords, headerRecords);
 		recordsTable.setRowHeight(18);
 		return recordsTable;
+	}
+
+	public boolean requiresNewGame()
+	{
+		return newGameRequired;
 	}
 }
