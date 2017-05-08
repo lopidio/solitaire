@@ -3,6 +3,8 @@ package br.com.guigasgame.solitaire.gui;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.score.AwsApiGatewayScoreRepository;
 import br.com.guigasgame.solitaire.score.ScoreRepository;
 import br.com.guigasgame.solitaire.score.SerializerScoreRepository;
@@ -32,9 +35,9 @@ public class PauseFrame extends JFrame
 	private JRadioButton soundButton;
 	private JTextField name;
 	private JLabel playerLabel;
-	private JButton btnResume;
 	private JTable localRecordsTable;
 	private JTable onlineRecordsTable;
+	private ConfigFile confFile;
 	/**
 	 * Launch the application.
 	 */
@@ -73,37 +76,32 @@ public class PauseFrame extends JFrame
 		{
 			e.printStackTrace();
 		}
-
+		confFile = ConfigFile.getInstance();
+		
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setResizable(false);
-		setContentPane(panel);
 		setBounds(100, 100, 600, 450);
 		panel = new JPanel();
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		btnResume = new JButton("Resume");
-		btnResume.setBounds(10, 30, 120, 25);
-		panel.add(btnResume);
+		setContentPane(panel);
 		
 		GridBagLayout gbpanel = new GridBagLayout();
-//		GridBagConstraints gbcpanel = new GridBagConstraints();
 		panel.setLayout(gbpanel);
 
-		animationButton = new JRadioButton("animation");
-		panel.add(animationButton);
-
-		soundButton = new JRadioButton("sound");
-		panel.add(soundButton);
-
-
-		playerLabel = new JLabel("Player Name");
-		panel.add(playerLabel);
-
-		name = new JTextField();
-		name.setPreferredSize(new Dimension(150, 20));
-		panel.add(name);
+		createButtons();
+		createRadioButtons();
+		createPlayerNameComponents();
+		createRecordsTable();
 		
+		
+		setContentPane(panel);
+		pack();
+		setVisible(true);
+	}
+
+	private void createRecordsTable()
+	{
 		localRecordsTable = createRecordsTable(new SerializerScoreRepository());
 		localRecordsTable.setToolTipText("Local Records");
 		JScrollPane scplocalRecords = new JScrollPane(localRecordsTable);
@@ -112,12 +110,69 @@ public class PauseFrame extends JFrame
 		onlineRecordsTable = createRecordsTable(new AwsApiGatewayScoreRepository());
 		onlineRecordsTable.setToolTipText("Online Records");
 		JScrollPane scponlineRecords = new JScrollPane(onlineRecordsTable);
-//		panel.add(scponlineRecords);
+		panel.add(scponlineRecords);
+	}
+
+	private void createPlayerNameComponents()
+	{
+		playerLabel = new JLabel("Player Name");
+		panel.add(playerLabel);
+
+		name = new JTextField();
+		name.setText(confFile.getValue("playerName"));
+		name.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				confFile.setValue("playerName", name.getText());				
+			}
+		});
+		name.setPreferredSize(new Dimension(150, 20));
+		panel.add(name);
+	}
+
+	private void createRadioButtons()
+	{
+		boolean animationEnabled = Boolean.parseBoolean(confFile.getValue("animationEnabled"));
+		animationButton = new JRadioButton("animation");
+		animationButton.setSelected(animationEnabled);
+		animationButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+		        JRadioButton button = (JRadioButton) e.getSource();
+		        confFile.setValue("animationEnabled", String.valueOf(button.isSelected()));
+			}
+		});
+		panel.add(animationButton);
+
+		boolean soundEnabled = Boolean.parseBoolean(confFile.getValue("soundEnabled"));
+		soundButton = new JRadioButton("sound");
+		soundButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+		        JRadioButton button = (JRadioButton) e.getSource();
+		        confFile.setValue("soundEnabled", String.valueOf(button.isSelected()));
+			}
+		});
+		soundButton.setSelected(soundEnabled);
+		panel.add(soundButton);
+	}
+
+	private void createButtons()
+	{
+		JButton btnResume = new JButton("Resume");
+		panel.add(btnResume);
 		
-		
-		setContentPane(panel);
-		pack();
-		setVisible(true);
+		JButton btnQuit = new JButton("Quit");
+		panel.add(btnQuit);
+
+		JButton btnNewGame = new JButton("New Game");
+		panel.add(btnNewGame);
 	}
 
 	private JTable createRecordsTable(ScoreRepository repository)
