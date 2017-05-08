@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,11 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.score.AwsApiGatewayScoreRepository;
@@ -92,12 +98,33 @@ public class PauseFrame extends JFrame
 		createButtons();
 		createRadioButtons();
 		createPlayerNameComponents();
+		createSpritesChanger();
 		createRecordsTable();
 		
 		
 		setContentPane(panel);
 		pack();
 		setVisible(true);
+	}
+
+	private void createSpritesChanger()
+	{
+		String[] cardBackStrings = new String[]{"Woman", "Flower", "Blue Pattern", "Pink Pattern", "Gui Logo"}; //get month names
+		List<String> backNames = Arrays.asList(cardBackStrings);
+		SpinnerListModel cardBackModel = new SpinnerListModel(backNames.toArray());
+		JSpinner spinner = new JSpinner(cardBackModel);
+		
+		int cardCoverIndex = Integer.parseInt(confFile.getValue("cardCover"));
+		spinner.setValue(backNames.get(cardCoverIndex));
+		spinner.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				confFile.setValue("cardCover", String.valueOf(backNames.indexOf(spinner.getValue())));
+			}
+		});
+		panel.add(spinner);
 	}
 
 	private void createRecordsTable()
