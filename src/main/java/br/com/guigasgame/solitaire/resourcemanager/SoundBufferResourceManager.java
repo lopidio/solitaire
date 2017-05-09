@@ -1,7 +1,7 @@
 package br.com.guigasgame.solitaire.resourcemanager;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.jsfml.audio.SoundBuffer;
@@ -25,9 +25,11 @@ public class SoundBufferResourceManager extends ResourceManager<String, SoundBuf
 	protected SoundBuffer loadResource(String key) throws IOException
 	{
 		SoundBuffer soundBuffer = new SoundBuffer();
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(key).getFile());
-		soundBuffer.loadFromFile(file.toPath());
+//		ClassLoader classLoader = getClass().getClassLoader();
+//		File file = new File(classLoader.getResource(key).getFile());
+//		soundBuffer.loadFromFile(file.toPath());
+		soundBuffer.loadFromFile(Paths.get("resources/" + key));
+		
 		return soundBuffer;
 	}
 
