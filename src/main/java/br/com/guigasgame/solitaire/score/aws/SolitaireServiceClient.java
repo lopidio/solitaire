@@ -3,38 +3,35 @@
  */
 package br.com.guigasgame.solitaire.score.aws;
 
-import java.net.*;
-import java.util.*;
+import java.util.Arrays;
 
 import javax.annotation.Generated;
 
-import org.apache.commons.logging.*;
-
-import com.amazonaws.*;
-import com.amazonaws.opensdk.*;
-import com.amazonaws.opensdk.model.*;
-import com.amazonaws.opensdk.protect.model.transform.*;
-import com.amazonaws.auth.*;
-import com.amazonaws.handlers.*;
-import com.amazonaws.http.*;
-import com.amazonaws.internal.*;
-import com.amazonaws.metrics.*;
-import com.amazonaws.regions.*;
-import com.amazonaws.transform.*;
-import com.amazonaws.util.*;
-import com.amazonaws.protocol.json.*;
-
+import com.amazonaws.SdkBaseException;
 import com.amazonaws.annotation.ThreadSafe;
 import com.amazonaws.client.AwsSyncClientParams;
-
+import com.amazonaws.client.ClientExecutionParams;
 import com.amazonaws.client.ClientHandler;
 import com.amazonaws.client.ClientHandlerParams;
-import com.amazonaws.client.ClientExecutionParams;
+import com.amazonaws.http.HttpResponseHandler;
 import com.amazonaws.opensdk.protect.client.SdkClientHandler;
-import com.amazonaws.SdkBaseException;
+import com.amazonaws.protocol.json.JsonClientMetadata;
+import com.amazonaws.protocol.json.JsonErrorResponseMetadata;
+import com.amazonaws.protocol.json.JsonErrorShapeMetadata;
+import com.amazonaws.protocol.json.JsonOperationMetadata;
 
-import br.com.guigasgame.solitaire.score.aws.model.*;
-import br.com.guigasgame.solitaire.score.aws.model.transform.*;
+import br.com.guigasgame.solitaire.score.aws.model.GetScoresRequest;
+import br.com.guigasgame.solitaire.score.aws.model.GetScoresResult;
+import br.com.guigasgame.solitaire.score.aws.model.GetScoresScoreidRequest;
+import br.com.guigasgame.solitaire.score.aws.model.GetScoresScoreidResult;
+import br.com.guigasgame.solitaire.score.aws.model.PostScoresRequest;
+import br.com.guigasgame.solitaire.score.aws.model.PostScoresResult;
+import br.com.guigasgame.solitaire.score.aws.model.transform.GetScoresRequestProtocolMarshaller;
+import br.com.guigasgame.solitaire.score.aws.model.transform.GetScoresResultJsonUnmarshaller;
+import br.com.guigasgame.solitaire.score.aws.model.transform.GetScoresScoreidRequestProtocolMarshaller;
+import br.com.guigasgame.solitaire.score.aws.model.transform.GetScoresScoreidResultJsonUnmarshaller;
+import br.com.guigasgame.solitaire.score.aws.model.transform.PostScoresRequestProtocolMarshaller;
+import br.com.guigasgame.solitaire.score.aws.model.transform.PostScoresResultJsonUnmarshaller;
 
 /**
  * Client for accessing SolitaireService. All service calls made using this client are blocking, and will not return

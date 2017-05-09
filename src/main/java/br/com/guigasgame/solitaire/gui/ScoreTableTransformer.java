@@ -18,7 +18,7 @@ public class ScoreTableTransformer
 		{
 			ScoreModel scoreModel = top.get(i);
 			String[] line = new String[getHeaders().length];
-			line[0] = "#" + String.valueOf(i + 1);
+			line[0] = String.valueOf(i + 1);
 			line[1] = scoreModel.getName();
 			line[2] = String.valueOf(scoreModel.getScore());
 			line[3] = dateFormat.format(scoreModel.getDate());
@@ -33,7 +33,7 @@ public class ScoreTableTransformer
 
 	public String[] getHeaders()
 	{
-		return new String[] { "Position", "Name", "Score", "Date", "Time", "Moves" };
+		return new String[] { "#", "Name", "Score", "Date", "Time", "Moves" };
 	}
 
 }

@@ -1,36 +1,35 @@
 package br.com.guigasgame.solitaire.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.score.AwsApiGatewayScoreRepository;
+import br.com.guigasgame.solitaire.score.ScoreModel;
 import br.com.guigasgame.solitaire.score.ScoreRepository;
 import br.com.guigasgame.solitaire.score.SerializerScoreRepository;
 
-public class PauseFrame extends JFrame
+public class MenuOptionsFrame extends JFrame
 {
 
 	/**
@@ -58,7 +57,7 @@ public class PauseFrame extends JFrame
 				try
 				{
 					
-					PauseFrame frame = new PauseFrame();
+					MenuOptionsFrame frame = new MenuOptionsFrame();
 					frame.setVisible(true);
 				}
 				catch (Exception e)
@@ -72,7 +71,7 @@ public class PauseFrame extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public PauseFrame()
+	public MenuOptionsFrame()
 	{
 		super("Options");
 		try
@@ -95,18 +94,18 @@ public class PauseFrame extends JFrame
 
 		setBounds(100, 100, 600, 450);
 		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(300,  550));
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel);
 		
-		GridBagLayout gbpanel = new GridBagLayout();
-		panel.setLayout(gbpanel);
+//		GridBagLayout gbpanel = new GridBagLayout();
+//		panel.setLayout(null);
 
 		createButtons();
-		createRadioButtons();
-		createPlayerNameComponents();
 		createSpritesChanger();
+		createPlayerNameComponents();
+		createRadioButtons();
 		createRecordsTable();
-		
 		
 		setContentPane(panel);
 		pack();
@@ -115,37 +114,48 @@ public class PauseFrame extends JFrame
 
 	private void createSpritesChanger()
 	{
+		playerLabel = new JLabel("Card Cover");
+		panel.add(playerLabel);
+
 		String[] cardBackStrings = new String[]{"Woman", "Flower", "Blue Pattern", "Pink Pattern", "Gui Logo"}; //get month names
-		List<String> backNames = Arrays.asList(cardBackStrings);
-		SpinnerListModel cardBackModel = new SpinnerListModel(backNames.toArray());
-		JSpinner spinner = new JSpinner(cardBackModel);
 		
+		JComboBox<?> comboBox = new JComboBox<String>(cardBackStrings);
 		int cardCoverIndex = Integer.parseInt(confFile.getValue("cardCover"));
-		spinner.setValue(backNames.get(cardCoverIndex));
-		spinner.addChangeListener(new ChangeListener()
+		comboBox.setSelectedIndex(cardCoverIndex);
+		comboBox.addActionListener(new ActionListener()
 		{
+			
 			@Override
-			public void stateChanged(ChangeEvent e)
+			public void actionPerformed(ActionEvent arg0)
 			{
-				confFile.setValue("cardCover", String.valueOf(backNames.indexOf(spinner.getValue())));
+				confFile.setValue("cardCover", String.valueOf(comboBox.getSelectedIndex()));
 			}
 		});
-		panel.add(spinner);
+		
+		panel.add(comboBox);
 	}
 
 	private void createRecordsTable()
 	{
 		localRecordsTable = createRecordsTable(new SerializerScoreRepository());
-		localRecordsTable.setToolTipText("Local Records");
-		JScrollPane scplocalRecords = new JScrollPane(localRecordsTable);
-		panel.add(scplocalRecords);
+		if (null != localRecordsTable)
+		{
+			localRecordsTable.setToolTipText("Local Records");
+			JScrollPane scrollLocalTable = new JScrollPane(localRecordsTable);
+			panel.add(scrollLocalTable);
+			scrollLocalTable.setPreferredSize(new Dimension(300, 210));
+		}
 		
 		onlineRecordsTable = createRecordsTable(new AwsApiGatewayScoreRepository());
-		onlineRecordsTable.setToolTipText("Online Records");
-		JScrollPane scponlineRecords = new JScrollPane(onlineRecordsTable);
-		panel.add(scponlineRecords);
+		if (null != onlineRecordsTable)
+		{
+			onlineRecordsTable.setToolTipText("Online Records");
+			JScrollPane scrollOnlineTable = new JScrollPane(onlineRecordsTable);
+			panel.add(scrollOnlineTable);
+			scrollOnlineTable.setPreferredSize(new Dimension(300, 210));
+		}
 	}
-
+	
 	private void createPlayerNameComponents()
 	{
 		playerLabel = new JLabel("Player Name");
@@ -238,11 +248,27 @@ public class PauseFrame extends JFrame
 	{
 		ScoreTableTransformer table = new ScoreTableTransformer();
 
-		String[][] dataRecords = table.perform(repository.getTop(10));
-		String[] headerRecords = table.getHeaders();;
-		JTable recordsTable = new JTable(dataRecords, headerRecords);
-		recordsTable.setRowHeight(18);
-		return recordsTable;
+		List<ScoreModel> top = repository.getTop(50);
+		if (top != null)
+		{
+			String[][] dataRecords = table.perform(top);
+			String[] headerRecords = table.getHeaders();
+			JTable recordsTable = new JTable(dataRecords, headerRecords){
+				private static final long serialVersionUID = 1L;
+				
+				@Override
+				public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+					Component component = super.prepareRenderer(renderer, row, column);
+					int rendererWidth = component.getPreferredSize().width;
+					TableColumn tableColumn = getColumnModel().getColumn(column);
+					tableColumn.setPreferredWidth(Math.min(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
+					return component;
+				}
+			};
+			recordsTable.setRowHeight(18);
+			return recordsTable;
+		}
+		return null;
 	}
 
 	public boolean requiresNewGame()
