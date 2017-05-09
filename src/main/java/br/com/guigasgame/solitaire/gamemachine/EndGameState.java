@@ -1,5 +1,7 @@
 package br.com.guigasgame.solitaire.gamemachine;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,6 +16,7 @@ import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
+import br.com.guigasgame.solitaire.gui.MenuOptionsFrame;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
 import br.com.guigasgame.solitaire.score.ScoreModel;
 import br.com.guigasgame.solitaire.score.ScorePositionModel;
@@ -27,6 +30,7 @@ public class EndGameState implements GameState
 	private ScoreRecorder scoreRecorder;
 	private Future<?> futureScoreAdd;
 	private List<Drawable> hudList;
+	private boolean markToSwitchState;
 
 	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks, List<Drawable> hudList)
 	{
@@ -39,6 +43,9 @@ public class EndGameState implements GameState
 		this.scoreCounter = scoreCounter;
 		scoreRecorder = new ScoreRecorder();
 		this.hudList = hudList;
+		
+		createMenuFrame();
+
 	}
 
 	@Override
@@ -95,6 +102,8 @@ public class EndGameState implements GameState
 			System.out.println("Scores foram registrados");
 			futureScoreAdd = null;
 		}
+		if (markToSwitchState)
+			GameMachine.getInstance().switchState(new MainGameState());
 		finishGameAnimation.update(updateDelta);
 	}
 	
@@ -109,6 +118,52 @@ public class EndGameState implements GameState
 			}
 		}
 
+	}
+
+	private void createMenuFrame()
+	{
+		MenuOptionsFrame pauseFrame = new MenuOptionsFrame();
+		pauseFrame.setVisible(true);
+		pauseFrame.addWindowListener(new WindowListener()
+		{
+			
+			@Override
+			public void windowOpened(WindowEvent e)
+			{
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e)
+			{
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e)
+			{
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e)
+			{
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				GameMachine.getInstance().switchState(new MainGameState());
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+				markToSwitchState = true;
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+			}
+		});
 	}
 
 }
