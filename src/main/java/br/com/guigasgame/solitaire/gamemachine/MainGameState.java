@@ -46,7 +46,7 @@ public class MainGameState implements GameState
 	private CardTransactionManager transactionManager;
 	private List<CascadeCardStack> cascadeStacks;
 	private List<TableauCardStack> tableaus;
-	boolean gameWon;
+	private boolean gameWon;
 	private ScoreCounter scoreCounter;
 	private ScoreHUD scoreHUD;
 	private TimeCounterHUD timeCounterHUD;

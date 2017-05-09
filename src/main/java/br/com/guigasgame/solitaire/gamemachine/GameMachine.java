@@ -49,7 +49,7 @@ public class GameMachine
 		gameStates.add(gameState);
 	}
 
-	public GameMachine()
+	private GameMachine()
 	{
 
 		VideoMode[] modes = VideoMode.getFullscreenModes();
