@@ -273,7 +273,7 @@ public class MainGameState implements GameState
 				GameMachine.getInstance().switchState(new MainGameState());
 				
 			}
-			else if (event.asKeyEvent().key == Keyboard.Key.RETURN /*|| event.asKeyEvent().key == Keyboard.Key.ESCAPE*/)
+			else if (event.asKeyEvent().key == Keyboard.Key.RETURN || event.asKeyEvent().key == Keyboard.Key.ESCAPE)
 			{
 				
 				PauseState pauseState = new PauseState();

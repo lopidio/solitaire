@@ -8,7 +8,6 @@ import java.util.Vector;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
-import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
@@ -130,11 +129,11 @@ public class GameMachine
 			gameStates.lastElement().handleEvent(event, renderWindow);
 			if (event.type == Event.Type.KEY_PRESSED)
 			{
-				if (event.asKeyEvent().key == Keyboard.Key.ESCAPE)
-				{
-					isRunning = false;
-					break;
-				}
+//				if (event.asKeyEvent().key == Keyboard.Key.ESCAPE)
+//				{
+//					isRunning = false;
+//					break;
+//				}
 			}
 			if (event.type == Event.Type.CLOSED)
 			{
