@@ -87,7 +87,7 @@ public class AwsApiGatewayScoreRepository implements ScoreRepository
 		}
 		catch(SdkClientException exc)
 		{
-			System.out.println("Erro ao registrar score na nuvem");
+			System.out.println("Erro ao capturar score da nuvem");
 			exc.printStackTrace();
 		}
 		return null;
