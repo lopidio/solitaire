@@ -9,14 +9,14 @@ import java.util.concurrent.Future;
 
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
-import org.jsfml.window.Keyboard;
-import org.jsfml.window.event.Event;
 
 import br.com.guigasgame.solitaire.config.ConfigFile;
 import br.com.guigasgame.solitaire.drawable.CascadeCardStack;
 import br.com.guigasgame.solitaire.drawable.Drawable;
 import br.com.guigasgame.solitaire.drawable.FinishGameAnimation;
+import br.com.guigasgame.solitaire.drawable.PositionHUD;
 import br.com.guigasgame.solitaire.gui.MenuOptionsFrame;
+import br.com.guigasgame.solitaire.position.PositionComponent;
 import br.com.guigasgame.solitaire.score.ScoreCounter;
 import br.com.guigasgame.solitaire.score.ScoreModel;
 import br.com.guigasgame.solitaire.score.ScorePositionModel;
@@ -31,6 +31,7 @@ public class EndGameState implements GameState
 	private Future<?> futureScoreAdd;
 	private List<Drawable> hudList;
 	private boolean markToSwitchState;
+	private PositionComponent windowSize;
 
 	public EndGameState(ScoreCounter scoreCounter, List<CascadeCardStack> cascadeStacks, List<Drawable> hudList)
 	{
@@ -51,6 +52,7 @@ public class EndGameState implements GameState
 	@Override
 	public void enterState(RenderWindow renderWindow)
 	{
+		windowSize = new PositionComponent(renderWindow.getSize().x, renderWindow.getSize().y);
 		finishGameAnimation.setSize(renderWindow.getSize());
 		addScoreInAnotherThread();
 	}
@@ -64,34 +66,37 @@ public class EndGameState implements GameState
 					scoreCounter.getTotalTime(), ConfigFile.getInstance().getValue("playerName"));
 			System.out.println(score);
 			System.out.println("Scores locais:");
-			registerScore(score, scoreRecorder.getLocal());
+			ScorePositionModel localPosition = registerScore(score, scoreRecorder.getLocal());
+			if (null != localPosition)
+				hudList.add(new PositionHUD("Local position: ", localPosition, new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 - 50)));
 			System.out.println("Scores online:");
-			registerScore(score, scoreRecorder.getOnline());
+			ScorePositionModel onlinePosition = registerScore(score, scoreRecorder.getOnline());
+			if (null != onlinePosition)
+				hudList.add(new PositionHUD("Online position: ", onlinePosition, new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 + 50)));
 		};
 		
 		ExecutorService executorScoreAdd = Executors.newFixedThreadPool(1);
 		futureScoreAdd = executorScoreAdd.submit(task);
 	}
 
-	private void registerScore(ScoreModel score, ScoreRepository repository)
+	private ScorePositionModel registerScore(ScoreModel score, ScoreRepository repository)
 	{
-		ScorePositionModel positionOnline = repository.addScore(score);
-		if (null != positionOnline)
+		ScorePositionModel positionModel = repository.addScore(score);
+		if (null != positionModel)
 		{
-			System.out.println("\tPosição: " + (positionOnline.getPosition() + 1) + "/" + positionOnline.getTotal());
-			List<ScoreModel> topOnline = repository.getTop(5);
-			if (null != topOnline)
-				topOnline.stream().forEachOrdered(top -> System.out.println("\t" + top));
+			System.out.println("\tPosição: " + (positionModel.getPosition() + 1) + "/" + positionModel.getTotal());
+			return positionModel;
 		}
 		else
 			System.out.println("Erro ao registrar score");
+		return null;
 	}
 	
 	@Override
 	public void draw(RenderTarget renderTarget)
 	{
-		hudList.stream().forEach(hud -> hud.draw(renderTarget));
 		finishGameAnimation.draw(renderTarget);
+		hudList.stream().forEach(hud -> hud.draw(renderTarget));
 	}
 	
 	@Override
@@ -105,19 +110,6 @@ public class EndGameState implements GameState
 		if (markToSwitchState)
 			GameMachine.getInstance().switchState(new MainGameState());
 		finishGameAnimation.update(updateDelta);
-	}
-	
-	@Override
-	public void handleEvent(Event event, RenderWindow renderWindow)
-	{
-		if (event.type == Event.Type.KEY_PRESSED)
-		{
-			if (event.asKeyEvent().key == Keyboard.Key.F2)
-			{
-				GameMachine.getInstance().switchState(new MainGameState());
-			}
-		}
-
 	}
 
 	private void createMenuFrame()
