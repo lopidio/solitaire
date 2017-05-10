@@ -59,6 +59,12 @@ public class EndGameState implements GameState
 
 	private void addScoreInAnotherThread()
 	{
+		PositionHUD localPositionHud = new PositionHUD("Local position: ", new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 - 50));
+		hudList.add(localPositionHud);
+
+		PositionHUD onlinePositionHud = new PositionHUD("Online position: ", new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 + 50));
+		hudList.add(onlinePositionHud);
+
 		Runnable task = () ->
 		{
 			System.out.println("Parabéns!");
@@ -68,11 +74,11 @@ public class EndGameState implements GameState
 			System.out.println("Scores locais:");
 			ScorePositionModel localPosition = registerScore(score, scoreRecorder.getLocal());
 			if (null != localPosition)
-				hudList.add(new PositionHUD("Local position: ", localPosition, new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 - 50)));
+				localPositionHud.setPositionText(localPosition);
 			System.out.println("Scores online:");
 			ScorePositionModel onlinePosition = registerScore(score, scoreRecorder.getOnline());
 			if (null != onlinePosition)
-				hudList.add(new PositionHUD("Online position: ", onlinePosition, new PositionComponent(windowSize.getX()/2, windowSize.getY()/2 + 50)));
+				onlinePositionHud.setPositionText(onlinePosition);
 		};
 		
 		ExecutorService executorScoreAdd = Executors.newFixedThreadPool(1);

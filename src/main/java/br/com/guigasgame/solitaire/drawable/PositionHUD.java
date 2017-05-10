@@ -14,7 +14,7 @@ public class PositionHUD implements Drawable
 	private Text text;
 	private Font font;
 
-	public PositionHUD(String title, ScorePositionModel scorePositionModel, PositionComponent position)
+	public PositionHUD(String title, PositionComponent position)
 	{
 		super();
 		font = FontResourceManager.getInstance().getResource("GOUDYSTO.TTF");
@@ -23,7 +23,15 @@ public class PositionHUD implements Drawable
 		text.setColor(Color.BLACK);
 		text.setCharacterSize(22);
 		text.setPosition(position.getX(), position.getY());
-		text.setString(title + String.valueOf(scorePositionModel.getPosition() + 1) + "/" + String.valueOf(scorePositionModel.getTotal()));
+		
+		text.setString(title);
+		text.setOrigin(text.getLocalBounds().width/2, text.getLocalBounds().height/2);
+
+	}
+
+	public void setPositionText(ScorePositionModel scorePositionModel)
+	{
+		text.setString(text.getString() + String.valueOf(scorePositionModel.getPosition() + 1) + "/" + String.valueOf(scorePositionModel.getTotal()));
 		text.setOrigin(text.getLocalBounds().width/2, text.getLocalBounds().height/2);
 	}
 	
