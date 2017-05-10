@@ -20,8 +20,8 @@ public class PositionHUD implements Drawable
 		font = FontResourceManager.getInstance().getResource("GOUDYSTO.TTF");
 		text = new Text();
 		text.setFont(font);
-		text.setColor(Color.BLACK);
-		text.setCharacterSize(22);
+		text.setColor(Color.GREEN);
+		text.setCharacterSize(25);
 		text.setPosition(position.getX(), position.getY());
 		
 		text.setString(title);

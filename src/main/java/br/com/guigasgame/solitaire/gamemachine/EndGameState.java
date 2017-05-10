@@ -120,48 +120,55 @@ public class EndGameState implements GameState
 
 	private void createMenuFrame()
 	{
-		MenuOptionsFrame pauseFrame = new MenuOptionsFrame();
-		pauseFrame.setVisible(true);
-		pauseFrame.addWindowListener(new WindowListener()
+		Runnable task = () ->
 		{
-			
-			@Override
-			public void windowOpened(WindowEvent e)
+			MenuOptionsFrame pauseFrame = new MenuOptionsFrame();
+			pauseFrame.setVisible(true);
+			pauseFrame.addWindowListener(new WindowListener()
 			{
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e)
-			{
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e)
-			{
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e)
-			{
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e)
-			{
-				GameMachine.getInstance().switchState(new MainGameState());
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e)
-			{
-				markToSwitchState = true;
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e)
-			{
-			}
-		});
+				
+				@Override
+				public void windowOpened(WindowEvent e)
+				{
+				}
+				
+				@Override
+				public void windowIconified(WindowEvent e)
+				{
+				}
+				
+				@Override
+				public void windowDeiconified(WindowEvent e)
+				{
+				}
+				
+				@Override
+				public void windowDeactivated(WindowEvent e)
+				{
+				}
+				
+				@Override
+				public void windowClosing(WindowEvent e)
+				{
+					GameMachine.getInstance().switchState(new MainGameState());
+				}
+				
+				@Override
+				public void windowClosed(WindowEvent e)
+				{
+					markToSwitchState = true;
+				}
+				
+				@Override
+				public void windowActivated(WindowEvent e)
+				{
+				}
+			});
+		};
+		
+		ExecutorService executorScoreAdd = Executors.newFixedThreadPool(1);
+		executorScoreAdd.submit(task);
+		
 	}
 
 }
